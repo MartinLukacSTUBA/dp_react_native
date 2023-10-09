@@ -1,4 +1,4 @@
-import React, {useContext, useState} from 'react';
+import React, {Children, useContext, useState} from 'react';
 import {
   View,
   Text,
@@ -10,9 +10,15 @@ import {
 import {AuthContext} from '../context/AuthContext';
 
 const RegisterScreen = ({navigation}) => {
-  const [name, setName] = useState(null);
+  const [firstname, setFirstname] = useState(null);
+  const [lastname, setLastname] = useState(null);
   const [email, setEmail] = useState(null);
   const [password, setPassword] = useState(null);
+
+  // const {register} = useContext(AuthContext);
+
+  const {register} = useContext(AuthContext);
+
   const val = useContext(AuthContext);
   return (
     <View style={styles.container}>
@@ -20,9 +26,15 @@ const RegisterScreen = ({navigation}) => {
         <Text>{val}</Text>
         <TextInput
           style={styles.input}
-          value={name}
-          placeholder="Enter Name"
-          onChangeText={text => setName(text)}
+          value={firstname}
+          placeholder="Enter Firstname"
+          onChangeText={text => setFirstname(text)}
+        />
+        <TextInput
+          style={styles.input}
+          value={lastname}
+          placeholder="Enter Lastname"
+          onChangeText={text => setLastname(text)}
         />
         <TextInput
           style={styles.input}
@@ -30,7 +42,6 @@ const RegisterScreen = ({navigation}) => {
           placeholder="Enter Email"
           onChangeText={text => setEmail(text)}
         />
-
         <TextInput
           style={styles.input}
           value={password}
@@ -39,7 +50,26 @@ const RegisterScreen = ({navigation}) => {
           secureTextEntry
         />
 
-        <Button title="Login" />
+        {/*<Button*/}
+        {/*  title="Register"*/}
+        {/*  onPress={() => {*/}
+        {/*    register(firstname, lastname, email, password);*/}
+        {/*  }}*/}
+        {/*/>*/}
+        <Button
+          title="Register"
+          onPress={() => {
+            console.log(
+              'Register button pressed with:',
+              firstname,
+              lastname,
+              email,
+              password,
+            );
+            register(firstname, lastname, email, password);
+          }}
+        />
+
         <View style={{flexDirection: 'row', marginTop: 20}}>
           <Text>Already have an account ?</Text>
           <TouchableOpacity onPress={() => navigation.navigate('Login')}>
