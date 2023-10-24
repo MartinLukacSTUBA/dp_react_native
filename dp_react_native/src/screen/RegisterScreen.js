@@ -7,7 +7,6 @@ import {
   Button,
   TouchableOpacity,
 } from 'react-native';
-import {AuthContext} from '../context/AuthContext';
 
 const RegisterScreen = ({navigation}) => {
   const [firstname, setFirstname] = useState(null);
@@ -15,15 +14,9 @@ const RegisterScreen = ({navigation}) => {
   const [email, setEmail] = useState(null);
   const [password, setPassword] = useState(null);
 
-  // const {register} = useContext(AuthContext);
-
-  const {register} = useContext(AuthContext);
-
-  const val = useContext(AuthContext);
   return (
     <View style={styles.container}>
       <View style={styles.wrapper}>
-        <Text>{val}</Text>
         <TextInput
           style={styles.input}
           value={firstname}
@@ -50,23 +43,16 @@ const RegisterScreen = ({navigation}) => {
           secureTextEntry
         />
 
-        {/*<Button*/}
-        {/*  title="Register"*/}
-        {/*  onPress={() => {*/}
-        {/*    register(firstname, lastname, email, password);*/}
-        {/*  }}*/}
-        {/*/>*/}
         <Button
           title="Register"
           onPress={() => {
-            console.log(
-              'Register button pressed with:',
-              firstname,
-              lastname,
-              email,
-              password,
-            );
-            register(firstname, lastname, email, password);
+            // console.log(
+            //   'Register button pressed with:',
+            //   firstname,
+            //   lastname,
+            //   email,
+            //   password,
+            // );
           }}
         />
 

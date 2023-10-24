@@ -30,16 +30,16 @@ export const AuthProvider = ({children}) => {
       });
   };
 
-  // // Define the value object that includes the register function
-  // const contextValue = {
-  //   register,
-  // };
-  //
-  // return (
-  //   <AuthContext.Provider value={contextValue}>{children}</AuthContext.Provider>
-  // );
-
   return (
-    <AuthContext.Provider value={register}>{children}</AuthContext.Provider>
+    <AuthContext.Provider value={{register}}>{children}</AuthContext.Provider>
   );
 };
+
+// // Define the value object that includes the register function
+// const contextValue = {
+//   register,
+// };
+//
+// return (
+//   <AuthContext.Provider value={contextValue}>{children}</AuthContext.Provider>
+// );
