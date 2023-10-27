@@ -12,10 +12,11 @@ import {response} from 'express';
 
 async function getEmployeesS() {
   const token =
-    'eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ0ZXN0ZXJAdGVzdGVyLmNvbSIsImlhdCI6MTY5ODQwNDQwNywiZXhwIjoxNjk4NDA1ODQ3fQ.qdvf7Q1jHeO3VkHA8_JGBNebLHOIatfQ_MVMlEO2AjI';
+    'eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiIzIiwiaWF0IjoxNjk4NDA5MjgxLCJleHAiOjE2OTg0MTA3MjF9.XAtm_OOym84C2nPAZ_silQDFDNhSwNMo3RPVLNItzA0';
   const url = `${BASE_URL}/api/v1/employee`;
   // Construct the equivalent curl command
   const curlCommand = `curl -X GET "${url}" -H "Authorization: Bearer ${token}"`;
+  const vzpis = token;
 
   console.log(curlCommand); // Log the curl command to the console
   console.log();
@@ -97,6 +98,7 @@ const LoginScreen = ({navigation}) => {
           // Now, you can use the 'token' variable as needed.
           console.log(token); // This will log the JWT token.
           setTokenForLogin(token);
+          navigation.navigate('ShiftScreen');
 
           // You can also save it to your component's state if needed.
           // For example, you can add 'const [token, setToken] = useState(null);' at the beginning of your component.
