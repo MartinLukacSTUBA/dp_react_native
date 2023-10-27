@@ -9,12 +9,3 @@ export const AuthProvider = ({children}) => {
     <AuthContext.Provider value="register">{children}</AuthContext.Provider>
   );
 };
-
-// // Define the value object that includes the register function
-// const contextValue = {
-//   register,
-// };
-//
-// return (
-//   <AuthContext.Provider value={contextValue}>{children}</AuthContext.Provider>
-// );
