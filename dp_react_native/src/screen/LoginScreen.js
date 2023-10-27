@@ -10,40 +10,15 @@ import {
 import {BASE_URL} from '../config';
 import {response} from 'express';
 
-function getEmployees() {
-  const token =
-    'eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ0ZXN0ZXJAdGVzdGVyLmNvbSIsImlhdCI6MTY5NzIwMDM4MiwiZXhwIjoxNjk3MjAxODIyfQ.2SkAGHgh_wgCrydJ4eOcfpL2BKWd0qMdDYAJiBQO99k'; // Replace with your actual Bearer Token
-
-  fetch('https://ec70-213-81-199-22.ngrok-free.app/api/v1/employee', {
-    method: 'GET', // Specify the HTTP method
-    headers: {
-      Authorization: `Bearer ${token}`,
-    },
-  })
-    .then(res => {
-      console.log(res.status);
-      console.log(res.headers);
-      return res.json();
-    })
-    .then(
-      result => {
-        console.log(result);
-      },
-      error => {
-        console.log(error);
-      },
-    );
-}
-
 async function getEmployeesS() {
   const token =
-    'eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ0ZXN0ZXJAdGVzdGVyLmNvbSIsImlhdCI6MTY5NzU1ODYwNSwiZXhwIjoxNjk3NTYwMDQ1fQ.uIov3cVaFgtSb5k9mm6q4Gr7mLB_d_zVPtdtV1QH6PU';
+    'eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ0ZXN0ZXJAdGVzdGVyLmNvbSIsImlhdCI6MTY5ODQwNDQwNywiZXhwIjoxNjk4NDA1ODQ3fQ.qdvf7Q1jHeO3VkHA8_JGBNebLHOIatfQ_MVMlEO2AjI';
   const url = `${BASE_URL}/api/v1/employee`;
   // Construct the equivalent curl command
   const curlCommand = `curl -X GET "${url}" -H "Authorization: Bearer ${token}"`;
 
   console.log(curlCommand); // Log the curl command to the console
-
+  console.log();
   fetch(url, {
     method: 'GET',
     headers: {
@@ -64,8 +39,7 @@ async function getEmployeesS() {
       console.error('Fetch error:', error);
     });
 }
-
-async function loginEmployee(email, password) {
+async function loginEmployPicaee(email, password) {
   const url = `${BASE_URL}/api/v1/auth/authenticate`;
   // Construct the equivalent curl command
   const curlCommand = `curl -X POST "${url}" -H "Authorization: Bearer ${token}"`;
@@ -94,9 +68,47 @@ async function loginEmployee(email, password) {
     });
 }
 
+const getTokenFromLogin = (email, password) => {
+  const url = `${BASE_URL}/api/v1/auth/authenticate`;
+  return fetch(url, {
+    method: 'POST',
+    headers: {
+      Accept: 'application/json',
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify({
+      email: email,
+      password: password,
+    }),
+  });
+};
+
 const LoginScreen = ({navigation}) => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+  const [tokenForLogin, setTokenForLogin] = useState('');
+
+  const loginEmployee = () => {
+    getTokenFromLogin(email, password)
+      .then(response => response.json())
+      .then(data => {
+        if (data && data.token) {
+          const token = data.token; // Extract the token from the response
+          // Now, you can use the 'token' variable as needed.
+          console.log(token); // This will log the JWT token.
+          setTokenForLogin(token);
+
+          // You can also save it to your component's state if needed.
+          // For example, you can add 'const [token, setToken] = useState(null);' at the beginning of your component.
+          // Then, you can set the token using 'setToken(token);'.
+        } else {
+          console.error('Token not found in the response');
+        }
+      })
+      .catch(error => {
+        console.error('Error:', error);
+      });
+  };
 
   return (
     <View style={styles.container}>
@@ -116,14 +128,7 @@ const LoginScreen = ({navigation}) => {
           secureTextEntry
         />
 
-        <Button
-          title="Login"
-          onPress={() => {
-            loginEmployee(email, password).then(r =>
-              navigation.navigate('Try'),
-            );
-          }}
-        />
+        <Button title="Login" onPress={loginEmployee} />
 
         <View style={{flexDirection: 'row', marginTop: 20}}>
           <Text>Dont have an account ?</Text>
@@ -131,6 +136,7 @@ const LoginScreen = ({navigation}) => {
             <Text style={styles.link}>Register</Text>
           </TouchableOpacity>
         </View>
+        <Text>{tokenForLogin}</Text>
       </View>
     </View>
   );

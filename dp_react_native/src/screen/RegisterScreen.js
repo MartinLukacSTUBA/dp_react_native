@@ -7,12 +7,54 @@ import {
   Button,
   TouchableOpacity,
 } from 'react-native';
+import {BASE_URL} from '../config';
+
+const getTokenFromRegister = (firstname, lastname, email, password) => {
+  const url = `${BASE_URL}/api/v1/auth/register`;
+  return fetch(url, {
+    method: 'POST',
+    headers: {
+      Accept: 'application/json',
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify({
+      firstname: firstname,
+      lastname: lastname,
+      email: email,
+      password: password,
+    }),
+  });
+};
 
 const RegisterScreen = ({navigation}) => {
-  const [firstname, setFirstname] = useState(null);
-  const [lastname, setLastname] = useState(null);
-  const [email, setEmail] = useState(null);
-  const [password, setPassword] = useState(null);
+  const [firstname, setFirstname] = useState('');
+  const [lastname, setLastname] = useState('');
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
+
+  const [tokenForLogin, setTokenForLogin] = useState('');
+
+  const registerUser = () => {
+    getTokenFromRegister(firstname, lastname, email, password)
+      .then(response => response.json())
+      .then(data => {
+        if (data && data.token) {
+          const token = data.token; // Extract the token from the response
+          // Now, you can use the 'token' variable as needed.
+          console.log(token); // This will log the JWT token.
+          setTokenForLogin(token);
+
+          // You can also save it to your component's state if needed.
+          // For example, you can add 'const [token, setToken] = useState(null);' at the beginning of your component.
+          // Then, you can set the token using 'setToken(token);'.
+        } else {
+          console.error('Token not found in the response');
+        }
+      })
+      .catch(error => {
+        console.error('Error:', error);
+      });
+  };
 
   return (
     <View style={styles.container}>
@@ -43,18 +85,7 @@ const RegisterScreen = ({navigation}) => {
           secureTextEntry
         />
 
-        <Button
-          title="Register"
-          onPress={() => {
-            // console.log(
-            //   'Register button pressed with:',
-            //   firstname,
-            //   lastname,
-            //   email,
-            //   password,
-            // );
-          }}
-        />
+        <Button title="Register" onPress={registerUser} />
 
         <View style={{flexDirection: 'row', marginTop: 20}}>
           <Text>Already have an account ?</Text>
@@ -63,6 +94,7 @@ const RegisterScreen = ({navigation}) => {
           </TouchableOpacity>
         </View>
       </View>
+      <Text>{tokenForLogin}</Text>
     </View>
   );
 };
