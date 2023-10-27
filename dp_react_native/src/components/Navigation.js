@@ -5,6 +5,7 @@ import LoginScreen from '../screen/LoginScreen';
 import RegisterScreen from '../screen/RegisterScreen';
 import {NavigationContainer} from '@react-navigation/native';
 import ShiftScreen from '../screen/ShiftScreen';
+import PlanningScreen from '../screen/PlanningScreen';
 
 const Stack = createNativeStackNavigator();
 
@@ -30,6 +31,11 @@ const Navigation = () => {
         <Stack.Screen
           name="ShiftScreen"
           component={ShiftScreen}
+          options={{headerShown: false}}
+        />
+        <Stack.Screen
+          name="PlanningScreen"
+          component={PlanningScreen}
           options={{headerShown: false}}
         />
 

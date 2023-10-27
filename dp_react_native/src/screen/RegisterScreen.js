@@ -51,7 +51,7 @@ const RegisterScreen = ({navigation}) => {
           // Now, you can use the 'token' variable as needed.
           console.log(token); // This will log the JWT token.
           setTokenForLogin(token);
-          navigation.navigate('ShiftScreen');
+          navigation.navigate('PlanningScreen');
 
           // You can also save it to your component's state if needed.
           // For example, you can add 'const [token, setToken] = useState(null);' at the beginning of your component.
