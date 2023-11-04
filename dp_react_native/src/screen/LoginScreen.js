@@ -9,6 +9,7 @@ import {
 } from 'react-native';
 import {BASE_URL} from '../config';
 import {response} from 'express';
+import DiagnosticScreen from './DiagnosticScreen';
 
 async function getEmployeesS() {
   const token =
@@ -109,6 +110,7 @@ const LoginScreen = ({navigation}) => {
       })
       .catch(error => {
         console.error('Error:', error);
+        navigation.navigate('DiagnosticScreen');
       });
   };
 

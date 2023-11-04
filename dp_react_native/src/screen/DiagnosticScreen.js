@@ -1,12 +1,5 @@
-import React, {useState} from 'react';
-import {
-  Button,
-  StyleSheet,
-  Text,
-  TextInput,
-  TouchableOpacity,
-  View,
-} from 'react-native';
+import React from 'react';
+import {StyleSheet, Text, View} from 'react-native';
 import DateComponent from '../components/DateComponent';
 import NameComponent from '../components/NameComponent';
 
@@ -32,15 +25,14 @@ const ShiftScreen = ({navigation}) => {
         <Text>FuelStatus</Text>
         <Text>Range</Text>
         <Text>Average fuel consumption</Text>
-        <Text>Todays fuel consumption</Text>
       </View>
 
-      <View style={styles.userInfoContainer}>
-        <Text>UserName</Text>
-        <Text>Shift Start</Text>
-        <Text>Shift end</Text>
-        <Text>Hours for today</Text>
-        <Text>Todays travelled distance</Text>
+      <View style={styles.measuredContainer}>
+        <Text>Data1 : dataVariable</Text>
+        <Text>Data1 : dataVariable</Text>
+        <Text>Data1 : dataVariable</Text>
+        <Text>Data1 : dataVariable</Text>
+        <Text>Data1 : dataVariable</Text>
       </View>
     </View>
   );
@@ -73,9 +65,10 @@ const styles = StyleSheet.create({
     backgroundColor: 'yellow',
     marginTop: '20%',
   },
-  userInfoContainer: {
+  measuredContainer: {
     backgroundColor: '#00ffff',
     marginTop: '40%',
+    textAlign: 'center',
   },
   wrapper: {
     width: '80%',
