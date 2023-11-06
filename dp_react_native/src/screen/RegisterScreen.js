@@ -1,13 +1,12 @@
-import React, {Children, useContext, useState} from 'react';
+import React, {useState} from 'react';
 import {
-  View,
+  Button,
+  StyleSheet,
   Text,
   TextInput,
-  StyleSheet,
-  Button,
   TouchableOpacity,
+  View,
 } from 'react-native';
-import {useNavigation} from '@react-navigation/native';
 import {BASE_URL} from '../config';
 
 const getTokenFromRegister = (firstname, lastname, email, password) => {

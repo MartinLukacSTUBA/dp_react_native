@@ -1,15 +1,7 @@
-import React, {useState} from 'react';
-import {
-  Button,
-  StyleSheet,
-  Text,
-  TextInput,
-  TouchableOpacity,
-  View,
-} from 'react-native';
+import React from 'react';
+import {Button, StyleSheet, Text, View} from 'react-native';
 import DateComponent from '../components/DateComponent';
 import NameComponent from '../components/NameComponent';
-import navigation from '../components/Navigation';
 import DiagnosticScreen from './DiagnosticScreen';
 import LoginScreen from './LoginScreen';
 import DiagnosticsDataScreen from './DiagnosticsDataScreen';
