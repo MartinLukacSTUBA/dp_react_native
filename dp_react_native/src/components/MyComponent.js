@@ -1,5 +1,5 @@
 import React, {Component} from 'react';
-import {View, Text, Button} from 'react-native';
+import {Button, Text, View} from 'react-native';
 import axios from 'axios';
 
 class MyComponent extends Component {

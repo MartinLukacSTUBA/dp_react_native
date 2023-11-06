@@ -1,4 +1,5 @@
 import ApiManager from './ApiManager';
+
 export const user_get = async data => {
   try {
     const result = await ApiManager('/employee', {
