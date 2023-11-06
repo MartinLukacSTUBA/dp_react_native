@@ -1,15 +1,13 @@
-import React, {useContext, useEffect, useState} from 'react';
+import React, {useState} from 'react';
 import {
-  View,
+  Button,
+  StyleSheet,
   Text,
   TextInput,
-  Button,
   TouchableOpacity,
-  StyleSheet,
+  View,
 } from 'react-native';
 import {BASE_URL} from '../config';
-import {response} from 'express';
-import DiagnosticScreen from './DiagnosticScreen';
 
 async function getEmployeesS() {
   const token =

@@ -1,12 +1,12 @@
 import React from 'react';
 import {createNativeStackNavigator} from '@react-navigation/native-stack';
 import UserDiagnostics from '../screen/DiagnosticsDataScreen';
+import DiagnosticsDataScreen from '../screen/DiagnosticsDataScreen';
 import LoginScreen from '../screen/LoginScreen';
 import RegisterScreen from '../screen/RegisterScreen';
 import {NavigationContainer} from '@react-navigation/native';
 import ShiftScreen from '../screen/ShiftScreen';
 import DiagnosticScreen from '../screen/DiagnosticScreen';
-import DiagnosticsDataScreen from '../screen/DiagnosticsDataScreen';
 import ReportProblemScreen from '../screen/ReportProblemScreen';
 
 const Stack = createNativeStackNavigator();
