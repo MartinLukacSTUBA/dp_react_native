@@ -3,34 +3,37 @@ import {Button, StyleSheet, Text, View} from 'react-native';
 import DateComponent from '../components/DateComponent';
 import NameComponent from '../components/NameComponent';
 import LoginScreen from './LoginScreen';
+import DiagnosticScreen from './DiagnosticScreen';
 import DiagnosticsDataScreen from './DiagnosticsDataScreen';
 
-const DiagnosticScreen = ({navigation}) => {
+const ReportProblemScreen = ({navigation}) => {
   const LoginScreenNavigation = () => {
     navigation.navigate(LoginScreen); // Replace 'Screen2' with the name of the second screen.
   };
+  const DiagnosticScreenNavigation = () => {
+    navigation.navigate(DiagnosticScreen); // Replace 'Screen1' with the name of the screen you want to navigate to.
+  };
   const DiagnosticsDataScreenNavigation = () => {
     navigation.navigate(DiagnosticsDataScreen);
-  };
-  const ReportProblemScreen = () => {
-    navigation.navigate(ReportProblemScreen);
   };
 
   return (
     <View style={styles.container}>
       <View style={styles.headerContainer}>
         <View style={styles.dateContainer}>
-          <Text>PlacSSe for menu DIAGN</Text>
-
+          <Text>Report</Text>
           <Button
             title={'LoginScreenNavigation'}
             onPress={LoginScreenNavigation}
           />
           <Button
-            title={'DiagnosticsDataScreenNavigation'}
+            title={'DiagnosticScreen'}
+            onPress={DiagnosticScreenNavigation}
+          />
+          <Button
+            title={'DiagnosticsDataScreen'}
             onPress={DiagnosticsDataScreenNavigation}
           />
-          <Button title={'ReportProblemScreen'} onPress={ReportProblemScreen} />
         </View>
         <View style={styles.nameContainer}>
           <NameComponent />
@@ -38,24 +41,6 @@ const DiagnosticScreen = ({navigation}) => {
         </View>
       </View>
       <View style={styles.wrapper}></View>
-      <View style={styles.carInfoContainer}>
-        <Text>Car</Text>
-        <Text>SPZ</Text>
-        <Text>Owner</Text>
-        <Text>Last full diagnostic</Text>
-        <Text></Text>
-        <Text>FuelStatus</Text>
-        <Text>Range</Text>
-        <Text>Average fuel consumption</Text>
-      </View>
-
-      <View style={styles.measuredContainer}>
-        <Text>Data1 : dataVariable</Text>
-        <Text>Data1 : dataVariable</Text>
-        <Text>Data1 : dataVariable</Text>
-        <Text>Data1 : dataVariable</Text>
-        <Text>Data1 : dataVariable</Text>
-      </View>
     </View>
   );
 };
@@ -107,4 +92,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default DiagnosticScreen;
+export default ReportProblemScreen;
