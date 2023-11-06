@@ -9,13 +9,39 @@ import {
 } from 'react-native';
 import DateComponent from '../components/DateComponent';
 import NameComponent from '../components/NameComponent';
+import navigation from '../components/Navigation';
+import DiagnosticScreen from './DiagnosticScreen';
+import LoginScreen from './LoginScreen';
+import DiagnosticsDataScreen from './DiagnosticsDataScreen';
 
 const ShiftScreen = ({navigation}) => {
+  const LoginScreenNavigation = () => {
+    navigation.navigate(LoginScreen); // Replace 'Screen2' with the name of the second screen.
+  };
+  const DiagnosticScreenNavigation = () => {
+    navigation.navigate(DiagnosticScreen); // Replace 'Screen1' with the name of the screen you want to navigate to.
+  };
+  const DiagnosticsDataScreenNavigation = () => {
+    navigation.navigate(DiagnosticsDataScreen);
+  };
+
   return (
     <View style={styles.container}>
       <View style={styles.headerContainer}>
         <View style={styles.dateContainer}>
           <Text>Place for menu</Text>
+          <Button
+            title={'DiagnosticScreen'}
+            onPress={DiagnosticScreenNavigation}
+          />
+          <Button
+            title={'LoginScreenNavigation'}
+            onPress={LoginScreenNavigation}
+          />
+          <Button
+            title={'DiagnosticsDataScreenNavigation'}
+            onPress={DiagnosticsDataScreenNavigation}
+          />
         </View>
         <View style={styles.nameContainer}>
           <NameComponent />
