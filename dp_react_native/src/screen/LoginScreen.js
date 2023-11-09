@@ -8,15 +8,13 @@ import {
   View,
 } from 'react-native';
 import {BASE_URL} from '../config';
+import {GLOBAL_TOKEN} from '../config';
 
-async function getEmployeesS() {
-  const token =
-    'eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiIzIiwiaWF0IjoxNjk4NDA5MjgxLCJleHAiOjE2OTg0MTA3MjF9.XAtm_OOym84C2nPAZ_silQDFDNhSwNMo3RPVLNItzA0';
-  const url = `${BASE_URL}/api/v1/employee`;
+export async function getEmployeesS() {
+  const token = `${GLOBAL_TOKEN}`;
+  const url = `${BASE_URL}/api/v1/user`;
   // Construct the equivalent curl command
   const curlCommand = `curl -X GET "${url}" -H "Authorization: Bearer ${token}"`;
-  const vzpis = token;
-
   console.log(curlCommand); // Log the curl command to the console
   console.log();
   fetch(url, {
@@ -34,34 +32,7 @@ async function getEmployeesS() {
     })
     .then(result => {
       console.log(result);
-    })
-    .catch(error => {
-      console.error('Fetch error:', error);
-    });
-}
-async function loginEmployPicaee(email, password) {
-  const url = `${BASE_URL}/api/v1/auth/authenticate`;
-  // Construct the equivalent curl command
-  const curlCommand = `curl -X POST "${url}" -H "Authorization: Bearer ${token}"`;
-
-  console.log(curlCommand); // Log the curl command to the console
-
-  const response = await fetch(url, {
-    method: 'POST',
-    headers: {
-      'Content-Type': 'application/json',
-      email: email,
-      password: password,
-    },
-  })
-    .then(res => {
-      if (!res.ok) {
-        throw new Error(`HTTP Error! Status: ${res.status}`);
-      }
-      return res.text();
-    })
-    .then(result => {
-      console.log(result);
+      return result;
     })
     .catch(error => {
       console.error('Fetch error:', error);
@@ -137,7 +108,8 @@ const LoginScreen = ({navigation}) => {
 
         <View style={{flexDirection: 'row', marginTop: 20}}>
           <Text>Dont have an account ?</Text>
-          <TouchableOpacity onPress={() => navigation.navigate('Register')}>
+          <TouchableOpacity
+            onPress={() => navigation.navigate('RegisterScreen')}>
             <Text style={styles.link}>Register</Text>
           </TouchableOpacity>
         </View>

@@ -97,7 +97,7 @@ const RegisterScreen = ({navigation}) => {
 
         <View style={{flexDirection: 'row', marginTop: 20}}>
           <Text>Already have an account ?</Text>
-          <TouchableOpacity onPress={() => navigation.navigate('Login')}>
+          <TouchableOpacity onPress={() => navigation.navigate('LoginScreen')}>
             <Text style={styles.link}>Login</Text>
           </TouchableOpacity>
         </View>
