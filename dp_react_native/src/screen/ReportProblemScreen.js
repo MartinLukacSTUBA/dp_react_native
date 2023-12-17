@@ -1,10 +1,11 @@
-import React from 'react';
-import {Button, StyleSheet, Text, View} from 'react-native';
+import React, {useState, useEffect} from 'react';
+import {Button, StyleSheet, Text, View, PermissionsAndroid} from 'react-native';
 import DateComponent from '../components/DateComponent';
 import NameComponent from '../components/NameComponent';
 import LoginScreen from './LoginScreen';
 import DiagnosticScreen from './DiagnosticScreen';
 import DiagnosticsDataScreen from './DiagnosticsDataScreen';
+import OBDDashboard from '../components/OBDDashboard';
 
 const ReportProblemScreen = ({navigation}) => {
   const LoginScreenNavigation = () => {
@@ -40,6 +41,7 @@ const ReportProblemScreen = ({navigation}) => {
           <DateComponent />
         </View>
       </View>
+      <OBDDashboard />
       <View style={styles.wrapper}></View>
     </View>
   );
