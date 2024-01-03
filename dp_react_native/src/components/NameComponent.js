@@ -1,23 +1,24 @@
 import React, {useEffect, useState} from 'react';
 import {Text, View} from 'react-native';
 import {BASE_URL} from '../config';
-import {GLOBAL_TOKEN} from '../config';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 const NameComponent = () => {
   const [name, setName] = useState('');
 
   // Function to fetch name from backend
   const fetchNameFromBackend = async () => {
-    const token = `${GLOBAL_TOKEN}`;
+    const accessToken = await AsyncStorage.getItem('AccessToken');
+    console.log(accessToken);
     const url = `${BASE_URL}/api/v1/user/logged`;
     // Construct the equivalent curl command
-    const curlCommand = `curl -X GET "${url}" -H "Authorization: Bearer ${token}"`;
+    const curlCommand = `curl -X GET "${url}" -H "Authorization: Bearer ${accessToken}"`;
     console.log(curlCommand); // Log the curl command to the console
     console.log();
     fetch(url, {
       method: 'GET',
       headers: {
-        Authorization: `Bearer ${token}`,
+        Authorization: `Bearer ${accessToken}`,
         'Content-Type': 'application/json',
       },
     })

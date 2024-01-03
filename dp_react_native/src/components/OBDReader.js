@@ -25,7 +25,6 @@ import {
 } from 'react-native';
 
 import {Actions} from 'react-native-router-flux';
-import {List} from 'react-native-elements';
 import Menu, {
   MenuContext,
   MenuOptions,

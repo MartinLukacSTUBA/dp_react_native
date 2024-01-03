@@ -18,15 +18,6 @@ const LocalStorageComponent = () => {
       }
     };
 
-    const getTokenFromStorage = async () => {
-      try {
-        return await AsyncStorage.getItem('AccessToken');
-      } catch (error) {
-        console.error('Error getting token from storage:', error);
-        return null;
-      }
-    };
-
     // Call the function to retrieve data when the component mounts
     getDataFromStorage();
   }, []); // Empty dependency array ensures the effect runs only once when the component mounts
