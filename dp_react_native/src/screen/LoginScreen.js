@@ -7,10 +7,12 @@ import {
   TouchableOpacity,
   View,
 } from 'react-native';
+import AsyncStorage from '@react-native-async-storage/async-storage';
+
 import {BASE_URL} from '../config';
 import {GLOBAL_TOKEN} from '../config';
 
-export async function getEmployeesS() {
+export async function getHelloFromBE() {
   const token = `${GLOBAL_TOKEN}`;
   const url = `${BASE_URL}/api/v1/user`;
   // Construct the equivalent curl command
@@ -64,24 +66,23 @@ const LoginScreen = ({navigation}) => {
       .then(response => response.json())
       .then(data => {
         if (data && data.token) {
-          const token = data.token; // Extract the token from the response
-          // Now, you can use the 'token' variable as needed.
-          console.log(token); // This will log the JWT token.
-          setTokenForLogin(token);
+          const token = data.token;
+          console.log('Token:', token);
 
-          navigation.navigate('DiagnosticScreen');
-
-          // You can also save it to your component's state if needed.
-          // For example, you can add 'const [token, setToken] = useState(null);' at the beginning of your component.
-          // Then, you can set the token using 'setToken(token);'.
+          // Store the token in local storage
+          AsyncStorage.setItem('AccessToken', token)
+            .then(() => {
+              console.log('Token stored successfully');
+              // Now, you can navigate to the next screen or perform other actions.
+              navigation.navigate('DiagnosticScreen');
+            })
+            .catch(error => console.error('Error storing token:', error));
         } else {
           console.error('Token not found in the response');
         }
       })
       .catch(error => {
         console.error('Error:', error);
-        console.log('ASD'); // This will log the JWT token.
-        console.log('token'); // This will log the JWT token.
         navigation.navigate('DiagnosticScreen');
       });
   };
@@ -89,7 +90,8 @@ const LoginScreen = ({navigation}) => {
   return (
     <View style={styles.container}>
       <View style={styles.wrapper}>
-        <Button title="Get" onPress={getEmployeesS} />
+        <Button title="Get" onPress={getHelloFromBE} />
+
         <TextInput
           style={styles.input}
           value={email}

@@ -4,6 +4,9 @@ import DateComponent from '../components/DateComponent';
 import NameComponent from '../components/NameComponent';
 import LoginScreen from './LoginScreen';
 import DiagnosticsDataScreen from './DiagnosticsDataScreen';
+import LocalStorageComponent from '../components/LocalStorageComponent'; // Import the LocalStorageComponent
+
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 const DiagnosticScreen = ({navigation}) => {
   const LoginScreenNavigation = () => {
@@ -50,7 +53,8 @@ const DiagnosticScreen = ({navigation}) => {
       </View>
 
       <View style={styles.measuredContainer}>
-        <Text>Data1 : dataVariable</Text>
+        <Text>Data1 : </Text>
+        <LocalStorageComponent />
         <Text>Data1 : dataVariable</Text>
         <Text>Data1 : dataVariable</Text>
         <Text>Data1 : dataVariable</Text>
