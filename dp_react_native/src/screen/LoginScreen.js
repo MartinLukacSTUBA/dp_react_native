@@ -12,6 +12,7 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 import TcpSocket from 'react-native-tcp-socket';
 
 import {BASE_URL} from '../config';
+import {OBD_URL} from '../config';
 
 export async function getHelloFromBE() {
   const accessToken = await AsyncStorage.getItem('AccessToken');
@@ -41,24 +42,6 @@ export async function getHelloFromBE() {
       console.error('Fetch error:', error);
     });
 }
-const sendOBDIISpeedCommand = async () => {
-  try {
-    const serverUrl = 'https://0999-147-175-182-48.ngrok-free.app'; // Replace with the actual URL and port
-    const obdCommand = '010D'; // OBD-II command for vehicle speed
-
-    const response = await axios.get(`${serverUrl}`, {
-      params: {command: obdCommand},
-    });
-
-    if (response.data) {
-      console.log('Vehicle Speed:', response.data);
-    } else {
-      console.log('No data received');
-    }
-  } catch (error) {
-    console.error('Error:', error.message);
-  }
-};
 
 function parseAndPrintSpeed(obdResponse) {
   // Normalize the response and use a regular expression to find the speed pattern
@@ -102,7 +85,6 @@ function parseAndPrintFuelLevel(obdResponse) {
   // Normalize the response and use a regular expression to find the fuel level pattern
   const normalizedResponse = obdResponse.replace(/\s+/g, ' ').trim();
   const fuelLevelPattern = /41 2F ([0-9A-F]{2})/i;
-
   // Check if the response contains the expected pattern
   const match = normalizedResponse.match(fuelLevelPattern);
   if (match) {
@@ -120,25 +102,34 @@ function parseAndPrintFuelLevel(obdResponse) {
   }
 }
 
-// Helper function to convert hexadecimal to ASCII
-function hexToASCII(hex) {
-  let ascii = '';
-  for (let i = 0; i < hex.length; i += 2) {
-    const charCode = parseInt(hex.substr(i, 2), 16);
-    ascii += String.fromCharCode(charCode);
+function parseAndPrintTemperature(obdResponse) {
+  // Normalize the response and use a regular expression to find the temperature pattern
+  const normalizedResponse = obdResponse.replace(/\s+/g, ' ').trim();
+  const temperaturePattern = /41 05 ([0-9A-F]{2})/i;
+
+  // Check if the response contains the expected pattern
+  const match = normalizedResponse.match(temperaturePattern);
+  if (match) {
+    // Extract the byte representing temperature in Celsius
+    const temperatureHex = match[1];
+    const temperatureCelsius = parseInt(temperatureHex, 16) - 40; // Convert to Celsius
+
+    // Print the temperature
+    console.log('Engine Temperature:', temperatureCelsius, '°C');
+  } else {
+    console.log('Invalid or unrecognized OBD-II response:', obdResponse);
   }
-  return ascii;
 }
 
-function readDataFromOBD() {
+function readDataFromOBDSpeed() {
   return new Promise((resolve, reject) => {
     console.log('Attempting to connect to the emulator...');
 
     // Create a TCP connection to the emulator
     const client = TcpSocket.createConnection(
       {
-        host: '2.tcp.eu.ngrok.io', // Corrected hostname without 'tcp://'
-        port: 12530, // Corrected to the ngrok forwarded port
+        host: OBD_URL.host, // Corrected hostname without 'tcp://'
+        port: OBD_URL.port, // Corrected to the ngrok forwarded port
       },
       () => {
         console.log('Connected to the emulator');
@@ -172,8 +163,8 @@ function readDataFromOBDRPM() {
     // Create a TCP connection to the emulator
     const client = TcpSocket.createConnection(
       {
-        host: '2.tcp.eu.ngrok.io', // Corrected hostname without 'tcp://'
-        port: 12530, // Corrected to the ngrok forwarded port
+        host: OBD_URL.host, // Corrected hostname without 'tcp://'
+        port: OBD_URL.port, // Corrected to the ngrok forwarded port
       },
       () => {
         console.log('Connected to the emulator');
@@ -208,14 +199,14 @@ function readDataFromOBDFuelLevel() {
     // Create a TCP connection to the emulator
     const client = TcpSocket.createConnection(
       {
-        host: '2.tcp.eu.ngrok.io', // Ngrok TCP host
-        port: 12530, // Ngrok TCP port
+        host: OBD_URL.host, // Corrected hostname without 'tcp://'
+        port: OBD_URL.port, // Corrected to the ngrok forwarded port
       },
       () => {
         console.log('Connected to the emulator');
 
         // Send OBD-II command for fuel level
-        client.write('012F\r');
+        client.write('015E\r');
       },
     );
 
@@ -248,8 +239,8 @@ function readDataFromOBDVIN() {
     // Create a TCP connection to the emulator
     const client = TcpSocket.createConnection(
       {
-        host: '2.tcp.eu.ngrok.io', // Corrected hostname without 'tcp://'
-        port: 12530, // Corrected to the ngrok forwarded port
+        host: OBD_URL.host, // Corrected hostname without 'tcp://'
+        port: OBD_URL.port, // Corrected to the ngrok forwarded port
       },
       () => {
         console.log('Connected to the emulator');
@@ -262,6 +253,42 @@ function readDataFromOBDVIN() {
     client.on('data', data4 => {
       console.log('Received data:', data4.toString());
       resolve(data4.toString());
+      client.destroy(); // Close the connection
+    });
+
+    client.on('error', error => {
+      console.error('Connection error:', error);
+      reject(error);
+    });
+
+    client.on('close', () => {
+      console.log('Connection closed');
+    });
+  });
+}
+
+function readDataFromOBDTemp() {
+  return new Promise((resolve, reject) => {
+    console.log('Attempting to connect to the emulator...');
+
+    // Create a TCP connection to the emulator
+    const client = TcpSocket.createConnection(
+      {
+        host: OBD_URL.host, // Corrected hostname without 'tcp://'
+        port: OBD_URL.port, // Corrected to the ngrok forwarded port
+      },
+      () => {
+        console.log('Connected to the emulator');
+
+        // Send OBD-II command for vehicle speed
+        client.write('0105\r');
+      },
+    );
+
+    client.on('data', data5 => {
+      console.log('Received data:', data5.toString());
+      resolve(data5.toString());
+      parseAndPrintTemperature(data5.toString());
       client.destroy(); // Close the connection
     });
 
@@ -330,8 +357,9 @@ const LoginScreen = ({navigation}) => {
         <Button title="Get" onPress={getHelloFromBE} />
         <Button title="Bluethoot" onPress={goToBluetoothScreen} />
         <Button title="ReadButtonVin" onPress={readDataFromOBDVIN} />
-        <Button title="ReadButtonSpeed" onPress={readDataFromOBD} />
+        <Button title="ReadButtonSpeed" onPress={readDataFromOBDSpeed} />
         <Button title="ReadButtonRPM" onPress={readDataFromOBDRPM} />
+        <Button title="ReadButtonTemperature" onPress={readDataFromOBDTemp} />
         <Button
           title="ReadButtonFuelLevel"
           onPress={readDataFromOBDFuelLevel}
