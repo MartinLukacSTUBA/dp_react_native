@@ -118,8 +118,8 @@ function readFromEmulator() {
     // Create a TCP connection to the emulator
     const client = TcpSocket.createConnection(
       {
-        host: '7.tcp.eu.ngrok.io', // Corrected hostname without 'tcp://'
-        port: 18329, // Corrected to the ngrok forwarded port
+        host: '0.tcp.eu.ngrok.io', // Corrected hostname without 'tcp://'
+        port: 17545, // Corrected to the ngrok forwarded port
       },
       () => {
         console.log('Connected to the emulator');
