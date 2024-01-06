@@ -92,6 +92,25 @@ function readFromEmulatorXX() {
   });
 }
 
+function parseAndPrintSpeed(obdResponse) {
+  // Normalize the response and use a regular expression to find the speed pattern
+  const normalizedResponse = obdResponse.replace(/\s+/g, ' ').trim();
+  const speedPattern = /41 0D ([0-9A-F]{2})/i;
+
+  // Check if the response contains the expected pattern
+  const match = normalizedResponse.match(speedPattern);
+  if (match) {
+    // Convert the speed from hex to decimal
+    const speedHex = match[1];
+    const speedKmh = parseInt(speedHex, 16);
+
+    // Print the speed
+    console.log('Vehicle Speed:', speedKmh, 'km/h');
+  } else {
+    console.log('Invalid or unrecognized OBD-II response:', obdResponse);
+  }
+}
+
 function readFromEmulator() {
   return new Promise((resolve, reject) => {
     console.log('Attempting to connect to the emulator...');
@@ -99,8 +118,8 @@ function readFromEmulator() {
     // Create a TCP connection to the emulator
     const client = TcpSocket.createConnection(
       {
-        host: '2.tcp.eu.ngrok.io', // Corrected hostname without 'tcp://'
-        port: 16713, // Corrected to the ngrok forwarded port
+        host: '7.tcp.eu.ngrok.io', // Corrected hostname without 'tcp://'
+        port: 18329, // Corrected to the ngrok forwarded port
       },
       () => {
         console.log('Connected to the emulator');
@@ -112,6 +131,7 @@ function readFromEmulator() {
 
     client.on('data', data => {
       console.log('Received data:', data.toString());
+      parseAndPrintSpeed(data.toString());
       resolve(data.toString());
       client.destroy(); // Close the connection
     });
