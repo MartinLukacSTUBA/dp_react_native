@@ -60,38 +60,6 @@ const sendOBDIISpeedCommand = async () => {
   }
 };
 
-function readFromEmulatorXX() {
-  return new Promise((resolve, reject) => {
-    // Replace with your Ngrok URL and the exposed port
-    const client = TcpSocket.createConnection(
-      {host: '86ee-147-175-182-48.ngrok-free.app', port: 35005},
-      () => {
-        console.log('Connected to ELM327 emulator');
-
-        // Send the command (e.g., '010D' for vehicle speed)
-        client.write('010D\r');
-
-        client.on('data', data => {
-          // Handle the received data here.
-          console.log('Received data:', data.toString());
-          resolve(data.toString());
-
-          client.destroy(); // Close the connection
-        });
-      },
-    );
-
-    client.on('error', error => {
-      console.log('Error:', error);
-      reject(error);
-    });
-
-    client.on('close', () => {
-      console.log('Connection closed');
-    });
-  });
-}
-
 function parseAndPrintSpeed(obdResponse) {
   // Normalize the response and use a regular expression to find the speed pattern
   const normalizedResponse = obdResponse.replace(/\s+/g, ' ').trim();
@@ -110,16 +78,67 @@ function parseAndPrintSpeed(obdResponse) {
     console.log('Invalid or unrecognized OBD-II response:', obdResponse);
   }
 }
+function parseAndPrintRPM(obdResponse) {
+  // Normalize the response and use a regular expression to find the RPM pattern
+  const normalizedResponse = obdResponse.replace(/\s+/g, ' ').trim();
+  const rpmPattern = /41 0C ([0-9A-F]{2} [0-9A-F]{2})/i;
 
-function readFromEmulator() {
+  // Check if the response contains the expected pattern
+  const match = normalizedResponse.match(rpmPattern);
+  if (match) {
+    // Extract the two bytes representing RPM
+    const rpmBytes = match[1].split(' ');
+    const rpmHex = rpmBytes.join(''); // Concatenate the bytes
+    const rpm = parseInt(rpmHex, 16);
+
+    // Print the RPM
+    console.log('Engine RPM:', rpm);
+  } else {
+    console.log('Invalid or unrecognized OBD-II response:', obdResponse);
+  }
+}
+
+function parseAndPrintFuelLevel(obdResponse) {
+  // Normalize the response and use a regular expression to find the fuel level pattern
+  const normalizedResponse = obdResponse.replace(/\s+/g, ' ').trim();
+  const fuelLevelPattern = /41 2F ([0-9A-F]{2})/i;
+
+  // Check if the response contains the expected pattern
+  const match = normalizedResponse.match(fuelLevelPattern);
+  if (match) {
+    // Extract the byte representing fuel level
+    const fuelLevelHex = match[1];
+    const fuelLevel = parseInt(fuelLevelHex, 16);
+
+    // Convert the hexadecimal value to percentage
+    const fuelLevelPercent = (fuelLevel / 255) * 100;
+
+    // Print the fuel level
+    console.log('Fuel Level:', fuelLevelPercent.toFixed(2) + '%');
+  } else {
+    console.log('Invalid or unrecognized OBD-II response:', obdResponse);
+  }
+}
+
+// Helper function to convert hexadecimal to ASCII
+function hexToASCII(hex) {
+  let ascii = '';
+  for (let i = 0; i < hex.length; i += 2) {
+    const charCode = parseInt(hex.substr(i, 2), 16);
+    ascii += String.fromCharCode(charCode);
+  }
+  return ascii;
+}
+
+function readDataFromOBD() {
   return new Promise((resolve, reject) => {
     console.log('Attempting to connect to the emulator...');
 
     // Create a TCP connection to the emulator
     const client = TcpSocket.createConnection(
       {
-        host: '0.tcp.eu.ngrok.io', // Corrected hostname without 'tcp://'
-        port: 17545, // Corrected to the ngrok forwarded port
+        host: '2.tcp.eu.ngrok.io', // Corrected hostname without 'tcp://'
+        port: 12530, // Corrected to the ngrok forwarded port
       },
       () => {
         console.log('Connected to the emulator');
@@ -146,6 +165,117 @@ function readFromEmulator() {
     });
   });
 }
+function readDataFromOBDRPM() {
+  return new Promise((resolve, reject) => {
+    console.log('Attempting to connect to the emulator...');
+
+    // Create a TCP connection to the emulator
+    const client = TcpSocket.createConnection(
+      {
+        host: '2.tcp.eu.ngrok.io', // Corrected hostname without 'tcp://'
+        port: 12530, // Corrected to the ngrok forwarded port
+      },
+      () => {
+        console.log('Connected to the emulator');
+
+        // Send OBD-II command for vehicle speed
+        client.write('010C\r');
+      },
+    );
+
+    client.on('data', data2 => {
+      console.log('Received data:', data2.toString());
+      parseAndPrintRPM(data2.toString());
+      resolve(data2.toString());
+      client.destroy(); // Close the connection
+    });
+
+    client.on('error', error => {
+      console.error('Connection error:', error);
+      reject(error);
+    });
+
+    client.on('close', () => {
+      console.log('Connection closed');
+    });
+  });
+}
+
+function readDataFromOBDFuelLevel() {
+  return new Promise((resolve, reject) => {
+    console.log('Attempting to connect to the emulator...');
+
+    // Create a TCP connection to the emulator
+    const client = TcpSocket.createConnection(
+      {
+        host: '2.tcp.eu.ngrok.io', // Ngrok TCP host
+        port: 12530, // Ngrok TCP port
+      },
+      () => {
+        console.log('Connected to the emulator');
+
+        // Send OBD-II command for fuel level
+        client.write('012F\r');
+      },
+    );
+
+    client.on('data', data3 => {
+      const response = data3.toString();
+      console.log('Received data:', response);
+
+      // Process the received data for fuel level
+      parseAndPrintFuelLevel(response);
+
+      resolve(response);
+      client.destroy(); // Close the connection
+    });
+
+    client.on('error', error => {
+      console.error('Connection error:', error);
+      reject(error);
+    });
+
+    client.on('close', () => {
+      console.log('Connection closed');
+    });
+  });
+}
+
+function readDataFromOBDVIN() {
+  return new Promise((resolve, reject) => {
+    console.log('Attempting to connect to the emulator...');
+
+    // Create a TCP connection to the emulator
+    const client = TcpSocket.createConnection(
+      {
+        host: '2.tcp.eu.ngrok.io', // Corrected hostname without 'tcp://'
+        port: 12530, // Corrected to the ngrok forwarded port
+      },
+      () => {
+        console.log('Connected to the emulator');
+
+        // Send OBD-II command for vehicle speed
+        client.write('0902\r');
+      },
+    );
+
+    client.on('data', data4 => {
+      console.log('Received data:', data4.toString());
+      resolve(data4.toString());
+      client.destroy(); // Close the connection
+    });
+
+    client.on('error', error => {
+      console.error('Connection error:', error);
+      reject(error);
+    });
+
+    client.on('close', () => {
+      console.log('Connection closed');
+    });
+  });
+}
+
 const getTokenFromLogin = (email, password) => {
   const url = `${BASE_URL}/api/v1/auth/authenticate`;
   return fetch(url, {
@@ -199,8 +329,13 @@ const LoginScreen = ({navigation}) => {
       <View style={styles.wrapper}>
         <Button title="Get" onPress={getHelloFromBE} />
         <Button title="Bluethoot" onPress={goToBluetoothScreen} />
-        <Button title="ASDD" onPress={readFromEmulator} />
-        <Button title="SENDOBD@" onPress={sendOBDIISpeedCommand} />
+        <Button title="ReadButtonVin" onPress={readDataFromOBDVIN} />
+        <Button title="ReadButtonSpeed" onPress={readDataFromOBD} />
+        <Button title="ReadButtonRPM" onPress={readDataFromOBDRPM} />
+        <Button
+          title="ReadButtonFuelLevel"
+          onPress={readDataFromOBDFuelLevel}
+        />
 
         <TextInput
           style={styles.input}
