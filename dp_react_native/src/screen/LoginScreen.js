@@ -1,4 +1,5 @@
 import React, {useState} from 'react';
+import axios from 'axios';
 import {
   Button,
   StyleSheet,
@@ -8,6 +9,7 @@ import {
   View,
 } from 'react-native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import TcpSocket from 'react-native-tcp-socket';
 
 import {BASE_URL} from '../config';
 
@@ -39,7 +41,91 @@ export async function getHelloFromBE() {
       console.error('Fetch error:', error);
     });
 }
+const sendOBDIISpeedCommand = async () => {
+  try {
+    const serverUrl = 'https://0999-147-175-182-48.ngrok-free.app'; // Replace with the actual URL and port
+    const obdCommand = '010D'; // OBD-II command for vehicle speed
 
+    const response = await axios.get(`${serverUrl}`, {
+      params: {command: obdCommand},
+    });
+
+    if (response.data) {
+      console.log('Vehicle Speed:', response.data);
+    } else {
+      console.log('No data received');
+    }
+  } catch (error) {
+    console.error('Error:', error.message);
+  }
+};
+
+function readFromEmulatorXX() {
+  return new Promise((resolve, reject) => {
+    // Replace with your Ngrok URL and the exposed port
+    const client = TcpSocket.createConnection(
+      {host: '86ee-147-175-182-48.ngrok-free.app', port: 35005},
+      () => {
+        console.log('Connected to ELM327 emulator');
+
+        // Send the command (e.g., '010D' for vehicle speed)
+        client.write('010D\r');
+
+        client.on('data', data => {
+          // Handle the received data here.
+          console.log('Received data:', data.toString());
+          resolve(data.toString());
+
+          client.destroy(); // Close the connection
+        });
+      },
+    );
+
+    client.on('error', error => {
+      console.log('Error:', error);
+      reject(error);
+    });
+
+    client.on('close', () => {
+      console.log('Connection closed');
+    });
+  });
+}
+
+function readFromEmulator() {
+  return new Promise((resolve, reject) => {
+    console.log('Attempting to connect to the emulator...');
+
+    // Create a TCP connection to the emulator
+    const client = TcpSocket.createConnection(
+      {
+        host: '2.tcp.eu.ngrok.io', // Corrected hostname without 'tcp://'
+        port: 16713, // Corrected to the ngrok forwarded port
+      },
+      () => {
+        console.log('Connected to the emulator');
+
+        // Send OBD-II command for vehicle speed
+        client.write('010D\r');
+      },
+    );
+
+    client.on('data', data => {
+      console.log('Received data:', data.toString());
+      resolve(data.toString());
+      client.destroy(); // Close the connection
+    });
+
+    client.on('error', error => {
+      console.error('Connection error:', error);
+      reject(error);
+    });
+
+    client.on('close', () => {
+      console.log('Connection closed');
+    });
+  });
+}
 const getTokenFromLogin = (email, password) => {
   const url = `${BASE_URL}/api/v1/auth/authenticate`;
   return fetch(url, {
@@ -60,6 +146,9 @@ const LoginScreen = ({navigation}) => {
   const [password, setPassword] = useState('');
   const [tokenForLogin, setTokenForLogin] = useState('');
 
+  const goToBluetoothScreen = () => {
+    navigation.navigate('BluetoothScreen');
+  };
   const loginEmployee = () => {
     getTokenFromLogin(email, password)
       .then(response => response.json())
@@ -85,11 +174,13 @@ const LoginScreen = ({navigation}) => {
         navigation.navigate('DiagnosticScreen');
       });
   };
-
   return (
     <View style={styles.container}>
       <View style={styles.wrapper}>
         <Button title="Get" onPress={getHelloFromBE} />
+        <Button title="Bluethoot" onPress={goToBluetoothScreen} />
+        <Button title="ASDD" onPress={readFromEmulator} />
+        <Button title="SENDOBD@" onPress={sendOBDIISpeedCommand} />
 
         <TextInput
           style={styles.input}
