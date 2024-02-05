@@ -1,14 +1,17 @@
-import React from 'react';
+import React, {useState} from 'react';
 import {Button, StyleSheet, Text, View} from 'react-native';
 import DateComponent from '../components/DateComponent';
 import NameComponent from '../components/NameComponent';
 import LoginScreen from './LoginScreen';
 import DiagnosticsDataScreen from './DiagnosticsDataScreen';
-import LocalStorageComponent from '../components/LocalStorageComponent'; // Import the LocalStorageComponent
-
-import AsyncStorage from '@react-native-async-storage/async-storage';
+import LocalStorageComponent from '../components/LocalStorageComponent';
+import DoDiagnosticComponent from '../components/DoDiagnosticComponent';
 
 const DiagnosticScreen = ({navigation}) => {
+  const [vinData, setVinData] = useState('');
+  const [speedData, setSpeedData] = useState('');
+  const [engineTemperatureData, setEngineTemperatureData] = useState('');
+
   const LoginScreenNavigation = () => {
     navigation.navigate(LoginScreen); // Replace 'Screen2' with the name of the second screen.
   };
@@ -20,10 +23,10 @@ const DiagnosticScreen = ({navigation}) => {
   };
 
   return (
-    <View style={styles.container}>
+    <View style={styles.mainContainer}>
       <View style={styles.headerContainer}>
         <View style={styles.dateContainer}>
-          <Text>PlacSSe for menu DIAGN</Text>
+          <Text>BurgerMenu</Text>
 
           <Button
             title={'LoginScreenNavigation'}
@@ -35,51 +38,52 @@ const DiagnosticScreen = ({navigation}) => {
           />
           <Button title={'ReportProblemScreen'} onPress={ReportProblemScreen} />
         </View>
+
         <View style={styles.nameContainer}>
           <NameComponent />
           <DateComponent />
         </View>
       </View>
-      <View style={styles.wrapper}></View>
-      <View style={styles.carInfoContainer}>
-        <Text>Car</Text>
-        <Text>SPZ</Text>
-        <Text>Owner</Text>
-        <Text>Last full diagnostic</Text>
-        <Text></Text>
-        <Text>FuelStatus</Text>
-        <Text>Range</Text>
-        <Text>Average fuel consumption</Text>
-      </View>
 
-      <View style={styles.measuredContainer}>
-        <Text>Data1 : </Text>
+      <View style={styles.wrapper}></View>
+      <View style={styles.carInfoContainer}></View>
+
+      <View style={styles.runDiagnosticContainer}>
+        <Text style={styles.basicText}>Car VIM : {vinData}</Text>
+        <Text style={styles.basicText}>Car Owner :</Text>
+        <Text style={styles.basicText}>Speed : {speedData} km/h</Text>
+        <Text style={styles.basicText}>RPM : </Text>
+        <Text style={styles.basicText}>
+          Engine temperature : {engineTemperatureData} °C
+        </Text>
+        <View style={{height: 20}}></View>
+        <Text style={styles.basicText}>Last diagnostic : </Text>
+        <View style={{height: 40}}></View>
+
+        <DoDiagnosticComponent
+          setVinData={setVinData}
+          setSpeedData={setSpeedData}
+          setEngineTemperatureData={setEngineTemperatureData}
+        />
         <LocalStorageComponent />
-        <Text>Data1 : dataVariable</Text>
-        <Text>Data1 : dataVariable</Text>
-        <Text>Data1 : dataVariable</Text>
-        <Text>Data1 : dataVariable</Text>
       </View>
     </View>
   );
 };
 
 const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: 'pink',
-  },
+  mainContainer: {},
   headerContainer: {
     // Add styles for your header container
     flexDirection: 'row', // You can adjust this layout as needed
     paddingHorizontal: 0, // Add padding as needed
     marginTop: 2,
     width: '100%', // Ensure it spans the entire width
-    backgroundColor: 'lightblue', // Background color for the header
+    backgroundColor: 'red', // Background color for the header
   },
   dateContainer: {
     padding: 10,
-    backgroundColor: 'grey', // Background color for the header
+    backgroundColor: 'green', // Background color for the header
   },
   nameContainer: {
     padding: 10,
@@ -91,10 +95,11 @@ const styles = StyleSheet.create({
     backgroundColor: 'yellow',
     marginTop: '20%',
   },
-  measuredContainer: {
-    backgroundColor: '#00ffff',
-    marginTop: '40%',
+  runDiagnosticContainer: {
+    backgroundColor: '#f4fff9',
+    marginTop: '15%',
     textAlign: 'center',
+    fontSize: 15,
   },
   wrapper: {
     width: '80%',
@@ -108,6 +113,9 @@ const styles = StyleSheet.create({
   },
   link: {
     color: 'blue',
+  },
+  basicText: {
+    fontSize: 25,
   },
 });
 

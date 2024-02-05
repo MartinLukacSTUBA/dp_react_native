@@ -85,6 +85,7 @@ function parseAndPrintFuelLevel(obdResponse) {
   // Normalize the response and use a regular expression to find the fuel level pattern
   const normalizedResponse = obdResponse.replace(/\s+/g, ' ').trim();
   const fuelLevelPattern = /41 2F ([0-9A-F]{2})/i;
+
   // Check if the response contains the expected pattern
   const match = normalizedResponse.match(fuelLevelPattern);
   if (match) {
@@ -95,10 +96,10 @@ function parseAndPrintFuelLevel(obdResponse) {
     // Convert the hexadecimal value to percentage
     const fuelLevelPercent = (fuelLevel / 255) * 100;
 
-    // Print the fuel level
-    console.log('Fuel Level:', fuelLevelPercent.toFixed(2) + '%');
+    // Return the fuel level percentage
+    return fuelLevelPercent.toFixed(2); // Returns fuel level as a string formatted to two decimal places
   } else {
-    console.log('Invalid or unrecognized OBD-II response:', obdResponse);
+    return null; // Indicates an invalid or unrecognized OBD-II response
   }
 }
 
@@ -156,6 +157,7 @@ function readDataFromOBDSpeed() {
     });
   });
 }
+
 function readDataFromOBDRPM() {
   return new Promise((resolve, reject) => {
     console.log('Attempting to connect to the emulator...');
@@ -322,10 +324,6 @@ const LoginScreen = ({navigation}) => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [tokenForLogin, setTokenForLogin] = useState('');
-
-  const goToBluetoothScreen = () => {
-    navigation.navigate('BluetoothScreen');
-  };
   const loginEmployee = () => {
     getTokenFromLogin(email, password)
       .then(response => response.json())
@@ -355,7 +353,6 @@ const LoginScreen = ({navigation}) => {
     <View style={styles.container}>
       <View style={styles.wrapper}>
         <Button title="Get" onPress={getHelloFromBE} />
-        <Button title="Bluethoot" onPress={goToBluetoothScreen} />
         <Button title="ReadButtonVin" onPress={readDataFromOBDVIN} />
         <Button title="ReadButtonSpeed" onPress={readDataFromOBDSpeed} />
         <Button title="ReadButtonRPM" onPress={readDataFromOBDRPM} />
