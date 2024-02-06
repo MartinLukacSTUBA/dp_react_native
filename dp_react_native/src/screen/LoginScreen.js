@@ -122,7 +122,6 @@ function parseAndPrintTemperature(obdResponse) {
 }
 
 function readDataFromOBDSpeed() {
-  /*Zatazenie motora*/
   return new Promise((resolve, reject) => {
     console.log('Attempting to connect to the emulator...');
 
@@ -282,7 +281,55 @@ function parseAndPrintFuelPressure(data) {
   return fuelPressure;
 }
 
+function readDataFromOBDFuelPressure() {
+  /*Tlak paliva*/
+  return new Promise((resolve, reject) => {
+    console.log('Attempting to connect to the emulator...');
+
+    // Assuming TcpSocket and OBD_URL are defined elsewhere correctly
+    const client = TcpSocket.createConnection(
+      {
+        host: OBD_URL.host, // Assuming OBD_URL is defined correctly
+        port: OBD_URL.port,
+      },
+      () => {
+        console.log('Connected to the emulator');
+
+        // Send OBD-II command for fuel pressure
+        client.write('010A\r'); // PID for fuel pressure
+      },
+    );
+
+    client.on('data', data => {
+      console.log('Received data:', data.toString());
+      // Parse fuel pressure from the response and resolve the promise
+      const fuelPressure = parseFuelPressure(data.toString());
+      console.log('Fuel Pressure:', fuelPressure, 'kPa');
+      resolve(fuelPressure);
+      client.destroy(); // Close the connection
+    });
+
+    client.on('error', error => {
+      console.error('Connection error:', error);
+      reject(error);
+    });
+
+    client.on('close', () => {
+      console.log('Connection closed');
+    });
+  });
+}
+
+function parseFuelPressure(dataString) {
+  // Assuming the response string is in the format "41 0A XX" where XX is the hex value we need
+  const hexValue = dataString.substring(6, 8); // Get the hex value part of the response
+  const intValue = parseInt(hexValue, 16); // Convert hex to integer
+  const fuelPressure = intValue * 3; // Calculate fuel pressure in kPa
+  return fuelPressure; // Return the fuel pressure value
+}
+
 function readDataFromOBDEngineLoad() {
+  /*Zatazenie motora*/
   return new Promise((resolve, reject) => {
     console.log('Attempting to connect to the emulator...');
 
@@ -415,8 +462,12 @@ const LoginScreen = ({navigation}) => {
         {/*<Button title="ReadButtonVin" onPress={readDataFromOBDVIN} />*/}
         <Button title="ReadButtonSpeed" onPress={readDataFromOBDSpeed} />
         <Button
-          title="ReadButtonTlakPaliva"
+          title="ReadButtonZatazenieMotora"
           onPress={readDataFromOBDEngineLoad}
+        />
+        <Button
+          title="ReadButtonTlakPaliva"
+          onPress={readDataFromOBDFuelPressure}
         />
         {/*<Button title="ReadButtonRPM" onPress={readDataFromOBDRPM} />*/}
         {/*<Button title="ReadButtonTemperature" onPress={readDataFromOBDTemp} />*/}
