@@ -1,5 +1,5 @@
-import React, {useState, useEffect} from 'react';
-import {Button, StyleSheet, Text, View, PermissionsAndroid} from 'react-native';
+import React from 'react';
+import {Button, StyleSheet, Text, View} from 'react-native';
 import DateComponent from '../components/DateComponent';
 import NameComponent from '../components/NameComponent';
 import LoginScreen from './LoginScreen';

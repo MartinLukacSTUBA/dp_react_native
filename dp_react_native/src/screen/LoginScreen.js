@@ -268,6 +268,147 @@ function readDataFromOBDVIN() {
   });
 }
 
+function readDataFromOBDThrottlePosition() {
+  /* Poloha škrtiacej klapky*/
+  return new Promise((resolve, reject) => {
+    console.log('Attempting to connect to the emulator...');
+
+    // Assuming TcpSocket and OBD_URL are defined elsewhere correctly
+    const client = TcpSocket.createConnection(
+      {
+        host: OBD_URL.host, // Assuming OBD_URL is defined correctly
+        port: OBD_URL.port,
+      },
+      () => {
+        console.log('Connected to the emulator');
+
+        // Send OBD-II command for throttle position
+        client.write('0111\r'); // PID for throttle position
+      },
+    );
+
+    client.on('data', data => {
+      console.log('Received data:', data.toString());
+      // Parse throttle position from the response and resolve the promise
+      const throttlePosition = parseThrottlePosition(data.toString());
+      console.log('Throttle Position:', throttlePosition, '%');
+      resolve(throttlePosition);
+      client.destroy(); // Close the connection
+    });
+
+    client.on('error', error => {
+      console.error('Connection error:', error);
+      reject(error);
+    });
+
+    client.on('close', () => {
+      console.log('Connection closed');
+    });
+  });
+}
+
+function parseThrottlePosition(dataString) {
+  // Assuming the response string is in the format "41 11 XX" where XX is the hex value we need
+  const hexValue = dataString.substring(6, 8); // Get the hex value part of the response
+  const intValue = parseInt(hexValue, 16); // Convert hex to integer
+  const throttlePosition = (intValue * 100) / 255; // Calculate throttle position in percentage
+  return throttlePosition; // Return the throttle position value
+}
+
+function readDataFromOBDFuelPressure() {
+  /*Tlak paliva*/
+  return new Promise((resolve, reject) => {
+    console.log('Attempting to connect to the emulator...');
+
+    // Assuming TcpSocket and OBD_URL are defined elsewhere correctly
+    const client = TcpSocket.createConnection(
+      {
+        host: OBD_URL.host, // Assuming OBD_URL is defined correctly
+        port: OBD_URL.port,
+      },
+      () => {
+        console.log('Connected to the emulator');
+
+        // Send OBD-II command for fuel pressure
+        client.write('010A\r'); // PID for fuel pressure
+      },
+    );
+
+    client.on('data', data => {
+      console.log('Received data:', data.toString());
+      // Parse fuel pressure from the response and resolve the promise
+      const fuelPressure = parseFuelPressure(data.toString());
+      console.log('Fuel Pressure:', fuelPressure, 'kPa');
+      resolve(fuelPressure);
+      client.destroy(); // Close the connection
+    });
+
+    client.on('error', error => {
+      console.error('Connection error:', error);
+      reject(error);
+    });
+
+    client.on('close', () => {
+      console.log('Connection closed');
+    });
+  });
+}
+
+function parseFuelPressure(dataString) {
+  // Assuming the response string is in the format "41 0A XX" where XX is the hex value we need
+  const hexValue = dataString.substring(6, 8); // Get the hex value part of the response
+  const intValue = parseInt(hexValue, 16); // Convert hex to integer
+  const fuelPressure = intValue * 3; // Calculate fuel pressure in kPa
+  return fuelPressure; // Return the fuel pressure value
+}
+
+function readDataFromOBDEngineLoad() {
+  /*Zatazenie motora*/
+  return new Promise((resolve, reject) => {
+    console.log('Attempting to connect to the emulator...');
+
+    // Assuming TcpSocket and OBD_URL are defined elsewhere correctly
+    const client = TcpSocket.createConnection(
+      {
+        host: OBD_URL.host, // Assuming OBD_URL is defined correctly
+        port: OBD_URL.port,
+      },
+      () => {
+        console.log('Connected to the emulator');
+
+        // Send OBD-II command for calculated engine load
+        client.write('0104\r'); // PID for calculated engine load
+      },
+    );
+
+    client.on('data', data => {
+      console.log('Received data:', data.toString());
+      // Parse calculated engine load from the response and resolve the promise
+      const engineLoad = parseEngineLoad(data.toString());
+      console.log('Calculated Engine Load:', engineLoad, '%');
+      resolve(engineLoad);
+      client.destroy(); // Close the connection
+    });
+
+    client.on('error', error => {
+      console.error('Connection error:', error);
+      reject(error);
+    });
+
+    client.on('close', () => {
+      console.log('Connection closed');
+    });
+  });
+}
+
+function parseEngineLoad(dataString) {
+  // Assuming the response string is in the format "41 04 XX" where XX is the hex value we need
+  const hexValue = dataString.substring(6, 8); // Get the hex value part of the response
+  const intValue = parseInt(hexValue, 16); // Convert hex to integer
+  const engineLoad = (intValue * 100) / 255; // Calculate engine load in percentage
+  return engineLoad; // Return the calculated engine load value
+}
+
 function readDataFromOBDTemp() {
   return new Promise((resolve, reject) => {
     console.log('Attempting to connect to the emulator...');
@@ -353,14 +494,26 @@ const LoginScreen = ({navigation}) => {
       <View style={styles.wrapper}>
         {/*<Button title="Get" onPress={getHelloFromBE} />*/}
         {/*<Button title="ReadButtonVin" onPress={readDataFromOBDVIN} />*/}
-        {/*<Button title="ReadButtonSpeed" onPress={readDataFromOBDSpeed} />*/}
+        <Button title="ReadButtonSpeed" onPress={readDataFromOBDSpeed} />
+        <Button
+          title="ReadButtonZatazenieMotora"
+          onPress={readDataFromOBDEngineLoad}
+        />
+        <Button
+          title="ReadButtonTlakPaliva"
+          onPress={readDataFromOBDFuelPressure}
+        />
+        <Button
+          title="ReadButtonPolohaškrtiacejKlapky"
+          onPress={readDataFromOBDThrottlePosition}
+        />
+
         {/*<Button title="ReadButtonRPM" onPress={readDataFromOBDRPM} />*/}
         {/*<Button title="ReadButtonTemperature" onPress={readDataFromOBDTemp} />*/}
         {/*<Button*/}
         {/*  title="ReadButtonFuelLevel"*/}
         {/*  onPress={readDataFromOBDFuelLevel}*/}
         {/*/>*/}
-
         <TextInput
           style={styles.input}
           value={email}
@@ -374,9 +527,7 @@ const LoginScreen = ({navigation}) => {
           onChangeText={text => setPassword(text)}
           secureTextEntry
         />
-
         <Button title="Login" onPress={loginEmployee} />
-
         <View style={{flexDirection: 'row', marginTop: 20}}>
           <Text>Dont have an account ?</Text>
           <TouchableOpacity
