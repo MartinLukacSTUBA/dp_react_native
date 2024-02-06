@@ -122,6 +122,7 @@ function parseAndPrintTemperature(obdResponse) {
 }
 
 function readDataFromOBDSpeed() {
+  /*Zatazenie motora*/
   return new Promise((resolve, reject) => {
     console.log('Attempting to connect to the emulator...');
 
@@ -268,6 +269,65 @@ function readDataFromOBDVIN() {
   });
 }
 
+function parseAndPrintFuelPressure(data) {
+  // Assuming data is a hex string response from OBD-II command '0104'
+  // Convert the hex string to a Buffer or similar to easily extract bytes
+  const buffer = Buffer.from(data, 'hex');
+  const A = buffer[2]; // Assuming the third byte is the A value for PID 0104
+
+  // Calculate fuel pressure in kPa
+  const fuelPressure = A * 3;
+
+  console.log(`Fuel Pressure: ${fuelPressure} kPa`);
+  return fuelPressure;
+}
+
+function readDataFromOBDEngineLoad() {
+  return new Promise((resolve, reject) => {
+    console.log('Attempting to connect to the emulator...');
+
+    // Assuming TcpSocket and OBD_URL are defined elsewhere correctly
+    const client = TcpSocket.createConnection(
+      {
+        host: OBD_URL.host, // Assuming OBD_URL is defined correctly
+        port: OBD_URL.port,
+      },
+      () => {
+        console.log('Connected to the emulator');
+
+        // Send OBD-II command for calculated engine load
+        client.write('0104\r'); // PID for calculated engine load
+      },
+    );
+
+    client.on('data', data => {
+      console.log('Received data:', data.toString());
+      // Parse calculated engine load from the response and resolve the promise
+      const engineLoad = parseEngineLoad(data.toString());
+      console.log('Calculated Engine Load:', engineLoad, '%');
+      resolve(engineLoad);
+      client.destroy(); // Close the connection
+    });
+
+    client.on('error', error => {
+      console.error('Connection error:', error);
+      reject(error);
+    });
+
+    client.on('close', () => {
+      console.log('Connection closed');
+    });
+  });
+}
+
+function parseEngineLoad(dataString) {
+  // Assuming the response string is in the format "41 04 XX" where XX is the hex value we need
+  const hexValue = dataString.substring(6, 8); // Get the hex value part of the response
+  const intValue = parseInt(hexValue, 16); // Convert hex to integer
+  const engineLoad = (intValue * 100) / 255; // Calculate engine load in percentage
+  return engineLoad; // Return the calculated engine load value
+}
+
 function readDataFromOBDTemp() {
   return new Promise((resolve, reject) => {
     console.log('Attempting to connect to the emulator...');
@@ -353,14 +413,17 @@ const LoginScreen = ({navigation}) => {
       <View style={styles.wrapper}>
         {/*<Button title="Get" onPress={getHelloFromBE} />*/}
         {/*<Button title="ReadButtonVin" onPress={readDataFromOBDVIN} />*/}
-        {/*<Button title="ReadButtonSpeed" onPress={readDataFromOBDSpeed} />*/}
+        <Button title="ReadButtonSpeed" onPress={readDataFromOBDSpeed} />
+        <Button
+          title="ReadButtonTlakPaliva"
+          onPress={readDataFromOBDEngineLoad}
+        />
         {/*<Button title="ReadButtonRPM" onPress={readDataFromOBDRPM} />*/}
         {/*<Button title="ReadButtonTemperature" onPress={readDataFromOBDTemp} />*/}
         {/*<Button*/}
         {/*  title="ReadButtonFuelLevel"*/}
         {/*  onPress={readDataFromOBDFuelLevel}*/}
         {/*/>*/}
-
         <TextInput
           style={styles.input}
           value={email}
@@ -374,9 +437,7 @@ const LoginScreen = ({navigation}) => {
           onChangeText={text => setPassword(text)}
           secureTextEntry
         />
-
         <Button title="Login" onPress={loginEmployee} />
-
         <View style={{flexDirection: 'row', marginTop: 20}}>
           <Text>Dont have an account ?</Text>
           <TouchableOpacity
