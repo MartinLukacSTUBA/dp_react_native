@@ -1,7 +1,8 @@
 import {
+  readDataFromOBDEngineTemperature,
+  readDataFromOBDRPM,
   readDataFromOBDSpeed,
   readDataFromOBDVIN,
-  readDataFromOBDEngineTemperature,
 } from '../functions/OBDUtils';
 import {Button, View} from 'react-native';
 

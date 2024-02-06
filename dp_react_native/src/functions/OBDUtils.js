@@ -104,28 +104,49 @@ export const readDataFromOBDVIN = () => {
   });
 };
 
-export default  readDataFromOBDRPM() {
+function parseAndPrintRPM(obdResponse) {
+  // Normalize the response and use a regular expression to find the RPM pattern
+  const normalizedResponse = obdResponse.replace(/\s+/g, ' ').trim();
+  const rpmPattern = /41 0C ([0-9A-F]{2} [0-9A-F]{2})/i;
+
+  // Check if the response contains the expected pattern
+  const match = normalizedResponse.match(rpmPattern);
+  if (match) {
+    // Extract the two bytes representing RPM
+    const rpmBytes = match[1].split(' ');
+    const rpmHex = rpmBytes.join(''); // Concatenate the bytes
+    const rpm = parseInt(rpmHex, 16);
+
+    // Print the RPM
+    console.log('Engine RPM:', rpm);
+    return rpm;
+  } else {
+    console.log('Invalid or unrecognized OBD-II response:', obdResponse);
+  }
+}
+
+export const readDataFromOBDRPM = () => {
   return new Promise((resolve, reject) => {
     console.log('Attempting to connect to the emulator...');
 
     // Create a TCP connection to the emulator
     const client = TcpSocket.createConnection(
-        {
-          host: OBD_URL.host, // Corrected hostname without 'tcp://'
-          port: OBD_URL.port, // Corrected to the ngrok forwarded port
-        },
-        () => {
-          console.log('Connected to the emulator');
+      {
+        host: OBD_URL.host, // Corrected hostname without 'tcp://'
+        port: OBD_URL.port, // Corrected to the ngrok forwarded port
+      },
+      () => {
+        console.log('Connected to the emulator');
 
-          // Send OBD-II command for vehicle speed
-          client.write('010C\r');
-        },
+        // Send OBD-II command for vehicle speed
+        client.write('010C\r');
+      },
     );
 
     client.on('data', data2 => {
       console.log('Received data:', data2.toString());
       parseAndPrintRPM(data2.toString());
-      resolve(data2.toString());
+      resolve(parseAndPrintRPM(data2.toString()));
       client.destroy(); // Close the connection
     });
 
@@ -138,7 +159,7 @@ export default  readDataFromOBDRPM() {
       console.log('Connection closed');
     });
   });
-}
+};
 
 export const readDataFromOBDSpeed = () => {
   return new Promise((resolve, reject) => {

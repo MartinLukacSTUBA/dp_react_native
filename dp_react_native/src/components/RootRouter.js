@@ -10,32 +10,11 @@
 
 import React, {Component} from 'react';
 
-import {
-  PropTypes,
-  StyleSheet,
-  Text,
-  View,
-  PixelRatio,
-  DeviceEventEmitter,
-  AppState,
-} from 'react-native';
-
-import {
-  Scene,
-  Reducer,
-  Router,
-  Switch,
-  TabBar,
-  Modal,
-  Schema,
-  Actions,
-} from 'react-native-router-flux';
+import {Router, Scene} from 'react-native-router-flux';
 
 import SharedPreference from 'react-native-sp';
 import OBDReader from './OBDReader';
 import Settings from './Settings';
-
-import AppEventEmitter from '../services/AppEventEmitter';
 
 const PreferenceDefaultValue = {
   enable_bluetooth_preference: false,
@@ -43,34 +22,36 @@ const PreferenceDefaultValue = {
 };
 
 export default class RootRouter extends Component {
-  constructor(props) {
-    super(props);
-    SharedPreference.init(PreferenceDefaultValue);
-  }
+    constructor(props) {
+        super(props);
+        SharedPreference.init(PreferenceDefaultValue);
+    }
 
-  componentDidMount() {}
+    componentDidMount() {
+    }
 
-  componentWillUnmount() {}
+    componentWillUnmount() {
+    }
 
-  render() {
-    return (
-      <Router>
-        <Scene key="root">
-          <Scene
-            key="OBDReader"
-            component={OBDReader}
-            title="OBDReader"
-            hideNavBar={true}
-            initial={true}
-          />
-          <Scene
-            key="Settings"
-            component={Settings}
-            title="Settings"
-            hideNavBar={true}
-          />
-        </Scene>
-      </Router>
-    );
-  }
+    render() {
+        return (
+            <Router>
+                <Scene key="root">
+                    <Scene
+                        key="OBDReader"
+                        component={OBDReader}
+                        title="OBDReader"
+                        hideNavBar={true}
+                        initial={true}
+                    />
+                    <Scene
+                        key="Settings"
+                        component={Settings}
+                        title="Settings"
+                        hideNavBar={true}
+                    />
+                </Scene>
+            </Router>
+        );
+    }
 }

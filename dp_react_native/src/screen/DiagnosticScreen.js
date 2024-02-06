@@ -1,17 +1,18 @@
 import React, {useState} from 'react';
-import {Button, StyleSheet, Text, View} from 'react-native';
+import {Button, StyleSheet, Text, TouchableOpacity, View} from 'react-native';
 import DateComponent from '../components/DateComponent';
 import NameComponent from '../components/NameComponent';
 import LoginScreen from './LoginScreen';
 import DiagnosticsDataScreen from './DiagnosticsDataScreen';
 import LocalStorageComponent from '../components/LocalStorageComponent';
 import DoDiagnosticComponent from '../components/DoDiagnosticComponent';
+import Speedometer from '../components/SpeedometerComponent';
 
 const DiagnosticScreen = ({navigation}) => {
   const [vinData, setVinData] = useState('');
   const [speedData, setSpeedData] = useState('');
   const [engineTemperatureData, setEngineTemperatureData] = useState('');
-
+  const [RPMData, setRPMData] = useState('');
   const LoginScreenNavigation = () => {
     navigation.navigate(LoginScreen); // Replace 'Screen2' with the name of the second screen.
   };
@@ -28,14 +29,18 @@ const DiagnosticScreen = ({navigation}) => {
         <View style={styles.dateContainer}>
           <Text>BurgerMenu</Text>
 
+          <TouchableOpacity
+            style={styles.basicButton}
+            onPress={LoginScreenNavigation}>
+            <Text>LoginScreenNavigation</Text>
+          </TouchableOpacity>
+
           <Button
-            title={'LoginScreenNavigation'}
-            onPress={LoginScreenNavigation}
-          />
-          <Button
+            style={styles.basicButton}
             title={'DiagnosticsDataScreenNavigation'}
             onPress={DiagnosticsDataScreenNavigation}
           />
+
           <Button title={'ReportProblemScreen'} onPress={ReportProblemScreen} />
         </View>
 
@@ -47,31 +52,43 @@ const DiagnosticScreen = ({navigation}) => {
 
       <View style={styles.wrapper}></View>
       <View style={styles.carInfoContainer}></View>
-
+      <View style={styles.circleDiv}>
+        <View style={styles.singleCircleDiv}>
+          <Speedometer value={200} />
+          <Speedometer value={200} />
+          <Speedometer value={200} />
+        </View>
+      </View>
       <View style={styles.runDiagnosticContainer}>
-        <Text style={styles.basicText}>Car VIM : {vinData}</Text>
-        <Text style={styles.basicText}>Car Owner :</Text>
         <Text style={styles.basicText}>Speed : {speedData} km/h</Text>
-        <Text style={styles.basicText}>RPM : </Text>
+        <Text style={styles.basicText}>RPM : {RPMData}</Text>
         <Text style={styles.basicText}>
           Engine temperature : {engineTemperatureData} °C
         </Text>
-        <View style={{height: 20}}></View>
-        <Text style={styles.basicText}>Last diagnostic : </Text>
-        <View style={{height: 40}}></View>
-
-        <DoDiagnosticComponent
-          setVinData={setVinData}
-          setSpeedData={setSpeedData}
-          setEngineTemperatureData={setEngineTemperatureData}
-        />
-        <LocalStorageComponent />
       </View>
+      <View style={{height: 50}}></View>
+      <Text style={styles.basicText}>Car VIM : {vinData}</Text>
+      <Text style={styles.basicText}>Car Owner :</Text>
+      <View style={{height: 40}}></View>
+
+      <DoDiagnosticComponent
+        setVinData={setVinData}
+        setSpeedData={setSpeedData}
+        setEngineTemperatureData={setEngineTemperatureData}
+        setRPMData={setRPMData}
+      />
+      <LocalStorageComponent />
     </View>
   );
 };
 
 const styles = StyleSheet.create({
+  circleDiv: {
+    backgroundColor: '#00FFFF',
+  },
+  singleCircleDiv: {
+    width: '100%',
+  },
   mainContainer: {},
   headerContainer: {
     // Add styles for your header container
@@ -79,6 +96,7 @@ const styles = StyleSheet.create({
     paddingHorizontal: 0, // Add padding as needed
     marginTop: 2,
     width: '100%', // Ensure it spans the entire width
+    height: '10%',
     backgroundColor: 'red', // Background color for the header
   },
   dateContainer: {
@@ -93,7 +111,7 @@ const styles = StyleSheet.create({
   },
   carInfoContainer: {
     backgroundColor: 'yellow',
-    marginTop: '20%',
+    marginTop: '10%',
   },
   runDiagnosticContainer: {
     backgroundColor: '#f4fff9',
@@ -116,6 +134,14 @@ const styles = StyleSheet.create({
   },
   basicText: {
     fontSize: 25,
+  },
+  basicButton: {
+    width: '60%',
+    borderColor: 'black',
+    alignItems: 'center',
+    backgroundColor: '#DDDDDD',
+    padding: 10, // Set the width of the button to 30% of its container's width
+    // Additional styles for the button
   },
 });
 
