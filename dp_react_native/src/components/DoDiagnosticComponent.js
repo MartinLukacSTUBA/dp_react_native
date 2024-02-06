@@ -8,6 +8,7 @@ import {Button, View} from 'react-native';
 const DoDiagnosticComponent = ({
   setVinData,
   setSpeedData,
+  setRPMData,
   setEngineTemperatureData,
 }) => {
   const diagnosticData = async () => {
@@ -18,11 +19,21 @@ const DoDiagnosticComponent = ({
 
       const speed = await readDataFromOBDSpeed();
       console.log('Speed Data:', speed);
-      setSpeedData(speed); // Update state in parent component
+      if (speed != null) {
+        setSpeedData(speed); // Update state in parent component
+      }
+
+      const RPM = await readDataFromOBDRPM();
+      console.log('RPM Data: ', RPM);
+      if (RPM != null) {
+        setRPMData(RPM);
+      }
 
       const engineTemperature = await readDataFromOBDEngineTemperature();
       console.log('Engine temperature Data:', engineTemperature);
-      setEngineTemperatureData(engineTemperature);
+      if (engineTemperature != null) {
+        setEngineTemperatureData(engineTemperature);
+      }
     } catch (error) {
       console.error('Error fetching diagnostic data:', error);
     }

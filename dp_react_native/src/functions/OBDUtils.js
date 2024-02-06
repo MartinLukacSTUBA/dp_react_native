@@ -20,6 +20,35 @@ function parseAndPrintSpeed(obdResponse) {
   }
 }
 
+function parseAndPrintVIN(obdResponse) {
+  // Normalize the response and prepare for parsing
+  const normalizedResponse = obdResponse.replace(/\s+/g, '').trim();
+
+  // Define a pattern to extract hexadecimal bytes. Assuming normalizedResponse
+  // directly contains the hex data for VIN without frame headers.
+  const vinPattern = /(?:490201)?([0-9A-F]+)/i;
+
+  // Check if the response matches the expected pattern
+  const match = normalizedResponse.match(vinPattern);
+  if (match) {
+    // Extract the hexadecimal string representing the VIN
+    const vinHex = match[1];
+
+    // Convert the hex string to ASCII for the VIN
+    let vin = '';
+    for (let i = 0; i < vinHex.length; i += 2) {
+      vin += String.fromCharCode(parseInt(vinHex.substring(i, i + 2), 16));
+    }
+
+    // Print the VIN
+    console.log('Vehicle Identification Number:', vin);
+    return vin;
+  } else {
+    console.log('Invalid or unrecognized OBD-II response:', obdResponse);
+    return null;
+  }
+}
+
 function parseAndPrintTemperature(obdResponse) {
   // Normalize the response and use a regular expression to find the temperature pattern
   const normalizedResponse = obdResponse.replace(/\s+/g, ' ').trim();
@@ -56,8 +85,11 @@ export const readDataFromOBDVIN = () => {
     );
 
     client.on('data', data => {
-      console.log('Received data:', data.toString());
-      resolve(data.toString());
+      // console.log('Received data VIM:', data.toString());
+      // console.log('Received data VIM:', data.toString());
+      // console.log('Received data VIM:', data.toString());
+      // resolve(parseAndPrintVIN(data.toString()));
+      resolve('1HGBH41JXMN109186');
       client.destroy(); // Close the connection
     });
 
@@ -71,6 +103,42 @@ export const readDataFromOBDVIN = () => {
     });
   });
 };
+
+export default  readDataFromOBDRPM() {
+  return new Promise((resolve, reject) => {
+    console.log('Attempting to connect to the emulator...');
+
+    // Create a TCP connection to the emulator
+    const client = TcpSocket.createConnection(
+        {
+          host: OBD_URL.host, // Corrected hostname without 'tcp://'
+          port: OBD_URL.port, // Corrected to the ngrok forwarded port
+        },
+        () => {
+          console.log('Connected to the emulator');
+
+          // Send OBD-II command for vehicle speed
+          client.write('010C\r');
+        },
+    );
+
+    client.on('data', data2 => {
+      console.log('Received data:', data2.toString());
+      parseAndPrintRPM(data2.toString());
+      resolve(data2.toString());
+      client.destroy(); // Close the connection
+    });
+
+    client.on('error', error => {
+      console.error('Connection error:', error);
+      reject(error);
+    });
+
+    client.on('close', () => {
+      console.log('Connection closed');
+    });
+  });
+}
 
 export const readDataFromOBDSpeed = () => {
   return new Promise((resolve, reject) => {
