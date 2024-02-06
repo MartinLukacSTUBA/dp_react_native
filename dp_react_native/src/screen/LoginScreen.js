@@ -268,17 +268,51 @@ function readDataFromOBDVIN() {
   });
 }
 
-function parseAndPrintFuelPressure(data) {
-  // Assuming data is a hex string response from OBD-II command '0104'
-  // Convert the hex string to a Buffer or similar to easily extract bytes
-  const buffer = Buffer.from(data, 'hex');
-  const A = buffer[2]; // Assuming the third byte is the A value for PID 0104
+function readDataFromOBDThrottlePosition() {
+  /* Poloha škrtiacej klapky*/
+  return new Promise((resolve, reject) => {
+    console.log('Attempting to connect to the emulator...');
 
-  // Calculate fuel pressure in kPa
-  const fuelPressure = A * 3;
+    // Assuming TcpSocket and OBD_URL are defined elsewhere correctly
+    const client = TcpSocket.createConnection(
+      {
+        host: OBD_URL.host, // Assuming OBD_URL is defined correctly
+        port: OBD_URL.port,
+      },
+      () => {
+        console.log('Connected to the emulator');
 
-  console.log(`Fuel Pressure: ${fuelPressure} kPa`);
-  return fuelPressure;
+        // Send OBD-II command for throttle position
+        client.write('0111\r'); // PID for throttle position
+      },
+    );
+
+    client.on('data', data => {
+      console.log('Received data:', data.toString());
+      // Parse throttle position from the response and resolve the promise
+      const throttlePosition = parseThrottlePosition(data.toString());
+      console.log('Throttle Position:', throttlePosition, '%');
+      resolve(throttlePosition);
+      client.destroy(); // Close the connection
+    });
+
+    client.on('error', error => {
+      console.error('Connection error:', error);
+      reject(error);
+    });
+
+    client.on('close', () => {
+      console.log('Connection closed');
+    });
+  });
+}
+
+function parseThrottlePosition(dataString) {
+  // Assuming the response string is in the format "41 11 XX" where XX is the hex value we need
+  const hexValue = dataString.substring(6, 8); // Get the hex value part of the response
+  const intValue = parseInt(hexValue, 16); // Convert hex to integer
+  const throttlePosition = (intValue * 100) / 255; // Calculate throttle position in percentage
+  return throttlePosition; // Return the throttle position value
 }
 
 function readDataFromOBDFuelPressure() {
@@ -469,6 +503,11 @@ const LoginScreen = ({navigation}) => {
           title="ReadButtonTlakPaliva"
           onPress={readDataFromOBDFuelPressure}
         />
+        <Button
+          title="ReadButtonPolohaškrtiacejKlapky"
+          onPress={readDataFromOBDThrottlePosition}
+        />
+
         {/*<Button title="ReadButtonRPM" onPress={readDataFromOBDRPM} />*/}
         {/*<Button title="ReadButtonTemperature" onPress={readDataFromOBDTemp} />*/}
         {/*<Button*/}
