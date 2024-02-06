@@ -4,9 +4,10 @@ import DateComponent from '../components/DateComponent';
 import NameComponent from '../components/NameComponent';
 import LoginScreen from './LoginScreen';
 import DiagnosticsDataScreen from './DiagnosticsDataScreen';
-import LocalStorageComponent from '../components/LocalStorageComponent';
 import DoDiagnosticComponent from '../components/DoDiagnosticComponent';
-import Speedometer from '../components/SpeedometerComponent';
+import Speedometer from '../components/speedometer-utils/SpeedometerComponent';
+import TemperatureMeterComponent from '../components/speedometer-utils/TemperatureMeterComponent';
+import RPMMeterComponent from '../components/speedometer-utils/RPMMeterComponent';
 
 const DiagnosticScreen = ({navigation}) => {
   const [vinData, setVinData] = useState('');
@@ -54,22 +55,26 @@ const DiagnosticScreen = ({navigation}) => {
       <View style={styles.carInfoContainer}></View>
       <View style={styles.circleDiv}>
         <View style={styles.singleCircleDiv}>
-          <Speedometer value={200} />
-          <Speedometer value={200} />
-          <Speedometer value={200} />
+          <Speedometer value={parseInt(speedData, 10)} />
+          <View style={{height: 50}}></View>
+          <TemperatureMeterComponent
+            value={parseInt(engineTemperatureData, 10)}
+          />
+          <View style={{height: 50}}></View>
+          <RPMMeterComponent value={parseInt(RPMData, 10)} />
+          <View style={{height: 50}}></View>
         </View>
       </View>
-      <View style={styles.runDiagnosticContainer}>
-        <Text style={styles.basicText}>Speed : {speedData} km/h</Text>
-        <Text style={styles.basicText}>RPM : {RPMData}</Text>
-        <Text style={styles.basicText}>
-          Engine temperature : {engineTemperatureData} °C
-        </Text>
-      </View>
-      <View style={{height: 50}}></View>
+      {/*<View style={styles.runDiagnosticContainer}>*/}
+      {/*  <Text style={styles.basicText}>Speed : {speedData} km/h</Text>*/}
+      {/*  <Text style={styles.basicText}>RPM : {RPMData}</Text>*/}
+      {/*  <Text style={styles.basicText}>*/}
+      {/*    Engine temperature : {engineTemperatureData} °C*/}
+      {/*  </Text>*/}
+      {/*</View>*/}
       <Text style={styles.basicText}>Car VIM : {vinData}</Text>
       <Text style={styles.basicText}>Car Owner :</Text>
-      <View style={{height: 40}}></View>
+      <View style={{height: 10}}></View>
 
       <DoDiagnosticComponent
         setVinData={setVinData}
@@ -77,7 +82,7 @@ const DiagnosticScreen = ({navigation}) => {
         setEngineTemperatureData={setEngineTemperatureData}
         setRPMData={setRPMData}
       />
-      <LocalStorageComponent />
+      {/*<LocalStorageComponent />*/}
     </View>
   );
 };

@@ -1,5 +1,4 @@
 import React, {useState} from 'react';
-import axios from 'axios';
 import {
   Button,
   StyleSheet,
@@ -11,8 +10,7 @@ import {
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import TcpSocket from 'react-native-tcp-socket';
 
-import {BASE_URL} from '../config';
-import {OBD_URL} from '../config';
+import {BASE_URL, OBD_URL} from '../config';
 
 export async function getHelloFromBE() {
   const accessToken = await AsyncStorage.getItem('AccessToken');
@@ -61,6 +59,7 @@ function parseAndPrintSpeed(obdResponse) {
     console.log('Invalid or unrecognized OBD-II response:', obdResponse);
   }
 }
+
 function parseAndPrintRPM(obdResponse) {
   // Normalize the response and use a regular expression to find the RPM pattern
   const normalizedResponse = obdResponse.replace(/\s+/g, ' ').trim();
@@ -352,15 +351,15 @@ const LoginScreen = ({navigation}) => {
   return (
     <View style={styles.container}>
       <View style={styles.wrapper}>
-        <Button title="Get" onPress={getHelloFromBE} />
-        <Button title="ReadButtonVin" onPress={readDataFromOBDVIN} />
-        <Button title="ReadButtonSpeed" onPress={readDataFromOBDSpeed} />
-        <Button title="ReadButtonRPM" onPress={readDataFromOBDRPM} />
-        <Button title="ReadButtonTemperature" onPress={readDataFromOBDTemp} />
-        <Button
-          title="ReadButtonFuelLevel"
-          onPress={readDataFromOBDFuelLevel}
-        />
+        {/*<Button title="Get" onPress={getHelloFromBE} />*/}
+        {/*<Button title="ReadButtonVin" onPress={readDataFromOBDVIN} />*/}
+        {/*<Button title="ReadButtonSpeed" onPress={readDataFromOBDSpeed} />*/}
+        {/*<Button title="ReadButtonRPM" onPress={readDataFromOBDRPM} />*/}
+        {/*<Button title="ReadButtonTemperature" onPress={readDataFromOBDTemp} />*/}
+        {/*<Button*/}
+        {/*  title="ReadButtonFuelLevel"*/}
+        {/*  onPress={readDataFromOBDFuelLevel}*/}
+        {/*/>*/}
 
         <TextInput
           style={styles.input}

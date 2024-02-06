@@ -3,13 +3,13 @@ import {Animated, Easing, Image, Text, View} from 'react-native';
 import PropTypes from 'prop-types';
 
 // Utils
-import calculateDegreeFromLabels from './speedometer-utils/calculate-degree-from-labels';
-import calculateLabelFromValue from './speedometer-utils/calculate-label-from-value';
-import limitValue from './speedometer-utils/limit-value';
-import validateSize from './speedometer-utils/validate-size';
+import calculateDegreeFromLabels from './calculate-degree-from-labels';
+import calculateLabelFromValue from './calculate-label-from-value';
+import limitValue from './limit-value';
+import validateSize from './validate-size';
 
 // Style
-import style, {width as deviceWidth,} from './speedometer-utils/SpeedoMeyerStyles';
+import style, {width as deviceWidth} from './SpeedoMeyerStyles';
 
 // eslint-disable-next-line react/prefer-stateless-function
 class Speedometer extends Component {
@@ -58,7 +58,7 @@ class Speedometer extends Component {
       outputRange: ['-90deg', '90deg'],
     });
     console.log(size);
-    const currentSize = validateSize(size, deviceWidth / 1.3);
+    const currentSize = validateSize(size, deviceWidth / 1.7);
 
     return (
       <View
@@ -141,22 +141,22 @@ Speedometer.defaultProps = {
   allowedDecimals: 0,
   labels: [
     {
-      name: '300',
+      name: 'km/h',
       labelColor: '#CA3928',
       activeBarColor: '#CA3928',
     },
     {
-      name: '580',
+      name: 'km/h',
       labelColor: '#F89922',
       activeBarColor: '#F89922',
     },
     {
-      name: '670',
+      name: 'km/h',
       labelColor: '#f4ab44',
       activeBarColor: '#f4ab44',
     },
     {
-      name: '740',
+      name: 'km/h',
       labelColor: '#F2F31B',
       activeBarColor: '#F2F31B',
     },
@@ -166,12 +166,12 @@ Speedometer.defaultProps = {
       activeBarColor: '#A6CE39',
     },
     {
-      name: '850',
+      name: 'km/h',
       labelColor: '#4EB748',
       activeBarColor: '#4EB748',
     },
   ],
-  needleImage: require('../components/speedometer-utils/speedometer-needle.png'),
+  needleImage: require('./speedometer-needle.png'),
   wrapperStyle: {},
   outerCircleStyle: {},
   halfCircleStyle: {},
