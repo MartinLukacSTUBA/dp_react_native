@@ -3,6 +3,7 @@ import {StyleSheet} from 'react-native';
 export const myTextStyles = StyleSheet.create({
   basicText: {
     fontSize: 16,
+    padding: 2,
     fontFamily: 'Arial, sans-serif',
     color: '#333', // Text color
   },

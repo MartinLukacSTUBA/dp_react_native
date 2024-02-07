@@ -7,7 +7,10 @@ import {
   readDataFromOBDThrottlePosition,
   readDataFromOBDVIN,
 } from '../functions/OBDUtils';
-import {Button, View} from 'react-native';
+import {StyleSheet, Text, TouchableOpacity, View} from 'react-native';
+import {myButtonStyles} from '../styles/myButtonStyles';
+import {myTextStyles} from '../styles/myTextStyles';
+import React from 'react';
 
 const DoDiagnosticComponent = ({
   setVinData,
@@ -75,10 +78,22 @@ const DoDiagnosticComponent = ({
   };
 
   return (
-    <View>
-      <Button title="DO DIAGNOSTIC" onPress={diagnosticData} />
+    <View style={styles.bottomButton}>
+      <TouchableOpacity
+        style={myButtonStyles.basicButton}
+        onPress={diagnosticData}>
+        <Text style={myTextStyles.basicText}>DO DIAGNOSTIC</Text>
+      </TouchableOpacity>
     </View>
   );
 };
+
+const styles = StyleSheet.create({
+  bottomButton: {
+    bottom: 0,
+    width: '10%',
+    alignItems: 'center',
+  },
+});
 
 export default DoDiagnosticComponent;

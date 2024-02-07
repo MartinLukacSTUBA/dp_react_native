@@ -2,6 +2,7 @@ import React, {useEffect, useState} from 'react';
 import {Text, View} from 'react-native';
 import {BASE_URL} from '../config';
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import {myTextStyles} from '../styles/myTextStyles';
 
 const NameComponent = () => {
   const [name, setName] = useState('');
@@ -50,7 +51,7 @@ const NameComponent = () => {
   return (
     <View>
       {/* Display the name fetched from backend */}
-      <Text>{name || 'Loading...'}</Text>
+      <Text style={myTextStyles.basicText}>{name || 'Loading...'}</Text>
     </View>
   );
 };

@@ -1,5 +1,6 @@
 import React from 'react';
 import {Text, View} from 'react-native';
+import {myTextStyles} from '../styles/myTextStyles';
 
 const DateComponent = () => {
   const currentDate = new Date();
@@ -18,7 +19,7 @@ const DateComponent = () => {
 
   return (
     <View>
-      <Text>{formattedDate}</Text>
+      <Text style={myTextStyles.basicText}>{formattedDate}</Text>
     </View>
   );
 };
