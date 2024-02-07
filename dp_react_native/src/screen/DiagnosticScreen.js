@@ -8,6 +8,8 @@ import DoDiagnosticComponent from '../components/DoDiagnosticComponent';
 import Speedometer from '../components/speedometer-utils/SpeedometerComponent';
 import TemperatureMeterComponent from '../components/speedometer-utils/TemperatureMeterComponent';
 import RPMMeterComponent from '../components/speedometer-utils/RPMMeterComponent';
+import TableThrottleEngineLoadFuelPressure from '../components/TableComponent/TableThrottleEngineLoadFuelPressure';
+import {myViewStyles} from '../styles/myViewStyles';
 
 const DiagnosticScreen = ({navigation}) => {
   const [vinData, setVinData] = useState('');
@@ -53,8 +55,13 @@ const DiagnosticScreen = ({navigation}) => {
           <DateComponent />
         </View>
       </View>
-      <View style={styles.wrapper}></View>
-      <View style={styles.carInfoContainer}></View>
+      <View style={styles.wrapper}>
+        <Text>A</Text>
+      </View>
+      <View style={styles.carInfoContainer}>
+        <Text> </Text>
+      </View>
+
       <View style={styles.circleDiv}>
         <View style={styles.singleCircleDiv}>
           <Speedometer value={parseInt(speedData, 10)} />
@@ -79,9 +86,22 @@ const DiagnosticScreen = ({navigation}) => {
       <Text style={styles.basicText}>Car Owner :</Text>*/}
       <View style={{height: 10}}></View>
       <View>
-        <Text>Throttle position : {throttlePosition} %</Text>
-        <Text>Engine load : {engineLoad} % </Text>
-        <Text>Fuel pressure : {fuelPressure} kPa</Text>
+        <View style={myViewStyles.centerContainer}>
+          <TableThrottleEngineLoadFuelPressure
+            throttlePosition={throttlePosition}
+            engineLoad={engineLoad}
+            fuelPressure={fuelPressure}
+          />
+          {/*<Text style={myTextStyles.basicText}>*/}
+          {/*  Throttle position : {throttlePosition} %*/}
+          {/*</Text>*/}
+          {/*<Text style={myTextStyles.basicText}>*/}
+          {/*  Engine load : {engineLoad} %{' '}*/}
+          {/*</Text>*/}
+          {/*<Text style={myTextStyles.basicText}>*/}
+          {/*  Fuel pressure : {fuelPressure} kPa*/}
+          {/*</Text>*/}
+        </View>
       </View>
       <DoDiagnosticComponent
         setVinData={setVinData}
