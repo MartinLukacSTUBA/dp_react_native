@@ -58,7 +58,7 @@ class TemperatureMeterComponent extends Component {
       outputRange: ['-90deg', '90deg'],
     });
     console.log(size);
-    const currentSize = validateSize(size, deviceWidth / 1.7);
+    const currentSize = validateSize(size, deviceWidth / 2);
 
     return (
       <View

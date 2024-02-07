@@ -1,5 +1,5 @@
 export const BASE_URL = 'https://2ae2-213-81-199-22.ngrok-free.app';
 export const OBD_URL = {
-  host: '0.tcp.eu.ngrok.io',
-  port: 10706,
+  host: '5.tcp.eu.ngrok.io',
+  port: 11146,
 };

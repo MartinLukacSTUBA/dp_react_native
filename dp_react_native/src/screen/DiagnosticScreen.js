@@ -14,6 +14,9 @@ const DiagnosticScreen = ({navigation}) => {
   const [speedData, setSpeedData] = useState('');
   const [engineTemperatureData, setEngineTemperatureData] = useState('');
   const [RPMData, setRPMData] = useState('');
+  const [throttlePosition, setThrottlePosition] = useState('');
+  const [engineLoad, setEngineLoad] = useState('');
+  const [fuelPressure, setFuelPressure] = useState('');
   const LoginScreenNavigation = () => {
     navigation.navigate(LoginScreen); // Replace 'Screen2' with the name of the second screen.
   };
@@ -50,7 +53,6 @@ const DiagnosticScreen = ({navigation}) => {
           <DateComponent />
         </View>
       </View>
-
       <View style={styles.wrapper}></View>
       <View style={styles.carInfoContainer}></View>
       <View style={styles.circleDiv}>
@@ -72,15 +74,31 @@ const DiagnosticScreen = ({navigation}) => {
       {/*    Engine temperature : {engineTemperatureData} °C*/}
       {/*  </Text>*/}
       {/*</View>*/}
-      <Text style={styles.basicText}>Car VIM : {vinData}</Text>
-      <Text style={styles.basicText}>Car Owner :</Text>
-      <View style={{height: 10}}></View>
 
+      {/*<Text style={styles.basicText}>Car VIM : {vinData}</Text>
+      <Text style={styles.basicText}>Car Owner :</Text>*/}
+      <View style={{height: 10}}></View>
+      <View>
+        <Text>Throttle position : {throttlePosition} %</Text>
+        <Text>Engine load : {engineLoad} % </Text>
+        <Text>Fuel pressure : {fuelPressure} kPa</Text>
+      </View>
       <DoDiagnosticComponent
         setVinData={setVinData}
         setSpeedData={setSpeedData}
         setEngineTemperatureData={setEngineTemperatureData}
         setRPMData={setRPMData}
+        setThrottlePosition={value => {
+          if (value !== null && !isNaN(value)) {
+            setThrottlePosition(value);
+          }
+        }} // throttle position nejak cudne ide
+        setEngineLoad={value => {
+          if (value !== null && !isNaN(value)) {
+            setEngineLoad(value);
+          }
+        }}
+        setFuelPressure={setFuelPressure}
       />
       {/*<LocalStorageComponent />*/}
     </View>
