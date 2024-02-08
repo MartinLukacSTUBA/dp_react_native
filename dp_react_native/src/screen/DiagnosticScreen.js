@@ -80,26 +80,24 @@ const DiagnosticScreen = ({navigation}) => {
           fuelPressure={fuelPressure}
         />
       </View>
-
-      <View style={myViewStyles.centerContainer}>
-        <DoDiagnosticComponent
-          setVinData={setVinData}
-          setSpeedData={setSpeedData}
-          setEngineTemperatureData={setEngineTemperatureData}
-          setRPMData={setRPMData}
-          setThrottlePosition={value => {
-            if (value !== null && !isNaN(value)) {
-              setThrottlePosition(value);
-            }
-          }} // throttle position nejak cudne ide
-          setEngineLoad={value => {
-            if (value !== null && !isNaN(value)) {
-              setEngineLoad(value);
-            }
-          }}
-          setFuelPressure={setFuelPressure}
-        />
-      </View>
+      <View style={myViewStyles.centerContainer}></View>
+      <DoDiagnosticComponent
+        setVinData={setVinData}
+        setSpeedData={setSpeedData}
+        setEngineTemperatureData={setEngineTemperatureData}
+        setRPMData={setRPMData}
+        setThrottlePosition={value => {
+          if (value !== null && !isNaN(value)) {
+            setThrottlePosition(value);
+          }
+        }} // throttle position nejak cudne ide
+        setEngineLoad={value => {
+          if (value !== null && !isNaN(value)) {
+            setEngineLoad(value);
+          }
+        }}
+        setFuelPressure={setFuelPressure}
+      />
       {/*<LocalStorageComponent />*/}
     </View>
   );

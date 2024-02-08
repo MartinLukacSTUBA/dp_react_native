@@ -10,7 +10,7 @@ import {
 import {StyleSheet, Text, TouchableOpacity, View} from 'react-native';
 import {myButtonStyles} from '../styles/myButtonStyles';
 import {myTextStyles} from '../styles/myTextStyles';
-import React from 'react';
+import React, {useEffect, useState} from 'react';
 
 const DoDiagnosticComponent = ({
   setVinData,
@@ -21,6 +21,28 @@ const DoDiagnosticComponent = ({
   setEngineLoad,
   setFuelPressure,
 }) => {
+  const [isRunning, setIsRunning] = useState(false);
+  const [buttonText, setButtonText] = useState('DO DIAGNOSTIC');
+  const [showModal, setShowModal] = useState(false); // State to control the visibility of the modal
+
+  useEffect(() => {
+    if (isRunning) {
+      const intervalId = setInterval(diagnosticData, 3000);
+
+      return () => clearInterval(intervalId);
+    }
+  }, [isRunning]);
+
+  const startDiagnostic = () => {
+    setIsRunning(true);
+    setButtonText('END LIVE DATA SAVE');
+  };
+
+  const stopDiagnostic = () => {
+    setIsRunning(false);
+    setButtonText('DO LIVE DIAGNOSTIC');
+  };
+
   const diagnosticData = async () => {
     try {
       const vin = await readDataFromOBDVIN();
@@ -77,12 +99,20 @@ const DoDiagnosticComponent = ({
     }
   };
 
+  const handleButtonPress = () => {
+    if (isRunning) {
+      stopDiagnostic();
+    } else {
+      startDiagnostic();
+    }
+  };
+
   return (
     <View style={styles.bottomButton}>
       <TouchableOpacity
         style={myButtonStyles.basicButton}
-        onPress={diagnosticData}>
-        <Text style={myTextStyles.basicText}>DO DIAGNOSTIC</Text>
+        onPress={handleButtonPress}>
+        <Text style={myTextStyles.basicText}>{buttonText}</Text>
       </TouchableOpacity>
     </View>
   );
@@ -90,9 +120,13 @@ const DoDiagnosticComponent = ({
 
 const styles = StyleSheet.create({
   bottomButton: {
-    bottom: 0,
-    width: '10%',
-    alignItems: 'center',
+    position: 'absolute',
+    right: '20%',
+    left: '20%',
+    bottom: '2%',
+    width: '60%', // Take full width of the parent
+    justifyContent: 'center', // Center vertically
+    alignItems: 'center', // Center horizontally
   },
 });
 

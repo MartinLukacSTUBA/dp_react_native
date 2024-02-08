@@ -1,6 +1,12 @@
 # dp_react_native
 
 Rozbehanie simulatora
+necessary applications
+EP xposing
+https://theboroer.github.io/localtunnel-www/
+https://ngrok.com/
+github repo ELM
+https://github.com/Ircama/ELM327-emulator
 
 1. in folder where is emulator run python -m elm -s car -n 35005
 2. open ngrok and run ngrok tcp 35005
@@ -8,7 +14,7 @@ Rozbehanie simulatora
 4. npm start
 5. a
 6. run BE
-7. run in another cmd openport 8080
+7. run in another cmd lt --port 8080
 8. go to provided link
 9. send request to url
 

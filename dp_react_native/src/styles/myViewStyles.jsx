@@ -11,7 +11,7 @@ export const myViewStyles = StyleSheet.create({
     paddingHorizontal: 0, // Add padding as needed
     marginTop: 0,
     width: '100%', // Ensure it spans the entire width
-    height: '20%',
+    height: '15%',
     backgroundColor: MY_GRAY, // Background color for the header
   },
   centerContainer: {

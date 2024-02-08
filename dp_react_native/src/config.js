@@ -1,7 +1,7 @@
-export const BASE_URL = 'https://2ae2-213-81-199-22.ngrok-free.app';
+export const BASE_URL = 'https://gentle-parrots-joke.loca.lt';
 export const OBD_URL = {
-  host: '7.tcp.eu.ngrok.io',
-  port: 13779,
+  host: '5.tcp.eu.ngrok.io',
+  port: 12489,
 };
 
 export const MY_GRAY = '#818589';
