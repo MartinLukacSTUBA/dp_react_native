@@ -110,11 +110,24 @@ const DoDiagnosticComponent = ({
         }),
       });
 
-      const data = await response.json(); // Parse response body as JSON
-
-      console.log('Response:', data); // Print response data
+      console.log('DATAAAAAAAAAAA RESPONSU ', response.status);
+      if (response.status === 200) {
+        // If response status is 200 (OK)
+        // Provide feedback to the user that the operation was successful
+        console.log('Live diagnostic data saved successfully');
+        // You can display a notification, message, or update UI accordingly
+      } else {
+        // If response status is not 200 (OK), handle other status codes here
+        console.error(
+          'Error while saving live diagnostic data. Status:',
+          response.status,
+        );
+        // You can provide appropriate error handling or user feedback for other status codes
+      }
     } catch (error) {
       console.error('Error while saving live diagnostic data:', error);
+      // Handle other errors such as network issues or server unreachable
+      // You can provide appropriate error handling or user feedback for these errors
     }
   };
 
