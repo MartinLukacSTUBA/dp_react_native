@@ -1,7 +1,7 @@
-export const BASE_URL = 'https://tough-beers-kiss.loca.lt';
+export const BASE_URL = 'https://cool-webs-like.loca.lt';
 export const OBD_URL = {
-  host: '5.tcp.eu.ngrok.io',
-  port: 19576,
+  host: '7.tcp.eu.ngrok.io',
+  port: 15865,
 };
 
 export const MY_GRAY = '#818589';

@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useState} from 'react';
 import {StyleSheet, Text, TouchableOpacity, View} from 'react-native';
 import DateComponent from '../components/DateComponent';
 import NameComponent from '../components/NameComponent';
@@ -18,6 +18,18 @@ const CreateAndAssignCarsScreen = ({navigation}) => {
   const MyCarHistoryScreen = () => {
     navigation.navigate(MyCarHistoryScreen);
   };
+
+  const [VIM, setVIM] = useState('');
+  const [yearOfPurchase, setYearOfPurchase] = useState('');
+  const [type, setType] = useState(''); //sedan suv truck
+  const [transmittionType, setTransmittionType] = useState(''); // Manual or automatic
+  const [owner, setOwner] = useState('');
+  const [vehicleNumberPlate, setVehicleNumberPlate] = useState('');
+  const [registrationDate, setRegistrationDate] = useState('');
+  const [registrationExpiration, setRegistrationExpiration] = useState('');
+  const [serviceHistory, setServiceHistory] = useState('');
+  const [accidentHistory, setAccidentHistory] = useState('');
+  const [note, setNote] = useState('');
 
   return (
     <View style={myViewStyles.mainContainer}>
@@ -52,6 +64,8 @@ const CreateAndAssignCarsScreen = ({navigation}) => {
 
       <View style={myViewStyles.middleView}>
         <Text style={myTextStyles.bigText}>List of all cars </Text>
+
+        <Text>{VIM}</Text>
         {/*<Speedometer value={parseInt(speedData, 10)} />*/}
         <View style={{height: 50}}></View>
         {/*<TemperatureMeterComponent*/}
@@ -70,49 +84,22 @@ const CreateAndAssignCarsScreen = ({navigation}) => {
 };
 
 const styles = StyleSheet.create({
-  container: {
+  rowContainer: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    marginBottom: 10,
+  },
+  label: {
+    width: '40%',
+    textAlign: 'right',
+    marginRight: 10,
+  },
+  textInput: {
     flex: 1,
-    backgroundColor: 'pink',
-  },
-  headerContainer: {
-    // Add styles for your header container
-    flexDirection: 'row', // You can adjust this layout as needed
-    paddingHorizontal: 0, // Add padding as needed
-    marginTop: 2,
-    width: '100%', // Ensure it spans the entire width
-    backgroundColor: 'lightblue', // Background color for the header
-  },
-  dateContainer: {
-    padding: 10,
-    backgroundColor: 'grey', // Background color for the header
-  },
-  nameContainer: {
-    padding: 10,
-    backgroundColor: 'brown',
-    position: 'absolute',
-    right: 10,
-  },
-  carInfoContainer: {
-    backgroundColor: 'yellow',
-    marginTop: '20%',
-  },
-  measuredContainer: {
-    backgroundColor: '#00ffff',
-    marginTop: '40%',
-    textAlign: 'center',
-  },
-  wrapper: {
-    width: '80%',
-  },
-  input: {
-    marginBottom: 12,
+    borderColor: 'gray',
     borderWidth: 1,
-    borderColor: '#bbb',
-    borderRadius: 5,
-    paddingHorizontal: 14,
-  },
-  link: {
-    color: 'blue',
+    borderRadius: 10,
+    padding: 8,
   },
 });
 
