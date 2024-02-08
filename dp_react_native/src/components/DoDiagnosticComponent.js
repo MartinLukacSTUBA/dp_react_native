@@ -110,10 +110,7 @@ const DoDiagnosticComponent = ({
         }),
       });
 
-      console.log('DATAAAAAAAAAAA RESPONSU ', response.status);
       if (response.status === 200) {
-        // If response status is 200 (OK)
-        // Provide feedback to the user that the operation was successful
         console.log('Live diagnostic data saved successfully');
         // You can display a notification, message, or update UI accordingly
       } else {

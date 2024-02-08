@@ -29,7 +29,7 @@ export const myViewStyles = StyleSheet.create({
     position: 'absolute',
     right: 10,
   },
-  circleMeters: {
+  middleView: {
     width: '100%',
     backgroundColor: 'white',
   },

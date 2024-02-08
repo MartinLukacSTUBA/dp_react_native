@@ -1,7 +1,6 @@
 import {createDrawerNavigator} from '@react-navigation/drawer';
-import ReportProblemScreen from '../screen/ReportProblemScreen';
 import LoginScreen from '../screen/LoginScreen';
-import {NavigationContainer} from '@react-navigation/native';
+
 const Drawer = createDrawerNavigator();
 
 const DrawerNavigation = () => {

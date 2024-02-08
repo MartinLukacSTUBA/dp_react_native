@@ -3,7 +3,6 @@ import {Text, TouchableOpacity, View} from 'react-native';
 import DateComponent from '../components/DateComponent';
 import NameComponent from '../components/NameComponent';
 import LoginScreen from './LoginScreen';
-import DiagnosticsDataScreen from './DiagnosticsDataScreen';
 import Speedometer from '../components/speedometer-utils/SpeedometerComponent';
 import TemperatureMeterComponent from '../components/speedometer-utils/TemperatureMeterComponent';
 import RPMMeterComponent from '../components/speedometer-utils/RPMMeterComponent';
@@ -24,11 +23,11 @@ const DiagnosticScreen = ({navigation}) => {
   const LoginScreenNavigation = () => {
     navigation.navigate(LoginScreen); // Replace 'Screen2' with the name of the second screen.
   };
-  const DiagnosticsDataScreenNavigation = () => {
-    navigation.navigate(DiagnosticsDataScreen);
+  const MyCarHistoryScreen = () => {
+    navigation.navigate(MyCarHistoryScreen);
   };
-  const ReportProblemScreen = () => {
-    navigation.navigate(ReportProblemScreen);
+  const CreateAndAssignCarsScreen = () => {
+    navigation.navigate(CreateAndAssignCarsScreen);
   };
 
   return (
@@ -43,16 +42,16 @@ const DiagnosticScreen = ({navigation}) => {
 
           <TouchableOpacity
             style={myButtonStyles.basicButton}
-            onPress={DiagnosticsDataScreenNavigation}>
-            <Text style={myTextStyles.basicText}>
-              DiagnosticsDataScreenNavigation
-            </Text>
+            onPress={MyCarHistoryScreen}>
+            <Text style={myTextStyles.basicText}>MyCarHistoryScreen</Text>
           </TouchableOpacity>
 
           <TouchableOpacity
             style={myButtonStyles.basicButton}
-            onPress={ReportProblemScreen}>
-            <Text style={myTextStyles.basicText}>ReportProblemScreen</Text>
+            onPress={CreateAndAssignCarsScreen}>
+            <Text style={myTextStyles.basicText}>
+              CreateAndAssignCarsScreen
+            </Text>
           </TouchableOpacity>
         </View>
 
@@ -62,7 +61,7 @@ const DiagnosticScreen = ({navigation}) => {
         </View>
       </View>
 
-      <View style={myViewStyles.circleMeters}>
+      <View style={myViewStyles.middleView}>
         <Speedometer value={parseInt(speedData, 10)} />
         <View style={{height: 50}}></View>
         <TemperatureMeterComponent

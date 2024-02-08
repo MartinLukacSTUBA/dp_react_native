@@ -1,13 +1,13 @@
 import React from 'react';
 import {createNativeStackNavigator} from '@react-navigation/native-stack';
-import UserDiagnostics from '../screen/DiagnosticsDataScreen';
-import DiagnosticsDataScreen from '../screen/DiagnosticsDataScreen';
+import UserDiagnostics from '../screen/MyCarHistoryScreen';
+import MyCarHistoryScreen from '../screen/MyCarHistoryScreen';
 import LoginScreen from '../screen/LoginScreen';
 import RegisterScreen from '../screen/RegisterScreen';
 import {NavigationContainer} from '@react-navigation/native';
 import ShiftScreen from '../screen/ShiftScreen';
 import DiagnosticScreen from '../screen/DiagnosticScreen';
-import ReportProblemScreen from '../screen/ReportProblemScreen';
+import CreateAndAssignCarsScreen from '../screen/CreateAndAssignCarsScreen';
 import BluetoothScreen from '../screen/BluetoothScreen';
 
 const Stack = createNativeStackNavigator();
@@ -37,13 +37,13 @@ const Navigation = () => {
           options={{headerShown: false}}
         />
         <Stack.Screen
-          name={'DiagnosticsDataScreen'}
-          component={DiagnosticsDataScreen}
+          name={'MyCarHistoryScreen'}
+          component={MyCarHistoryScreen}
           options={{headerShown: false}}
         />
         <Stack.Screen
-          name={'ReportProblemScreen'}
-          component={ReportProblemScreen}
+          name={'CreateAndAssignCarsScreen'}
+          component={CreateAndAssignCarsScreen}
           options={{headerShown: false}}
         />
         <Stack.Screen
