@@ -7,10 +7,12 @@ import {
   readDataFromOBDThrottlePosition,
   readDataFromOBDVIN,
 } from '../functions/OBDUtils';
-import {StyleSheet, Text, TouchableOpacity, View} from 'react-native';
+import {Text, TouchableOpacity, View} from 'react-native';
 import {myButtonStyles} from '../styles/myButtonStyles';
 import {myTextStyles} from '../styles/myTextStyles';
 import React, {useEffect, useState} from 'react';
+import {BASE_URL} from '../config';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 const DoDiagnosticComponent = ({
   setVinData,
@@ -23,11 +25,16 @@ const DoDiagnosticComponent = ({
 }) => {
   const [isRunning, setIsRunning] = useState(false);
   const [buttonText, setButtonText] = useState('DO DIAGNOSTIC');
-  const [showModal, setShowModal] = useState(false); // State to control the visibility of the modal
+  const [speedValues, setSpeedValues] = useState([]);
+  const [rpmValues, setRpmValues] = useState([]);
+  const [engineTemperatureValues, setEngineTemperatureValues] = useState([]);
+  const [throttlePositionValues, setThrottlePositionValues] = useState([]);
+  const [engineLoadValues, setEngineLoadValues] = useState([]);
+  const [fuelPressureValues, setFuelPressureValues] = useState([]);
 
   useEffect(() => {
     if (isRunning) {
-      const intervalId = setInterval(diagnosticData, 3000);
+      const intervalId = setInterval(diagnosticData, 300);
 
       return () => clearInterval(intervalId);
     }
@@ -43,6 +50,74 @@ const DoDiagnosticComponent = ({
     setButtonText('DO LIVE DIAGNOSTIC');
   };
 
+  const calculateAverage = values => {
+    const sum = values.reduce((acc, curr) => acc + curr, 0);
+    return sum / values.length;
+  };
+
+  const calculateAverageValues = () => {
+    const averageSpeed = calculateAverage(speedValues);
+    const averageRpm = calculateAverage(rpmValues);
+    const averageEngineTemperature = calculateAverage(engineTemperatureValues);
+    const averageThrottlePosition = calculateAverage(throttlePositionValues);
+    const averageEngineLoad = calculateAverage(engineLoadValues);
+    const averageFuelPressure = calculateAverage(fuelPressureValues);
+
+    // Optionally, you can update state or perform other actions with the averages
+    console.log('Average Speed:', averageSpeed);
+    console.log('Average RPM:', averageRpm);
+    console.log('Average Engine Temperature:', averageEngineTemperature);
+    console.log('Average Throttle Position:', averageThrottlePosition);
+    console.log('Average Engine Load:', averageEngineLoad);
+    console.log('Average Fuel Pressure:', averageFuelPressure);
+    return {
+      averageSpeed,
+      averageRpm,
+      averageEngineTemperature,
+      averageThrottlePosition,
+      averageEngineLoad,
+      averageFuelPressure,
+    };
+  };
+
+  const saveLiveDiagnosticToDb = async (
+    averageSpeed,
+    averageRpm,
+    averageEngineTemperature,
+    averageThrottlePosition,
+    averageEngineLoad,
+    averageFuelPressure,
+  ) => {
+    const url = `${BASE_URL}/api/v1/car-diagnostic`;
+    const accessToken = await AsyncStorage.getItem('AccessToken');
+    console.log(accessToken);
+
+    try {
+      const response = await fetch(url, {
+        method: 'POST',
+        headers: {
+          Accept: 'application/json',
+          'Content-Type': 'application/json',
+          Authorization: `Bearer ${accessToken}`,
+        },
+        body: JSON.stringify({
+          averageSpeed: averageSpeed,
+          averageRpm: averageRpm,
+          averageEngineTemperature: averageEngineTemperature,
+          averageThrottlePosition: averageThrottlePosition,
+          averageEngineLoad: averageEngineLoad,
+          averageFuelPressure: averageFuelPressure,
+        }),
+      });
+
+      const data = await response.json(); // Parse response body as JSON
+
+      console.log('Response:', data); // Print response data
+    } catch (error) {
+      console.error('Error while saving live diagnostic data:', error);
+    }
+  };
+
   const diagnosticData = async () => {
     try {
       const vin = await readDataFromOBDVIN();
@@ -53,18 +128,21 @@ const DoDiagnosticComponent = ({
       console.log('diagnosticData Speed Data:', speed);
       if (speed != null) {
         setSpeedData(speed); // Update state in parent component
+        setSpeedValues(prev => [...prev, speed]);
       }
 
       const RPM = await readDataFromOBDRPM();
       console.log('diagnosticData RPM Data: ', RPM);
       if (RPM != null) {
         setRPMData(RPM);
+        setRpmValues(prev => [...prev, RPM]);
       }
 
       const engineTemperature = await readDataFromOBDEngineTemperature();
       console.log('diagnosticData Engine temperature Data:', engineTemperature);
       if (engineTemperature != null) {
         setEngineTemperatureData(engineTemperature);
+        setEngineTemperatureValues(prev => [...prev, engineTemperature]);
       }
 
       const throttlePosition = await readDataFromOBDThrottlePosition();
@@ -73,8 +151,9 @@ const DoDiagnosticComponent = ({
       // Check if throttlePosition is not null and not NaN
       if (throttlePosition !== null && !isNaN(throttlePosition)) {
         setThrottlePosition(throttlePosition);
+        setThrottlePositionValues(prev => [...prev, throttlePosition]);
       } else {
-        console.warn('Invalid throttle position data received COMPONENT');
+        //console.warn('Invalid throttle position data received COMPONENT');
         // Optionally, you can set a default value or handle the error here
       }
 
@@ -82,6 +161,7 @@ const DoDiagnosticComponent = ({
       console.log('diagnosticData Engine load Data:', engineLoad);
       if (engineLoad != null || !isNaN(engineLoad)) {
         setEngineLoad(engineLoad);
+        setEngineLoadValues(prev => [...prev, engineLoad]);
       }
 
       const fuelPressure = await readDataFromOBDFuelPressure();
@@ -90,8 +170,9 @@ const DoDiagnosticComponent = ({
       // Check if fuelPressure is not null and not NaN
       if (fuelPressure !== null && !isNaN(fuelPressure)) {
         setFuelPressure(fuelPressure);
+        setFuelPressureValues(prev => [...prev, fuelPressure]);
       } else {
-        console.warn('Invalid fuelPressure  data received COMPONENT');
+        //console.warn('Invalid fuelPressure  data received COMPONENT');
         // Optionally, you can set a default value or handle the error here
       }
     } catch (error) {
@@ -99,16 +180,50 @@ const DoDiagnosticComponent = ({
     }
   };
 
-  const handleButtonPress = () => {
+  const handleButtonPress = async () => {
+    let averageValues;
+
     if (isRunning) {
       stopDiagnostic();
+      averageValues = calculateAverageValues(); // Get average values
+      // Call saveLiveDiagnosticToDb with average diagnostic data
+      try {
+        if (isNaN(averageValues.averageSpeed)) {
+          averageValues.averageSpeed = 0;
+        }
+        if (isNaN(averageValues.averageRpm)) {
+          averageValues.averageRpm = 0;
+        }
+        if (isNaN(averageValues.averageEngineTemperature)) {
+          averageValues.averageEngineTemperature = 0;
+        }
+        if (isNaN(averageValues.averageThrottlePosition)) {
+          averageValues.averageThrottlePosition = 0;
+        }
+        if (isNaN(averageValues.averageEngineLoad)) {
+          averageValues.averageEngineLoad = 0;
+        }
+        if (isNaN(averageValues.averageFuelPressure)) {
+          averageValues.averageFuelPressure = 0;
+        }
+        await saveLiveDiagnosticToDb(
+          averageValues.averageSpeed,
+          averageValues.averageRpm,
+          averageValues.averageEngineTemperature,
+          averageValues.averageThrottlePosition,
+          averageValues.averageEngineLoad,
+          averageValues.averageFuelPressure,
+        );
+      } catch (error) {
+        console.error('Error while saving live diagnostic data:', error);
+      }
     } else {
       startDiagnostic();
     }
   };
 
   return (
-    <View style={styles.bottomButton}>
+    <View style={myButtonStyles.bottomButton}>
       <TouchableOpacity
         style={myButtonStyles.basicButton}
         onPress={handleButtonPress}>
@@ -117,17 +232,5 @@ const DoDiagnosticComponent = ({
     </View>
   );
 };
-
-const styles = StyleSheet.create({
-  bottomButton: {
-    position: 'absolute',
-    right: '20%',
-    left: '20%',
-    bottom: '2%',
-    width: '60%', // Take full width of the parent
-    justifyContent: 'center', // Center vertically
-    alignItems: 'center', // Center horizontally
-  },
-});
 
 export default DoDiagnosticComponent;

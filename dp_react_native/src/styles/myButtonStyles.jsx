@@ -9,4 +9,13 @@ export const myButtonStyles = StyleSheet.create({
     alignItems: 'center',
     backgroundColor: '#DDDDDD',
   },
+  bottomButton: {
+    position: 'absolute',
+    right: '20%',
+    left: '20%',
+    bottom: '2%',
+    width: '60%', // Take full width of the parent
+    justifyContent: 'center', // Center vertically
+    alignItems: 'center', // Center horizontally
+  },
 });
