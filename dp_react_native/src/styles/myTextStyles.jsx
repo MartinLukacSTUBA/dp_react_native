@@ -16,7 +16,7 @@ export const myTextStyles = StyleSheet.create({
   bigText: {
     fontSize: 22,
     fontFamily: 'Arial, sans-serif',
-    color: '#333', // Text color
-    textAlign: 'center', // Align text in the center horizontally}
+    color: '#333',
+    textAlign: 'center',
   },
 });

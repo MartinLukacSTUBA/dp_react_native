@@ -7,6 +7,7 @@ import DiagnosticScreen from './DiagnosticScreen';
 import {myViewStyles} from '../styles/myViewStyles';
 import {myButtonStyles} from '../styles/myButtonStyles';
 import {myTextStyles} from '../styles/myTextStyles';
+import CreateCarComponent from '../components/CreateCarComponent';
 
 const CreateAndAssignCarsScreen = ({navigation}) => {
   const LoginScreenNavigation = () => {
@@ -19,7 +20,14 @@ const CreateAndAssignCarsScreen = ({navigation}) => {
     navigation.navigate(MyCarHistoryScreen);
   };
 
+  const [showCreateCar, setShowCreateCar] = useState(false); // State to toggle rendering of CreateCarComponent
+
+  const handleToggleCreateCar = () => {
+    setShowCreateCar(prevState => !prevState); // Toggle the state value
+  };
+
   const [VIM, setVIM] = useState('');
+  const [name, setName] = useState('');
   const [yearOfPurchase, setYearOfPurchase] = useState('');
   const [type, setType] = useState(''); //sedan suv truck
   const [transmittionType, setTransmittionType] = useState(''); // Manual or automatic
@@ -28,7 +36,6 @@ const CreateAndAssignCarsScreen = ({navigation}) => {
   const [registrationDate, setRegistrationDate] = useState('');
   const [registrationExpiration, setRegistrationExpiration] = useState('');
   const [serviceHistory, setServiceHistory] = useState('');
-  const [accidentHistory, setAccidentHistory] = useState('');
   const [note, setNote] = useState('');
 
   return (
@@ -63,11 +70,36 @@ const CreateAndAssignCarsScreen = ({navigation}) => {
       </View>
 
       <View style={myViewStyles.middleView}>
-        <Text style={myTextStyles.bigText}>List of all cars </Text>
+        <View style={styles.rowContainer}>
+          <Text style={myTextStyles.bigText}>List of all cars </Text>
+          <TouchableOpacity onPress={handleToggleCreateCar}>
+            <Text style={myTextStyles.bigText}>
+              {showCreateCar ? '-' : '+'}
+            </Text>
+          </TouchableOpacity>
+        </View>
 
-        <Text>{VIM}</Text>
+        {showCreateCar && (
+          <CreateCarComponent
+            setVIM={setVIM}
+            setName={setName}
+            setYearOfPurchase={setYearOfPurchase}
+            setType={setType}
+            setTransmittionType={setTransmittionType}
+            setOwner={setOwner}
+            setVehicleNumberPlate={setVehicleNumberPlate}
+            setRegistrationDate={setRegistrationDate}
+            setRegistrationExpiration={setRegistrationExpiration}
+            setServiceHistory={setServiceHistory}
+            setNote={setNote}
+          />
+        )}
+
         {/*<Speedometer value={parseInt(speedData, 10)} />*/}
-        <View style={{height: 50}}></View>
+        <View style={{height: 25}}></View>
+        <View>
+          <Text>HEre will be cars from db</Text>
+        </View>
         {/*<TemperatureMeterComponent*/}
         {/*// value={parseInt(engineTemperatureData, 10)}*/}
         {/*/>*/}
@@ -85,9 +117,11 @@ const CreateAndAssignCarsScreen = ({navigation}) => {
 
 const styles = StyleSheet.create({
   rowContainer: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    marginBottom: 10,
+    flexDirection: 'row', // Arrange children horizontally
+    alignItems: 'center', // Center children vertically
+    justifyContent: 'space-between', // Distribute children evenly along the row
+    paddingHorizontal: 16, // Add horizontal padding for spacing
+    marginBottom: 10, // Add bottom margin for spacing
   },
   label: {
     width: '40%',

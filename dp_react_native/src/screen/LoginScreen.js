@@ -495,18 +495,18 @@ const LoginScreen = ({navigation}) => {
         {/*<Button title="Get" onPress={getHelloFromBE} />*/}
         {/*<Button title="ReadButtonVin" onPress={readDataFromOBDVIN} />*/}
         <Button title="ReadButtonSpeed" onPress={readDataFromOBDSpeed} />
-        <Button
-          title="ReadButtonZatazenieMotora"
-          onPress={readDataFromOBDEngineLoad}
-        />
-        <Button
-          title="ReadButtonTlakPaliva"
-          onPress={readDataFromOBDFuelPressure}
-        />
-        <Button
-          title="ReadButtonPolohaškrtiacejKlapky"
-          onPress={readDataFromOBDThrottlePosition}
-        />
+        {/*<Button*/}
+        {/*  title="ReadButtonZatazenieMotora"*/}
+        {/*  onPress={readDataFromOBDEngineLoad}*/}
+        {/*/>*/}
+        {/*<Button*/}
+        {/*  title="ReadButtonTlakPaliva"*/}
+        {/*  onPress={readDataFromOBDFuelPressure}*/}
+        {/*/>*/}
+        {/*<Button*/}
+        {/*  title="ReadButtonPolohaškrtiacejKlapky"*/}
+        {/*  onPress={readDataFromOBDThrottlePosition}*/}
+        {/*/>*/}
 
         {/*<Button title="ReadButtonRPM" onPress={readDataFromOBDRPM} />*/}
         {/*<Button title="ReadButtonTemperature" onPress={readDataFromOBDTemp} />*/}
