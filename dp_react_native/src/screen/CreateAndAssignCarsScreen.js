@@ -46,18 +46,6 @@ const CreateAndAssignCarsScreen = ({navigation}) => {
     });
   }, [navigation]); // Add navigation as a dependency
 
-  const [VIM, setVIM] = useState('');
-  const [name, setName] = useState('');
-  const [type, setType] = useState(''); //sedan suv truck
-  const [transmittionType, setTransmittionType] = useState(''); // Manual or automatic
-  const [currentUser, setCurrentUser] = useState('');
-  const [vehicleNumberPlate, setVehicleNumberPlate] = useState('');
-  const [registrationDate, setRegistrationDate] = useState('');
-  const [registrationExpiration, setRegistrationExpiration] = useState('');
-  const [serviceHistory, setServiceHistory] = useState('');
-  const [note, setNote] = useState('');
-  const [fuel, setFuel] = useState('');
-
   const getCars = async () => {
     const accessToken = await AsyncStorage.getItem('AccessToken');
     console.log(accessToken);
@@ -130,21 +118,7 @@ const CreateAndAssignCarsScreen = ({navigation}) => {
           </TouchableOpacity>
         </View>
 
-        {showCreateCar && (
-          <CreateCarComponent
-            setVIM={setVIM}
-            setName={setName}
-            setType={setType}
-            setTransmittionType={setTransmittionType}
-            setOwner={setCurrentUser}
-            setVehicleNumberPlate={setVehicleNumberPlate}
-            setRegistrationDate={setRegistrationDate}
-            setRegistrationExpiration={setRegistrationExpiration}
-            setServiceHistory={setServiceHistory}
-            setFuel={setFuel}
-            setNote={setNote}
-          />
-        )}
+        {showCreateCar && <CreateCarComponent />}
 
         <View style={{height: 25}}></View>
         <View>
