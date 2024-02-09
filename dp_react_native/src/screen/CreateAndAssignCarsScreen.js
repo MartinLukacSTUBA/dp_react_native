@@ -10,7 +10,8 @@ import {myTextStyles} from '../styles/myTextStyles';
 import CreateCarComponent from '../components/CreateCarComponent';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import {BASE_URL} from '../config';
-import InfoHoverComponent from '../components/informationHover/InfoHoverComponent';
+import InfoHoverComponent from '../components/CarsComponent/InfoHoverComponent';
+import DeleteCarComponent from '../components/CarsComponent/DeleteCarComponent';
 
 /**
  * Represents a Car object received from the backend.
@@ -34,13 +35,16 @@ const CreateAndAssignCarsScreen = ({navigation}) => {
   const [showCreateCar, setShowCreateCar] = useState(false);
   const [carsData, setCarsData] = useState([]); // State to store fetched cars data
 
-  useEffect(() => {
-    getCars(); // Fetch cars data when component mounts
-  }, []);
-
   const handleToggleCreateCar = () => {
     setShowCreateCar(prevState => !prevState); // Toggle the state value
   };
+
+  useEffect(() => {
+    return navigation.addListener('focus', () => {
+      // Fetch cars data when the screen gains focus (navigated to)
+      getCars();
+    });
+  }, [navigation]); // Add navigation as a dependency
 
   const [VIM, setVIM] = useState('');
   const [name, setName] = useState('');
@@ -152,7 +156,7 @@ const CreateAndAssignCarsScreen = ({navigation}) => {
                 <Text>{car.name}</Text>
                 <Text>{car.vehicleNumberPlate}</Text>
                 <InfoHoverComponent carId={car.id} />
-                <Text>De</Text>
+                <DeleteCarComponent carId={car.id} onDelete={() => getCars()} />
               </View>
             </View>
           ))}

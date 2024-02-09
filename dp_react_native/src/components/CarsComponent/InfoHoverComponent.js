@@ -93,21 +93,70 @@ const InfoHoverComponent = ({carId}) => {
             {responseData && (
               <View style={styles.responseContainer}>
                 <Text style={styles.responseText}>Car Information:</Text>
-                <Text>VIM: {responseData.vim}</Text>
-                <Text>Name: {responseData.carName}</Text>
-                <Text>Car Type: {responseData.carType}</Text>
-                <Text>Transmission Type: {responseData.transmissionType}</Text>
-                <Text>User Name: {responseData.userName}</Text>
-                <Text>
-                  Vehicle Number Plate: {responseData.vehicleNumberPlate}
-                </Text>
-                <Text>Registration: {responseData.registration}</Text>
-                <Text>
-                  Registration Expiration: {responseData.registrationExpiration}
-                </Text>
-                <Text>Last Service: {responseData.lastService}</Text>
-                <Text>Fuel: {responseData.fuel}</Text>
-                <Text>Note: {responseData.note}</Text>
+                <View style={styles.tableRow}>
+                  <Text style={styles.tableCellLabel}>VIM:</Text>
+                  <Text style={styles.tableCellValue}>{responseData.vim}</Text>
+                </View>
+                <View style={styles.tableRow}>
+                  <Text style={styles.tableCellLabel}>Name:</Text>
+                  <Text style={styles.tableCellValue}>
+                    {responseData.carName}
+                  </Text>
+                </View>
+                <View style={styles.tableRow}>
+                  <Text style={styles.tableCellLabel}>Car Type:</Text>
+                  <Text style={styles.tableCellValue}>
+                    {responseData.carType}
+                  </Text>
+                </View>
+                <View style={styles.tableRow}>
+                  <Text style={styles.tableCellLabel}>Transmission Type:</Text>
+                  <Text style={styles.tableCellValue}>
+                    {responseData.transmissionType}
+                  </Text>
+                </View>
+                <View style={styles.tableRow}>
+                  <Text style={styles.tableCellLabel}>User Name:</Text>
+                  <Text style={styles.tableCellValue}>
+                    {responseData.userName}
+                  </Text>
+                </View>
+                <View style={styles.tableRow}>
+                  <Text style={styles.tableCellLabel}>
+                    Vehicle Number Plate:
+                  </Text>
+                  <Text style={styles.tableCellValue}>
+                    {responseData.vehicleNumberPlate}
+                  </Text>
+                </View>
+                <View style={styles.tableRow}>
+                  <Text style={styles.tableCellLabel}>Registration:</Text>
+                  <Text style={styles.tableCellValue}>
+                    {responseData.registration}
+                  </Text>
+                </View>
+                <View style={styles.tableRow}>
+                  <Text style={styles.tableCellLabel}>
+                    Registration Expiration:
+                  </Text>
+                  <Text style={styles.tableCellValue}>
+                    {responseData.registrationExpiration}
+                  </Text>
+                </View>
+                <View style={styles.tableRow}>
+                  <Text style={styles.tableCellLabel}>Last Service:</Text>
+                  <Text style={styles.tableCellValue}>
+                    {responseData.lastService}
+                  </Text>
+                </View>
+                <View style={styles.tableRow}>
+                  <Text style={styles.tableCellLabel}>Fuel:</Text>
+                  <Text style={styles.tableCellValue}>{responseData.fuel}</Text>
+                </View>
+                <View style={styles.tableRow}>
+                  <Text style={styles.tableCellLabel}>Note:</Text>
+                  <Text style={styles.tableCellValue}>{responseData.note}</Text>
+                </View>
               </View>
             )}
             <TouchableOpacity style={styles.closeButton} onPress={handleClose}>
@@ -126,8 +175,8 @@ const styles = StyleSheet.create({
     borderRadius: 5,
   },
   tinyJpg: {
-    width: 15,
-    height: 15,
+    width: 20,
+    height: 20,
   },
   text: {
     fontSize: 16,
@@ -135,12 +184,18 @@ const styles = StyleSheet.create({
   responseContainer: {
     marginTop: 10,
     backgroundColor: 'white',
+    width: '80%',
     padding: 10,
     borderRadius: 5,
   },
-  responseText: {
+  additionalInfoText: {
     fontSize: 16,
+  },
+
+  responseText: {
+    fontSize: 18,
     alignItems: 'center',
+    textAlign: 'center',
     position: 'relative',
     fontWeight: 'bold',
     marginBottom: 5,
@@ -149,9 +204,23 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: 'center',
     alignItems: 'center',
-    width: '30',
     backgroundColor: 'rgba(0, 0, 0, 0.5)',
     padding: 20,
+  },
+
+  tableRow: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    marginBottom: 5,
+  },
+
+  tableCellLabel: {
+    fontWeight: 'bold',
+  },
+
+  tableCellValue: {
+    flex: 1,
+    marginLeft: 10,
   },
 });
 
