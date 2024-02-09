@@ -17,12 +17,7 @@ const InfoHoverComponent = ({carId}) => {
   const fetchCarInfoDetails = async id => {
     try {
       const accessToken = await AsyncStorage.getItem('AccessToken');
-      console.log(accessToken);
       const url = `${BASE_URL}/api/v1/car/details/${id}`;
-      // Construct the equivalent curl command
-      const curlCommand = `curl -X GET "${url}" -H "Authorization: Bearer ${accessToken}"`;
-      console.log(curlCommand); // Log the curl command to the console
-      console.log();
       const response = await fetch(url, {
         method: 'GET',
         headers: {
@@ -33,25 +28,46 @@ const InfoHoverComponent = ({carId}) => {
       if (!response.ok) {
         throw new Error(`HTTP Error! Status: ${response.status}`);
       }
-      const data = await response.json(); // Parse the response as JSON
-      console.log('Data received:', data); // Log the data for debugging
-      return data;
+      const data = await response.json();
+      return mapResponseToObject(data);
     } catch (error) {
       console.error('Fetch error:', error);
-      throw error; // Rethrow the error to handle it in the calling function
+      throw error;
     }
   };
 
+  const mapResponseToObject = responseData => {
+    if (!responseData) {
+      throw new Error('Response data is null or undefined');
+    }
+    return {
+      carId: responseData.id,
+      vim: responseData.vim,
+      carName: responseData.name,
+      carType: responseData.carTypeEnum,
+      transmissionType: responseData.transmittionTypeEnum,
+      userName: responseData.userName,
+      vehicleNumberPlate: responseData.vehicleNumberPlate,
+      registration: responseData.registration,
+      registrationExpiration: responseData.registration_expiration,
+      lastService: responseData.lastService,
+      fuel: responseData.fuel,
+      note: responseData.note,
+    };
+  };
+
   const handleClick = async () => {
-    // Toggle the view
-    setIsViewOpen(prevState => !prevState);
-    setResponseData(await fetchCarInfoDetails(carId));
-    console.log('Clicked on car with id:', carId);
-    console.log('clicked');
+    try {
+      setIsViewOpen(prevState => !prevState);
+      const data = await fetchCarInfoDetails(carId);
+      setResponseData(data);
+    } catch (error) {
+      // Handle error gracefully, e.g., display an error message
+      console.error('Handle error:', error);
+    }
   };
 
   const handleClose = () => {
-    // Close the view
     setIsViewOpen(false);
     setResponseData(null);
   };
@@ -69,8 +85,20 @@ const InfoHoverComponent = ({carId}) => {
         </TouchableOpacity>
         {isViewOpen && responseData && (
           <View style={styles.responseContainer}>
-            <Text style={styles.responseText}>Response Data:</Text>
-            <Text>{JSON.stringify(responseData, null, 2)}</Text>
+            <Text style={styles.responseText}>Car Information:</Text>
+            <Text>VIM: {responseData.vim}</Text>
+            <Text>Name: {responseData.carName}</Text>
+            <Text>Car Type: {responseData.carType}</Text>
+            <Text>Transmission Type: {responseData.transmissionType}</Text>
+            <Text>User Name: {responseData.userName}</Text>
+            <Text>Vehicle Number Plate: {responseData.vehicleNumberPlate}</Text>
+            <Text>Registration: {responseData.registration}</Text>
+            <Text>
+              Registration Expiration: {responseData.registrationExpiration}
+            </Text>
+            <Text>Last Service: {responseData.lastService}</Text>
+            <Text>Fuel: {responseData.fuel}</Text>
+            <Text>Note: {responseData.note}</Text>
           </View>
         )}
       </View>
@@ -92,12 +120,14 @@ const styles = StyleSheet.create({
   },
   responseContainer: {
     marginTop: 10,
-    backgroundColor: 'white',
+    backgroundColor: 'magenta',
     padding: 10,
     borderRadius: 5,
   },
   responseText: {
     fontSize: 16,
+    alignItems: 'center',
+    position: 'relative',
     fontWeight: 'bold',
     marginBottom: 5,
   },
