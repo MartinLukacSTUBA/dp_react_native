@@ -6,8 +6,6 @@ const CreateCarComponent = ({
   setVIM,
   name,
   setName,
-  yearOfPurchase,
-  setYearOfPurchase,
   type,
   setType,
   transmittionType,
@@ -22,6 +20,8 @@ const CreateCarComponent = ({
   setRegistrationExpiration,
   serviceHistory,
   setServiceHistory,
+  fuel,
+  setFuel,
   note,
   setNote,
 }) => {
@@ -38,13 +38,6 @@ const CreateCarComponent = ({
         value={name}
         onChangeText={setName}
         placeholder="Enter name"
-      />
-      <InputField
-        label="Year of Purchase:"
-        value={yearOfPurchase}
-        onChangeText={setYearOfPurchase}
-        placeholder="Enter year of purchase"
-        keyboardType="numeric"
       />
       <InputField
         label="Type (Sedan, SUV, Truck):"
@@ -87,6 +80,12 @@ const CreateCarComponent = ({
         value={serviceHistory}
         onChangeText={setServiceHistory}
         placeholder="Enter service history"
+      />
+      <InputField
+        label="Fuel:"
+        value={fuel}
+        onChangeText={setFuel}
+        placeholder="Enter FUEL"
       />
       <InputField
         label="Note:"

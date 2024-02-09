@@ -1,4 +1,4 @@
-export const BASE_URL = 'https://cuddly-clubs-see.loca.lt';
+export const BASE_URL = 'https://grumpy-jeans-drum.loca.lt';
 export const OBD_URL = {
   host: '4.tcp.eu.ngrok.io',
   port: 12284,

@@ -10,14 +10,14 @@ import {myTextStyles} from '../styles/myTextStyles';
 import CreateCarComponent from '../components/CreateCarComponent';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import {BASE_URL} from '../config';
-import {string} from 'prop-types';
+import InfoHoverComponent from '../components/informationHover/InfoHoverComponent';
 
 /**
+ * Represents a Car object received from the backend.
  * @typedef {Object} Car
- * @property {string} id - The ID of the car.
- * @property {string} fuel
- * @property {boolean} companyCar - Indicates if the car is a company car.
- * Add other properties here as needed.
+ * @property {number} id - The ID of the car.
+ * @property {string} name - The name of the car.
+ * @property {string} vehicleNumberPlate - The vehicle number plate of the car.
  */
 
 const CreateAndAssignCarsScreen = ({navigation}) => {
@@ -44,20 +44,20 @@ const CreateAndAssignCarsScreen = ({navigation}) => {
 
   const [VIM, setVIM] = useState('');
   const [name, setName] = useState('');
-  const [yearOfPurchase, setYearOfPurchase] = useState('');
   const [type, setType] = useState(''); //sedan suv truck
   const [transmittionType, setTransmittionType] = useState(''); // Manual or automatic
-  const [owner, setOwner] = useState('');
+  const [currentUser, setCurrentUser] = useState('');
   const [vehicleNumberPlate, setVehicleNumberPlate] = useState('');
   const [registrationDate, setRegistrationDate] = useState('');
   const [registrationExpiration, setRegistrationExpiration] = useState('');
   const [serviceHistory, setServiceHistory] = useState('');
   const [note, setNote] = useState('');
+  const [fuel, setFuel] = useState('');
 
   const getCars = async () => {
     const accessToken = await AsyncStorage.getItem('AccessToken');
     console.log(accessToken);
-    const url = `${BASE_URL}/api/v1/car`;
+    const url = `${BASE_URL}/api/v1/car/all-basic-info`;
     // Construct the equivalent curl command
     const curlCommand = `curl -X GET "${url}" -H "Authorization: Bearer ${accessToken}"`;
     console.log(curlCommand); // Log the curl command to the console
@@ -130,46 +130,38 @@ const CreateAndAssignCarsScreen = ({navigation}) => {
           <CreateCarComponent
             setVIM={setVIM}
             setName={setName}
-            setYearOfPurchase={setYearOfPurchase}
             setType={setType}
             setTransmittionType={setTransmittionType}
-            setOwner={setOwner}
+            setOwner={setCurrentUser}
             setVehicleNumberPlate={setVehicleNumberPlate}
             setRegistrationDate={setRegistrationDate}
             setRegistrationExpiration={setRegistrationExpiration}
             setServiceHistory={setServiceHistory}
+            setFuel={setFuel}
             setNote={setNote}
           />
         )}
 
-        {/*<Speedometer value={parseInt(speedData, 10)} />*/}
         <View style={{height: 25}}></View>
         <View>
-          <View>
-            <Text>List of all cars:</Text>
-            {carsData.map(car => (
-              <View key={car.id}>
-                <Text>ID: {car.id}</Text>
-                <Text>Fuel:{car.fuel}</Text>
-                <Text>Company Car: {car.companyCar}</Text>
-                {/* Render other car properties similarly */}
+          <Text>List of all cars:</Text>
+          {carsData.map(car => (
+            <View key={car.id}>
+              <View style={styles.rowContainer}>
+                <Text>{car.id}</Text>
+                <Text>{car.name}</Text>
+                <Text>{car.vehicleNumberPlate}</Text>
+                <InfoHoverComponent carId={car.id} />
+                <Text>De</Text>
               </View>
-            ))}
-          </View>
-
-          {/*HERE I WANT PRINTED ALL DATA FROM GETCARS*/}
+            </View>
+          ))}
         </View>
-        {/*<TemperatureMeterComponent*/}
-        {/*// value={parseInt(engineTemperatureData, 10)}*/}
-        {/*/>*/}
         <View style={{height: 50}}></View>
-        {/*<RPMMeterComponent value={parseInt(RPMData, 10)} />*/}
         <View style={{height: 50}}></View>
       </View>
-
       <View style={myViewStyles.centerContainer}></View>
       <View style={myViewStyles.centerContainer}></View>
-      {/*<LocalStorageComponent />*/}
     </View>
   );
 };
