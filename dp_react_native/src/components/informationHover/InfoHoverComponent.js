@@ -1,6 +1,7 @@
 import React, {useState} from 'react';
 import {
   Image,
+  Modal,
   StyleSheet,
   Text,
   TouchableOpacity,
@@ -13,6 +14,7 @@ import {BASE_URL} from '../../config';
 const InfoHoverComponent = ({carId}) => {
   const [responseData, setResponseData] = useState(null);
   const [isViewOpen, setIsViewOpen] = useState(false);
+  const [isModalVisible, setIsModalVisible] = useState(false);
 
   const fetchCarInfoDetails = async id => {
     try {
@@ -60,6 +62,7 @@ const InfoHoverComponent = ({carId}) => {
     try {
       setIsViewOpen(prevState => !prevState);
       const data = await fetchCarInfoDetails(carId);
+      setIsModalVisible(true);
       setResponseData(data);
     } catch (error) {
       // Handle error gracefully, e.g., display an error message
@@ -68,41 +71,52 @@ const InfoHoverComponent = ({carId}) => {
   };
 
   const handleClose = () => {
+    // Close the modal
     setIsViewOpen(false);
+    setIsModalVisible(false);
     setResponseData(null);
   };
 
   return (
-    <TouchableWithoutFeedback onPress={handleClose}>
-      <View style={styles.container}>
-        <TouchableOpacity onPress={handleClick}>
-          <View>
-            <Image
-              style={styles.tinyJpg}
-              source={require('../images/informations.png')}
-            />
+    <View style={styles.container}>
+      <TouchableOpacity onPress={handleClick}>
+        <View>
+          <Image
+            style={styles.tinyJpg}
+            source={require('../images/informations.png')}
+          />
+        </View>
+      </TouchableOpacity>
+      <Modal visible={isModalVisible} transparent={true} animationType="slide">
+        <TouchableWithoutFeedback onPress={handleClose}>
+          <View style={styles.modalContainer}>
+            {responseData && (
+              <View style={styles.responseContainer}>
+                <Text style={styles.responseText}>Car Information:</Text>
+                <Text>VIM: {responseData.vim}</Text>
+                <Text>Name: {responseData.carName}</Text>
+                <Text>Car Type: {responseData.carType}</Text>
+                <Text>Transmission Type: {responseData.transmissionType}</Text>
+                <Text>User Name: {responseData.userName}</Text>
+                <Text>
+                  Vehicle Number Plate: {responseData.vehicleNumberPlate}
+                </Text>
+                <Text>Registration: {responseData.registration}</Text>
+                <Text>
+                  Registration Expiration: {responseData.registrationExpiration}
+                </Text>
+                <Text>Last Service: {responseData.lastService}</Text>
+                <Text>Fuel: {responseData.fuel}</Text>
+                <Text>Note: {responseData.note}</Text>
+              </View>
+            )}
+            <TouchableOpacity style={styles.closeButton} onPress={handleClose}>
+              <Text>Close</Text>
+            </TouchableOpacity>
           </View>
-        </TouchableOpacity>
-        {isViewOpen && responseData && (
-          <View style={styles.responseContainer}>
-            <Text style={styles.responseText}>Car Information:</Text>
-            <Text>VIM: {responseData.vim}</Text>
-            <Text>Name: {responseData.carName}</Text>
-            <Text>Car Type: {responseData.carType}</Text>
-            <Text>Transmission Type: {responseData.transmissionType}</Text>
-            <Text>User Name: {responseData.userName}</Text>
-            <Text>Vehicle Number Plate: {responseData.vehicleNumberPlate}</Text>
-            <Text>Registration: {responseData.registration}</Text>
-            <Text>
-              Registration Expiration: {responseData.registrationExpiration}
-            </Text>
-            <Text>Last Service: {responseData.lastService}</Text>
-            <Text>Fuel: {responseData.fuel}</Text>
-            <Text>Note: {responseData.note}</Text>
-          </View>
-        )}
-      </View>
-    </TouchableWithoutFeedback>
+        </TouchableWithoutFeedback>
+      </Modal>
+    </View>
   );
 };
 
@@ -120,7 +134,7 @@ const styles = StyleSheet.create({
   },
   responseContainer: {
     marginTop: 10,
-    backgroundColor: 'magenta',
+    backgroundColor: 'white',
     padding: 10,
     borderRadius: 5,
   },
@@ -130,6 +144,14 @@ const styles = StyleSheet.create({
     position: 'relative',
     fontWeight: 'bold',
     marginBottom: 5,
+  },
+  modalContainer: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+    width: '30',
+    backgroundColor: 'rgba(0, 0, 0, 0.5)',
+    padding: 20,
   },
 });
 
