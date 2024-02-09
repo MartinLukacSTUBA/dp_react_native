@@ -1,7 +1,7 @@
-export const BASE_URL = 'https://five-apes-bet.loca.lt';
+export const BASE_URL = 'https://cuddly-clubs-see.loca.lt';
 export const OBD_URL = {
-  host: '7.tcp.eu.ngrok.io',
-  port: 15865,
+  host: '4.tcp.eu.ngrok.io',
+  port: 12284,
 };
 
 export const MY_GRAY = '#818589';

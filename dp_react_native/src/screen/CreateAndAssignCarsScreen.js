@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import {StyleSheet, Text, TouchableOpacity, View} from 'react-native';
 import DateComponent from '../components/DateComponent';
 import NameComponent from '../components/NameComponent';
@@ -8,6 +8,17 @@ import {myViewStyles} from '../styles/myViewStyles';
 import {myButtonStyles} from '../styles/myButtonStyles';
 import {myTextStyles} from '../styles/myTextStyles';
 import CreateCarComponent from '../components/CreateCarComponent';
+import AsyncStorage from '@react-native-async-storage/async-storage';
+import {BASE_URL} from '../config';
+import {string} from 'prop-types';
+
+/**
+ * @typedef {Object} Car
+ * @property {string} id - The ID of the car.
+ * @property {string} fuel
+ * @property {boolean} companyCar - Indicates if the car is a company car.
+ * Add other properties here as needed.
+ */
 
 const CreateAndAssignCarsScreen = ({navigation}) => {
   const LoginScreenNavigation = () => {
@@ -20,7 +31,12 @@ const CreateAndAssignCarsScreen = ({navigation}) => {
     navigation.navigate(MyCarHistoryScreen);
   };
 
-  const [showCreateCar, setShowCreateCar] = useState(false); // State to toggle rendering of CreateCarComponent
+  const [showCreateCar, setShowCreateCar] = useState(false);
+  const [carsData, setCarsData] = useState([]); // State to store fetched cars data
+
+  useEffect(() => {
+    getCars(); // Fetch cars data when component mounts
+  }, []);
 
   const handleToggleCreateCar = () => {
     setShowCreateCar(prevState => !prevState); // Toggle the state value
@@ -37,6 +53,37 @@ const CreateAndAssignCarsScreen = ({navigation}) => {
   const [registrationExpiration, setRegistrationExpiration] = useState('');
   const [serviceHistory, setServiceHistory] = useState('');
   const [note, setNote] = useState('');
+
+  const getCars = async () => {
+    const accessToken = await AsyncStorage.getItem('AccessToken');
+    console.log(accessToken);
+    const url = `${BASE_URL}/api/v1/car`;
+    // Construct the equivalent curl command
+    const curlCommand = `curl -X GET "${url}" -H "Authorization: Bearer ${accessToken}"`;
+    console.log(curlCommand); // Log the curl command to the console
+    console.log();
+    fetch(url, {
+      method: 'GET',
+      headers: {
+        Authorization: `Bearer ${accessToken}`,
+        'Content-Type': 'application/json',
+      },
+    })
+      .then(res => {
+        if (!res.ok) {
+          throw new Error(`HTTP Error! Status: ${res.status}`);
+        }
+        return res.json(); // Parse the response as JSON
+      })
+      .then(data => {
+        console.log('Data received:', data); // Log the data for debugging
+        setCarsData(data); // Update state with fetched cars data
+        // Check if firstname and lastname properties exist
+      })
+      .catch(error => {
+        console.error('Fetch error:', error);
+      });
+  };
 
   return (
     <View style={myViewStyles.mainContainer}>
@@ -98,7 +145,19 @@ const CreateAndAssignCarsScreen = ({navigation}) => {
         {/*<Speedometer value={parseInt(speedData, 10)} />*/}
         <View style={{height: 25}}></View>
         <View>
-          <Text>HEre will be cars from db</Text>
+          <View>
+            <Text>List of all cars:</Text>
+            {carsData.map(car => (
+              <View key={car.id}>
+                <Text>ID: {car.id}</Text>
+                <Text>Fuel:{car.fuel}</Text>
+                <Text>Company Car: {car.companyCar}</Text>
+                {/* Render other car properties similarly */}
+              </View>
+            ))}
+          </View>
+
+          {/*HERE I WANT PRINTED ALL DATA FROM GETCARS*/}
         </View>
         {/*<TemperatureMeterComponent*/}
         {/*// value={parseInt(engineTemperatureData, 10)}*/}
