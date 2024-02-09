@@ -1,5 +1,5 @@
 import React, {useEffect, useState} from 'react';
-import {StyleSheet, Text, TouchableOpacity, View} from 'react-native';
+import {SafeAreaView, ScrollView, StyleSheet, Text, TouchableOpacity, View,} from 'react-native';
 import DateComponent from '../components/DateComponent';
 import NameComponent from '../components/NameComponent';
 import LoginScreen from './LoginScreen';
@@ -149,17 +149,24 @@ const CreateAndAssignCarsScreen = ({navigation}) => {
         <View style={{height: 25}}></View>
         <View>
           <Text>List of all cars:</Text>
-          {carsData.map(car => (
-            <View key={car.id}>
-              <View style={styles.rowContainer}>
-                <Text>{car.id}</Text>
-                <Text>{car.name}</Text>
-                <Text>{car.vehicleNumberPlate}</Text>
-                <InfoHoverComponent carId={car.id} />
-                <DeleteCarComponent carId={car.id} onDelete={() => getCars()} />
-              </View>
-            </View>
-          ))}
+          <SafeAreaView>
+            <ScrollView style={styles.scrollView}>
+              {carsData.map(car => (
+                <View key={car.id}>
+                  <View style={styles.rowContainer}>
+                    <Text>{car.id}</Text>
+                    <Text>{car.name}</Text>
+                    <Text>{car.vehicleNumberPlate}</Text>
+                    <InfoHoverComponent carId={car.id} />
+                    <DeleteCarComponent
+                      carId={car.id}
+                      onDelete={() => getCars()}
+                    />
+                  </View>
+                </View>
+              ))}
+            </ScrollView>
+          </SafeAreaView>
         </View>
         <View style={{height: 50}}></View>
         <View style={{height: 50}}></View>
@@ -190,6 +197,7 @@ const styles = StyleSheet.create({
     borderRadius: 10,
     padding: 8,
   },
+  scrollView: {height: 500},
 });
 
 export default CreateAndAssignCarsScreen;
