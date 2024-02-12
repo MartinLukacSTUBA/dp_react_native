@@ -7,11 +7,11 @@ import DiagnosticScreen from './DiagnosticScreen';
 import {myViewStyles} from '../styles/myViewStyles';
 import {myButtonStyles} from '../styles/myButtonStyles';
 import {myTextStyles} from '../styles/myTextStyles';
-import CreateCarComponent from '../components/CreateCarComponent';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import {BASE_URL} from '../config';
 import InfoHoverComponentUser from '../components/UserComponent/InfoHoverComponentUser';
 import DeleteUserComponent from '../components/UserComponent/DeleteUserComponent';
+import CreateUserComponent from '../components/UserComponent/CreateUserComponent';
 
 /**
  * Represents a Car object received from the backend.
@@ -39,8 +39,8 @@ const UsersScreen = ({navigation}) => {
   const [showCreateUser, setShowCreateUser] = useState(false);
   const [userData, setUserData] = useState([]); // State to store fetched cars data
 
-  const handleToggleCreateCar = () => {
-    showCreateUser(prevState => !prevState); // Toggle the state value
+  const handleToggleCreateUser = () => {
+    setShowCreateUser(prevState => !prevState); // Toggle the state value
   };
 
   useEffect(() => {
@@ -123,14 +123,14 @@ const UsersScreen = ({navigation}) => {
       <View style={myViewStyles.middleView}>
         <View style={styles.rowContainer}>
           <Text style={myTextStyles.bigText}>List of all users </Text>
-          <TouchableOpacity onPress={handleToggleCreateCar}>
+          <TouchableOpacity onPress={handleToggleCreateUser}>
             <Text style={myTextStyles.bigText}>
               {showCreateUser ? '-' : '+'}
             </Text>
           </TouchableOpacity>
         </View>
 
-        {showCreateUser && <CreateCarComponent />}
+        {showCreateUser && <CreateUserComponent />}
 
         <View style={{height: 25}}></View>
         <View>

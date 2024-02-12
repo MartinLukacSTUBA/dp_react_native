@@ -6,8 +6,8 @@ import {
   TouchableOpacity,
   View,
 } from 'react-native';
-import {myTextStyles} from '../styles/myTextStyles';
-import {BASE_URL} from '../config';
+import {myTextStyles} from '../../styles/myTextStyles';
+import {BASE_URL} from '../../config';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
 const CreateCarComponent = ({}) => {

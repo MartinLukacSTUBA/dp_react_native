@@ -7,7 +7,7 @@ import DiagnosticScreen from './DiagnosticScreen';
 import {myViewStyles} from '../styles/myViewStyles';
 import {myButtonStyles} from '../styles/myButtonStyles';
 import {myTextStyles} from '../styles/myTextStyles';
-import CreateCarComponent from '../components/CreateCarComponent';
+import CreateCarComponent from '../components/CarsComponent/CreateCarComponent';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import {BASE_URL} from '../config';
 import DeleteCarComponent from '../components/CarsComponent/DeleteCarComponent';
