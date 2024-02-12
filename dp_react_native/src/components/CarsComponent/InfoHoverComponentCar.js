@@ -11,7 +11,7 @@ import {
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import {BASE_URL} from '../../config';
 
-const InfoHoverComponent = ({carId}) => {
+const InfoHoverComponentCar = ({carId}) => {
   const [responseData, setResponseData] = useState(null);
   const [isViewOpen, setIsViewOpen] = useState(false);
   const [isModalVisible, setIsModalVisible] = useState(false);
@@ -224,4 +224,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default InfoHoverComponent;
+export default InfoHoverComponentCar;

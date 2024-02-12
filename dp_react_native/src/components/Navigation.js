@@ -8,7 +8,7 @@ import {NavigationContainer} from '@react-navigation/native';
 import ShiftScreen from '../screen/ShiftScreen';
 import DiagnosticScreen from '../screen/DiagnosticScreen';
 import CreateAndAssignCarsScreen from '../screen/CreateAndAssignCarsScreen';
-import BluetoothScreen from '../screen/BluetoothScreen';
+import UsersScreen from '../screen/UsersScreen';
 
 const Stack = createNativeStackNavigator();
 
@@ -47,8 +47,8 @@ const Navigation = () => {
           options={{headerShown: false}}
         />
         <Stack.Screen
-          name={'BluetoothScreen'}
-          component={BluetoothScreen}
+          name={'UsersScreen'}
+          component={UsersScreen}
           options={{headerShown: false}}
         />
         <Stack.Screen name="Home" component={UserDiagnostics} />

@@ -10,18 +10,18 @@ import {myTextStyles} from '../styles/myTextStyles';
 import CreateCarComponent from '../components/CreateCarComponent';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import {BASE_URL} from '../config';
-import DeleteCarComponent from '../components/CarsComponent/DeleteCarComponent';
-import InfoHoverComponentCar from '../components/CarsComponent/InfoHoverComponentCar';
+import InfoHoverComponentUser from '../components/UserComponent/InfoHoverComponentUser';
+import DeleteUserComponent from '../components/UserComponent/DeleteUserComponent';
 
 /**
  * Represents a Car object received from the backend.
- * @typedef {Object} Car
- * @property {number} id - The ID of the car.
- * @property {string} name - The name of the car.
- * @property {string} vehicleNumberPlate - The vehicle number plate of the car.
+ * @typedef {Object} User
+ * @property {number} id - The ID of the user.
+ * @property {string} lastname - The name of the user.
+ * @property {string} drivingLicense - The vehicle number plate of the user.
  */
 
-const CreateAndAssignCarsScreen = ({navigation}) => {
+const UsersScreen = ({navigation}) => {
   const LoginScreenNavigation = () => {
     navigation.navigate(LoginScreen); // Replace 'Screen2' with the name of the second screen.
   };
@@ -32,28 +32,28 @@ const CreateAndAssignCarsScreen = ({navigation}) => {
     navigation.navigate(MyCarHistoryScreen);
   };
 
-  const UsersScreen = () => {
-    navigation.navigate(UsersScreen);
+  const CreateAndAssignCarsScreen = () => {
+    navigation.navigate(CreateAndAssignCarsScreen);
   };
 
-  const [showCreateCar, setShowCreateCar] = useState(false);
-  const [carsData, setCarsData] = useState([]); // State to store fetched cars data
+  const [showCreateUser, setShowCreateUser] = useState(false);
+  const [userData, setUserData] = useState([]); // State to store fetched cars data
 
   const handleToggleCreateCar = () => {
-    setShowCreateCar(prevState => !prevState); // Toggle the state value
+    showCreateUser(prevState => !prevState); // Toggle the state value
   };
 
   useEffect(() => {
     return navigation.addListener('focus', () => {
       // Fetch cars data when the screen gains focus (navigated to)
-      getCars();
+      getUsers();
     });
   }, [navigation]); // Add navigation as a dependency
 
-  const getCars = async () => {
+  const getUsers = async () => {
     const accessToken = await AsyncStorage.getItem('AccessToken');
     console.log(accessToken);
-    const url = `${BASE_URL}/api/v1/car/all-basic-info`;
+    const url = `${BASE_URL}/api/v1/user/all-basic-info`;
     // Construct the equivalent curl command
     const curlCommand = `curl -X GET "${url}" -H "Authorization: Bearer ${accessToken}"`;
     console.log(curlCommand); // Log the curl command to the console
@@ -73,7 +73,7 @@ const CreateAndAssignCarsScreen = ({navigation}) => {
       })
       .then(data => {
         console.log('Data received:', data); // Log the data for debugging
-        setCarsData(data); // Update state with fetched cars data
+        setUserData(data); // Update state with fetched cars data
         // Check if firstname and lastname properties exist
       })
       .catch(error => {
@@ -107,8 +107,10 @@ const CreateAndAssignCarsScreen = ({navigation}) => {
 
           <TouchableOpacity
             style={myButtonStyles.basicButton}
-            onPress={UsersScreen}>
-            <Text style={myTextStyles.basicText}>UsersScreen</Text>
+            onPress={CreateAndAssignCarsScreen}>
+            <Text style={myTextStyles.basicText}>
+              CreateAndAssignCarsScreen
+            </Text>
           </TouchableOpacity>
         </View>
 
@@ -120,31 +122,32 @@ const CreateAndAssignCarsScreen = ({navigation}) => {
 
       <View style={myViewStyles.middleView}>
         <View style={styles.rowContainer}>
-          <Text style={myTextStyles.bigText}>List of all cars </Text>
+          <Text style={myTextStyles.bigText}>List of all users </Text>
           <TouchableOpacity onPress={handleToggleCreateCar}>
             <Text style={myTextStyles.bigText}>
-              {showCreateCar ? '-' : '+'}
+              {showCreateUser ? '-' : '+'}
             </Text>
           </TouchableOpacity>
         </View>
 
-        {showCreateCar && <CreateCarComponent />}
+        {showCreateUser && <CreateCarComponent />}
 
         <View style={{height: 25}}></View>
         <View>
-          <Text>List of all cars:</Text>
+          <Text>List of all users:</Text>
           <SafeAreaView>
             <ScrollView style={styles.scrollView}>
-              {carsData.map(car => (
-                <View key={car.id}>
+              {userData.map(user => (
+                <View key={user.id}>
                   <View style={styles.rowContainer}>
-                    <Text>{car.id}</Text>
-                    <Text>{car.name}</Text>
-                    <Text>{car.vehicleNumberPlate}</Text>
-                    <InfoHoverComponentCar carId={car.id} />
-                    <DeleteCarComponent
-                      carId={car.id}
-                      onDelete={() => getCars()}
+                    <Text>{user.id}</Text>
+                    <Text>{user.lastname}</Text>
+                    <Text>{user.drivingLicense}</Text>
+                    <InfoHoverComponentUser userId={user.id} />
+                    <Text>{user.id}</Text>
+                    <DeleteUserComponent
+                      userId={user.id}
+                      onDelete={() => getUsers()}
                     />
                   </View>
                 </View>
@@ -184,4 +187,4 @@ const styles = StyleSheet.create({
   scrollView: {height: 500},
 });
 
-export default CreateAndAssignCarsScreen;
+export default UsersScreen;

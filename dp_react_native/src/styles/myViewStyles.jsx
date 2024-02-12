@@ -20,7 +20,6 @@ export const myViewStyles = StyleSheet.create({
   },
   burgerMenuContainer: {
     width: '65%',
-    paddingTop: '5%',
     backgroundColor: MY_LIGHT_GRAY, // Background color for the header
   },
   nameContainer: {
