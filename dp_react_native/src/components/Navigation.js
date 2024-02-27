@@ -6,9 +6,9 @@ import LoginScreen from '../screen/LoginScreen';
 import RegisterScreen from '../screen/RegisterScreen';
 import {NavigationContainer} from '@react-navigation/native';
 import ShiftScreen from '../screen/ShiftScreen';
-import DiagnosticScreen from '../screen/DiagnosticScreen';
 import CreateAndAssignCarsScreen from '../screen/CreateAndAssignCarsScreen';
 import UsersScreen from '../screen/UsersScreen';
+import DiagnosticNavigation from './DiagnosticNavigation';
 
 const Stack = createNativeStackNavigator();
 
@@ -33,7 +33,7 @@ const Navigation = () => {
         />
         <Stack.Screen
           name="DiagnosticScreen"
-          component={DiagnosticScreen}
+          component={DiagnosticNavigation}
           options={{headerShown: false}}
         />
         <Stack.Screen
