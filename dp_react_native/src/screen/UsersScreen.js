@@ -1,11 +1,10 @@
 import React, {useEffect, useState} from 'react';
-import {SafeAreaView, ScrollView, StyleSheet, Text, TouchableOpacity, View,} from 'react-native';
+import {Image, SafeAreaView, ScrollView, StyleSheet, Text, TouchableOpacity, View,} from 'react-native';
 import DateComponent from '../components/DateComponent';
 import NameComponent from '../components/NameComponent';
 import LoginScreen from './LoginScreen';
 import DiagnosticScreen from './DiagnosticScreen';
 import {myViewStyles} from '../styles/myViewStyles';
-import {myButtonStyles} from '../styles/myButtonStyles';
 import {myTextStyles} from '../styles/myTextStyles';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import {BASE_URL} from '../config';
@@ -84,34 +83,12 @@ const UsersScreen = ({navigation}) => {
   return (
     <View style={myViewStyles.mainContainer}>
       <View style={myViewStyles.headerContainer}>
-        <View style={myViewStyles.burgerMenuContainer}>
-          <TouchableOpacity
-            style={myButtonStyles.basicButton}
-            onPress={LoginScreenNavigation}>
-            <Text style={myTextStyles.basicText}>LoginScreenNavigation</Text>
-          </TouchableOpacity>
-
-          <TouchableOpacity
-            style={myButtonStyles.basicButton}
-            onPress={DiagnosticScreenNavigation}>
-            <Text style={myTextStyles.basicText}>
-              DiagnosticScreenNavigation
-            </Text>
-          </TouchableOpacity>
-
-          <TouchableOpacity
-            style={myButtonStyles.basicButton}
-            onPress={MyCarHistoryScreen}>
-            <Text style={myTextStyles.basicText}>MyCarHistoryScreen</Text>
-          </TouchableOpacity>
-
-          <TouchableOpacity
-            style={myButtonStyles.basicButton}
-            onPress={CreateAndAssignCarsScreen}>
-            <Text style={myTextStyles.basicText}>
-              CreateAndAssignCarsScreen
-            </Text>
-          </TouchableOpacity>
+        <View style={myViewStyles.leftView}>
+          <Image
+            source={require('../images/usersBackgroundHeader.png')}
+            style={myViewStyles.imageHeader}
+            resizeMode="cover"
+          />
         </View>
 
         <View style={myViewStyles.nameContainer}>
@@ -188,3 +165,34 @@ const styles = StyleSheet.create({
 });
 
 export default UsersScreen;
+
+
+// <View style={myViewStyles.burgerMenuContainer}>
+//   <TouchableOpacity
+//       style={myButtonStyles.basicButton}
+//       onPress={LoginScreenNavigation}>
+//     <Text style={myTextStyles.basicText}>LoginScreenNavigation</Text>
+//   </TouchableOpacity>
+//
+//   <TouchableOpacity
+//       style={myButtonStyles.basicButton}
+//       onPress={DiagnosticScreenNavigation}>
+//     <Text style={myTextStyles.basicText}>
+//       DiagnosticScreenNavigation
+//     </Text>
+//   </TouchableOpacity>
+//
+//   <TouchableOpacity
+//       style={myButtonStyles.basicButton}
+//       onPress={MyCarHistoryScreen}>
+//     <Text style={myTextStyles.basicText}>MyCarHistoryScreen</Text>
+//   </TouchableOpacity>
+//
+//   <TouchableOpacity
+//       style={myButtonStyles.basicButton}
+//       onPress={CreateAndAssignCarsScreen}>
+//     <Text style={myTextStyles.basicText}>
+//       CreateAndAssignCarsScreen
+//     </Text>
+//   </TouchableOpacity>
+// </View>

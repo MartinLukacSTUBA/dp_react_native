@@ -20,8 +20,18 @@ const CreateUserComponent = ({}) => {
   const [position, setPosition] = useState('');
   const [drivingLicense, setDrivingLicense] = useState('');
 
-  const saveCar = async () => {
+  const saveUser = async () => {
     try {
+      console.log(
+        firstname,
+        lastname,
+        email,
+        role,
+        address,
+        phoneNumber,
+        position,
+        drivingLicense,
+      );
       const accessToken = await AsyncStorage.getItem('AccessToken');
       const url = `${BASE_URL}/api/v1/user`;
 
@@ -37,12 +47,9 @@ const CreateUserComponent = ({}) => {
           email: email,
           role: role,
           phoneNumber: phoneNumber,
-          vehicleNumberPlate: vehicleNumberPlate,
-          registration: registrationDate,
-          registration_expiration: registrationExpiration,
-          lastService: serviceHistory,
-          fuel: fuel,
-          note: note,
+          address: address,
+          position: position,
+          drivingLicense: drivingLicense,
         }),
       });
 
@@ -106,14 +113,14 @@ const CreateUserComponent = ({}) => {
       <InputField
         label="Driving license type:"
         value={drivingLicense}
-        onChangeText={setDrivingLicense()}
+        onChangeText={setDrivingLicense}
         placeholder="A/B/C/D"
       />
 
       <TouchableOpacity
         style={styles.basicButton}
         onPress={() =>
-          saveCar(
+          saveUser(
             firstname,
             lastname,
             email,

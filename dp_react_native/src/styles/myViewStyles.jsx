@@ -34,6 +34,9 @@ export const myViewStyles = StyleSheet.create({
     width: '100%',
     backgroundColor: 'white',
   },
+  leftView: {
+    width: '30%',
+  },
   imageHeader: {
     flex: 2,
     width: '100%',
