@@ -1,11 +1,10 @@
 import React from 'react';
-import {StyleSheet, Text, TouchableOpacity, View} from 'react-native';
+import {StyleSheet, Text, View} from 'react-native';
 import DateComponent from '../components/DateComponent';
 import NameComponent from '../components/NameComponent';
 import LoginScreen from './LoginScreen';
 import DiagnosticScreen from './DiagnosticScreen';
 import {myViewStyles} from '../styles/myViewStyles';
-import {myButtonStyles} from '../styles/myButtonStyles';
 import {myTextStyles} from '../styles/myTextStyles';
 
 const MyCarHistoryScreen = ({navigation}) => {
@@ -21,30 +20,6 @@ const MyCarHistoryScreen = ({navigation}) => {
   return (
     <View style={myViewStyles.mainContainer}>
       <View style={myViewStyles.headerContainer}>
-        <View style={myViewStyles.burgerMenuContainer}>
-          <TouchableOpacity
-            style={myButtonStyles.basicButton}
-            onPress={LoginScreenNavigation}>
-            <Text style={myTextStyles.basicText}>LoginScreenNavigation</Text>
-          </TouchableOpacity>
-
-          <TouchableOpacity
-            style={myButtonStyles.basicButton}
-            onPress={DiagnosticScreenNavigation}>
-            <Text style={myTextStyles.basicText}>
-              DiagnosticScreenNavigation
-            </Text>
-          </TouchableOpacity>
-
-          <TouchableOpacity
-            style={myButtonStyles.basicButton}
-            onPress={CreateAndAssignCarsScreen}>
-            <Text style={myTextStyles.basicText}>
-              CreateAndAssignCarsScreen
-            </Text>
-          </TouchableOpacity>
-        </View>
-
         <View style={myViewStyles.nameContainer}>
           <NameComponent />
           <DateComponent />

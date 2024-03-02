@@ -111,17 +111,17 @@ const UsersScreen = ({navigation}) => {
 
         <View style={{height: 25}}></View>
         <View>
-          <Text>List of all users:</Text>
           <SafeAreaView>
             <ScrollView style={styles.scrollView}>
               {userData.map(user => (
-                <View key={user.id}>
-                  <View style={styles.rowContainer}>
-                    <Text>{user.id}</Text>
-                    <Text>{user.lastname}</Text>
-                    <Text>{user.drivingLicense}</Text>
-                    <InfoHoverComponentUser userId={user.id} />
-                    <Text>{user.id}</Text>
+                <View key={user.id} style={styles.rowContainer}>
+                  <Text style={styles.idText}>{user.id}</Text>
+                  <Text style={styles.lastnameText}>{user.lastname}</Text>
+                  <Text style={styles.drivingLicenseText}>
+                    {user.drivingLicense}
+                  </Text>
+                  <InfoHoverComponentUser userId={user.id} />
+                  <View style={styles.deleteButton}>
                     <DeleteUserComponent
                       userId={user.id}
                       onDelete={() => getUsers()}
@@ -143,25 +143,31 @@ const UsersScreen = ({navigation}) => {
 
 const styles = StyleSheet.create({
   rowContainer: {
-    flexDirection: 'row', // Arrange children horizontally
-    alignItems: 'center', // Center children vertically
-    justifyContent: 'space-between', // Distribute children evenly along the row
-    paddingHorizontal: 16, // Add horizontal padding for spacing
-    marginBottom: 10, // Add bottom margin for spacing
+    flexDirection: 'row',
+    alignItems: 'center',
+    paddingHorizontal: 16,
+    marginBottom: 10,
   },
-  label: {
-    width: '40%',
-    textAlign: 'right',
-    marginRight: 10,
+  idText: {
+    width: '10%',
+    textAlign: 'center',
   },
-  textInput: {
-    flex: 1,
-    borderColor: 'gray',
-    borderWidth: 1,
-    borderRadius: 10,
-    padding: 8,
+  lastnameText: {
+    width: '50%',
+    textAlign: 'left',
+    marginLeft: 30,
   },
-  scrollView: {height: 500},
+  drivingLicenseText: {
+    width: '10%',
+    textAlign: 'center',
+  },
+  deleteButton: {
+    width: '10%',
+    alignItems: 'center',
+  },
+  scrollView: {
+    height: 500,
+  },
 });
 
 export default UsersScreen;

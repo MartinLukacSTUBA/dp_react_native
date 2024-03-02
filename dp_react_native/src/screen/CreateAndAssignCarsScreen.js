@@ -1,11 +1,10 @@
 import React, {useEffect, useState} from 'react';
-import {SafeAreaView, ScrollView, StyleSheet, Text, TouchableOpacity, View,} from 'react-native';
+import {Image, SafeAreaView, ScrollView, StyleSheet, Text, TouchableOpacity, View,} from 'react-native';
 import DateComponent from '../components/DateComponent';
 import NameComponent from '../components/NameComponent';
 import LoginScreen from './LoginScreen';
 import DiagnosticScreen from './DiagnosticScreen';
 import {myViewStyles} from '../styles/myViewStyles';
-import {myButtonStyles} from '../styles/myButtonStyles';
 import {myTextStyles} from '../styles/myTextStyles';
 import CreateCarComponent from '../components/CarsComponent/CreateCarComponent';
 import AsyncStorage from '@react-native-async-storage/async-storage';
@@ -84,34 +83,13 @@ const CreateAndAssignCarsScreen = ({navigation}) => {
   return (
     <View style={myViewStyles.mainContainer}>
       <View style={myViewStyles.headerContainer}>
-        <View style={myViewStyles.burgerMenuContainer}>
-          <TouchableOpacity
-            style={myButtonStyles.basicButton}
-            onPress={LoginScreenNavigation}>
-            <Text style={myTextStyles.basicText}>LoginScreenNavigation</Text>
-          </TouchableOpacity>
-
-          <TouchableOpacity
-            style={myButtonStyles.basicButton}
-            onPress={DiagnosticScreenNavigation}>
-            <Text style={myTextStyles.basicText}>
-              DiagnosticScreenNavigation
-            </Text>
-          </TouchableOpacity>
-
-          <TouchableOpacity
-            style={myButtonStyles.basicButton}
-            onPress={MyCarHistoryScreen}>
-            <Text style={myTextStyles.basicText}>MyCarHistoryScreen</Text>
-          </TouchableOpacity>
-
-          <TouchableOpacity
-            style={myButtonStyles.basicButton}
-            onPress={UsersScreen}>
-            <Text style={myTextStyles.basicText}>UsersScreen</Text>
-          </TouchableOpacity>
+        <View style={myViewStyles.leftView}>
+          <Image
+            source={require('../images/carCarsHeader.png')}
+            style={myViewStyles.imageHeader}
+            resizeMode="cover"
+          />
         </View>
-
         <View style={myViewStyles.nameContainer}>
           <NameComponent />
           <DateComponent />
@@ -132,16 +110,17 @@ const CreateAndAssignCarsScreen = ({navigation}) => {
 
         <View style={{height: 25}}></View>
         <View>
-          <Text>List of all cars:</Text>
           <SafeAreaView>
             <ScrollView style={styles.scrollView}>
               {carsData.map(car => (
-                <View key={car.id}>
-                  <View style={styles.rowContainer}>
-                    <Text>{car.id}</Text>
-                    <Text>{car.name}</Text>
-                    <Text>{car.vehicleNumberPlate}</Text>
-                    <InfoHoverComponentCar carId={car.id} />
+                <View key={car.id} style={styles.rowContainer}>
+                  <Text style={styles.idText}>{car.id}</Text>
+                  <Text style={styles.carNameText}>{car.name}</Text>
+                  <Text style={styles.vehiclePlateText}>
+                    {car.vehicleNumberPlate}
+                  </Text>
+                  <InfoHoverComponentCar carId={car.id} />
+                  <View style={styles.deleteButton}>
                     <DeleteCarComponent
                       carId={car.id}
                       onDelete={() => getCars()}
@@ -160,28 +139,32 @@ const CreateAndAssignCarsScreen = ({navigation}) => {
     </View>
   );
 };
-
 const styles = StyleSheet.create({
   rowContainer: {
-    flexDirection: 'row', // Arrange children horizontally
-    alignItems: 'center', // Center children vertically
-    justifyContent: 'space-between', // Distribute children evenly along the row
-    paddingHorizontal: 16, // Add horizontal padding for spacing
-    marginBottom: 10, // Add bottom margin for spacing
+    flexDirection: 'row',
+    alignItems: 'center',
+    paddingHorizontal: 16,
+    marginBottom: 10,
   },
-  label: {
-    width: '40%',
-    textAlign: 'right',
-    marginRight: 10,
+  idText: {
+    width: '10%',
+    textAlign: 'center',
   },
-  textInput: {
-    flex: 1,
-    borderColor: 'gray',
-    borderWidth: 1,
-    borderRadius: 10,
-    padding: 8,
+  carNameText: {
+    width: '40%', // Adjusted width for the name of the car
+    textAlign: 'left',
   },
-  scrollView: {height: 500},
+  vehiclePlateText: {
+    width: '30%', // Adjusted width for the vehicle number plate
+    textAlign: 'center',
+  },
+  otherFieldsText: {
+    flex: 1, // Take remaining space
+    textAlign: 'left',
+  },
+  scrollView: {
+    height: 500,
+  },
 });
 
 export default CreateAndAssignCarsScreen;

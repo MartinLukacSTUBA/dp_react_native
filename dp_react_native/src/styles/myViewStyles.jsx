@@ -13,6 +13,8 @@ export const myViewStyles = StyleSheet.create({
     marginTop: 0,
     width: '100%', // Ensure it spans the entire width
     height: '15%',
+    justifyContent: 'center', // Center items vertically
+    alignItems: 'center', // Center items horizontally
     backgroundColor: 'transparent', // Set background color to transparent since the image will cover it
     // backgroundColor: MY_GRAY, // Background color for the header
   },
@@ -36,6 +38,8 @@ export const myViewStyles = StyleSheet.create({
   },
   leftView: {
     width: '30%',
+    justifyContent: 'center', // Center content vertically
+    alignItems: 'center', // Center content horizontally
   },
   imageHeader: {
     flex: 2,

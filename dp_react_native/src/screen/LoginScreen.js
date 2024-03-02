@@ -11,6 +11,9 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 import TcpSocket from 'react-native-tcp-socket';
 
 import {BASE_URL, OBD_URL} from '../config';
+import axios from 'axios';
+
+// Function to get the WiFi address
 
 export async function getHelloFromBE() {
   const accessToken = await AsyncStorage.getItem('AccessToken');
@@ -459,6 +462,31 @@ const getTokenFromLogin = (email, password) => {
     }),
   });
 };
+//NEEEDED IN REAL DEV
+const getPublicIPAddress = async () => {
+  try {
+    const response = await axios.get('https://api.ipify.org?format=json');
+    return response.data.ip; // Extract and return the IP address from the response
+  } catch (error) {
+    console.error('Error getting public IP address:', error);
+    return null;
+  }
+};
+
+const getWifiAddress = async () => {
+  try {
+    // Get the public IP address
+    const publicIPAddress = await getPublicIPAddress();
+    console.log('Public IP Address:', publicIPAddress);
+    return publicIPAddress;
+  } catch (error) {
+    console.error('Error getting WiFi IP Address:', error);
+    return null;
+  }
+};
+
+getWifiAddress();
+//NEEEDED IN REAL DEV
 
 const LoginScreen = ({navigation}) => {
   const [email, setEmail] = useState('');

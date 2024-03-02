@@ -69,13 +69,13 @@ const CreateUserComponent = ({}) => {
   return (
     <View style={styles.container}>
       <InputField
-        label="Insert firstname:"
+        label="Firstname:"
         value={firstname}
         onChangeText={setFirstname}
         placeholder="Enter firstname"
       />
       <InputField
-        label="Insert lastname:"
+        label="Lastname:"
         value={lastname}
         onChangeText={setLastname}
         placeholder="Enter lastname"
