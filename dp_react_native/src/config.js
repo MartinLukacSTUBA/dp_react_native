@@ -1,7 +1,7 @@
-export const BASE_URL = 'https://metal-streets-cough.loca.lt';
+export const BASE_URL = 'https://bright-mammals-fold.loca.lt';
 export const OBD_URL = {
-  host: '2.tcp.eu.ngrok.io',
-  port: 17905,
+  host: '5.tcp.eu.ngrok.io',
+  port: 16268,
 };
 
 export const MY_GRAY = '#818589';
@@ -11,3 +11,5 @@ export const MY_LIGHT_GRAY = '#D3D3D3';
 export const MY_PLATINUM_GRAY = '#E5E4E2';
 
 export const MY_WHITE = '#FAF9F6';
+
+export const WHITE = '#ffffff';

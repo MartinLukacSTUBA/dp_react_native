@@ -1,15 +1,11 @@
 import React, {useState} from 'react';
-import {Text, TouchableOpacity, View} from 'react-native';
-import DateComponent from '../components/DateComponent';
-import NameComponent from '../components/NameComponent';
+import {Image, View} from 'react-native';
 import LoginScreen from './LoginScreen';
 import Speedometer from '../components/speedometer-utils/SpeedometerComponent';
 import TemperatureMeterComponent from '../components/speedometer-utils/TemperatureMeterComponent';
 import RPMMeterComponent from '../components/speedometer-utils/RPMMeterComponent';
 import TableThrottleEngineLoadFuelPressure from '../components/TableComponent/TableThrottleEngineLoadFuelPressure';
 import {myViewStyles} from '../styles/myViewStyles';
-import {myButtonStyles} from '../styles/myButtonStyles';
-import {myTextStyles} from '../styles/myTextStyles';
 import DoDiagnosticComponent from '../components/DoDiagnosticComponent';
 
 const DiagnosticScreen = ({navigation}) => {
@@ -33,32 +29,11 @@ const DiagnosticScreen = ({navigation}) => {
   return (
     <View style={myViewStyles.mainContainer}>
       <View style={myViewStyles.headerContainer}>
-        <View style={myViewStyles.burgerMenuContainer}>
-          <TouchableOpacity
-            style={myButtonStyles.basicButton}
-            onPress={LoginScreenNavigation}>
-            <Text style={myTextStyles.basicText}>LoginScreenNavigation</Text>
-          </TouchableOpacity>
-
-          <TouchableOpacity
-            style={myButtonStyles.basicButton}
-            onPress={MyCarHistoryScreen}>
-            <Text style={myTextStyles.basicText}>MyCarHistoryScreen</Text>
-          </TouchableOpacity>
-
-          <TouchableOpacity
-            style={myButtonStyles.basicButton}
-            onPress={CreateAndAssignCarsScreen}>
-            <Text style={myTextStyles.basicText}>
-              CreateAndAssignCarsScreen
-            </Text>
-          </TouchableOpacity>
-        </View>
-
-        <View style={myViewStyles.nameContainer}>
-          <NameComponent />
-          <DateComponent />
-        </View>
+        <Image
+          source={require('../images/headerContainer.png')}
+          style={myViewStyles.imageHeader}
+          resizeMode="cover"
+        />
       </View>
 
       <View style={myViewStyles.middleView}>
@@ -102,3 +77,63 @@ const DiagnosticScreen = ({navigation}) => {
   );
 };
 export default DiagnosticScreen;
+
+{
+  /*  <View style={myViewStyles.burgerMenuContainer}>*/
+}
+{
+  /*    <TouchableOpacity*/
+}
+{
+  /*      style={myButtonStyles.basicButton}*/
+}
+{
+  /*      onPress={LoginScreenNavigation}>*/
+}
+{
+  /*      <Text style={myTextStyles.basicText}>LoginScreenNavigation</Text>*/
+}
+{
+  /*    </TouchableOpacity>*/
+}
+
+{
+  /*    <TouchableOpacity*/
+}
+{
+  /*      style={myButtonStyles.basicButton}*/
+}
+{
+  /*      onPress={MyCarHistoryScreen}>*/
+}
+{
+  /*      <Text style={myTextStyles.basicText}>MyCarHistoryScreen</Text>*/
+}
+{
+  /*    </TouchableOpacity>*/
+}
+
+{
+  /*    <TouchableOpacity*/
+}
+{
+  /*      style={myButtonStyles.basicButton}*/
+}
+{
+  /*      onPress={CreateAndAssignCarsScreen}>*/
+}
+{
+  /*      <Text style={myTextStyles.basicText}>*/
+}
+{
+  /*        CreateAndAssignCarsScreen*/
+}
+{
+  /*      </Text>*/
+}
+{
+  /*    </TouchableOpacity>*/
+}
+{
+  /*  </View>*/
+}

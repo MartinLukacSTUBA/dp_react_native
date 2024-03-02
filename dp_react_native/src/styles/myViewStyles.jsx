@@ -1,10 +1,11 @@
 import {StyleSheet} from 'react-native';
-import {MY_GRAY, MY_LIGHT_GRAY, MY_PLATINUM_GRAY, MY_WHITE} from '../config';
+import {MY_LIGHT_GRAY, MY_PLATINUM_GRAY, WHITE} from '../config';
 
 export const myViewStyles = StyleSheet.create({
   mainContainer: {
+    width: '100%',
     height: '100%',
-    backgroundColor: MY_WHITE,
+    backgroundColor: WHITE,
   },
   headerContainer: {
     flexDirection: 'row', // You can adjust this layout as needed
@@ -12,7 +13,8 @@ export const myViewStyles = StyleSheet.create({
     marginTop: 0,
     width: '100%', // Ensure it spans the entire width
     height: '15%',
-    backgroundColor: MY_GRAY, // Background color for the header
+    backgroundColor: 'transparent', // Set background color to transparent since the image will cover it
+    // backgroundColor: MY_GRAY, // Background color for the header
   },
   centerContainer: {
     justifyContent: 'center',
@@ -31,5 +33,10 @@ export const myViewStyles = StyleSheet.create({
   middleView: {
     width: '100%',
     backgroundColor: 'white',
+  },
+  imageHeader: {
+    flex: 2,
+    width: '100%',
+    height: '100%',
   },
 });
