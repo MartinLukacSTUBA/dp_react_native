@@ -160,6 +160,61 @@ function readDataFromOBDSpeed() {
   });
 }
 
+function readDataFromOBDError() {
+  return new Promise((resolve, reject) => {
+    console.log('Attempting to connect to the emulator...');
+
+    // Create a TCP connection to the emulator
+    const client = TcpSocket.createConnection(
+      {
+        host: OBD_URL.host, // Corrected hostname without 'tcp://'
+        port: OBD_URL.port, // Corrected to the ngrok forwarded port
+      },
+      () => {
+        console.log('Connected to the emulator');
+
+        // Send OBD-II command for error codes retrieval
+        client.write('0101\r');
+      },
+    );
+
+    client.on('data', data => {
+      console.log('Received data:', data.toString());
+      parseAndPrintErrorCodes(data.toString());
+      resolve(data.toString());
+      client.destroy(); // Close the connection
+    });
+
+    client.on('error', error => {
+      console.error('Connection error:', error);
+      reject(error);
+    });
+
+    client.on('close', () => {
+      console.log('Connection closed');
+    });
+  });
+}
+
+function parseAndPrintErrorCodes(obdResponse) {
+  // Normalize the response and split it into individual bytes
+  const bytes = obdResponse.trim().split(' ');
+
+  // Check if the response contains any error codes
+  if (bytes.length >= 4 && bytes[0] === '43') {
+    // Extract the error codes (assuming two bytes for error codes)
+    const firstErrorCode = parseInt(bytes[1], 16);
+    const secondErrorCode = parseInt(bytes[2], 16);
+
+    // Print the error codes
+    console.log('Error Codes:');
+    console.log('First Error Code:', firstErrorCode);
+    console.log('Second Error Code:', secondErrorCode);
+  } else {
+    console.log('No error codes found in the OBD-II response.');
+  }
+}
+
 function readDataFromOBDRPM() {
   return new Promise((resolve, reject) => {
     console.log('Attempting to connect to the emulator...');
@@ -523,6 +578,7 @@ const LoginScreen = ({navigation}) => {
         {/*<Button title="Get" onPress={getHelloFromBE} />*/}
         {/*<Button title="ReadButtonVin" onPress={readDataFromOBDVIN} />*/}
         <Button title="ReadButtonSpeed" onPress={readDataFromOBDSpeed} />
+        <Button title="ReadButtonError" onPress={readDataFromOBDError} />
         {/*<Button*/}
         {/*  title="ReadButtonZatazenieMotora"*/}
         {/*  onPress={readDataFromOBDEngineLoad}*/}

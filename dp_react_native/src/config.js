@@ -1,7 +1,7 @@
-export const BASE_URL = 'https://bright-mammals-fold.loca.lt';
+export const BASE_URL = 'https://lemon-corners-suffer.loca.lt';
 export const OBD_URL = {
-  host: '5.tcp.eu.ngrok.io',
-  port: 16268,
+  host: '4.tcp.eu.ngrok.io',
+  port: 11640,
 };
 
 export const MY_GRAY = '#818589';

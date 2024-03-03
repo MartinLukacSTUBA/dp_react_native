@@ -21,6 +21,16 @@ export const myViewStyles = StyleSheet.create({
   centerContainer: {
     justifyContent: 'center',
     paddingTop: '5%',
+    marginLeft: '10%',
+    marginRight: '10%',
+    marginTop: '5%',
+  },
+  textContainer: {
+    justifyContent: 'center',
+    paddingTop: '5%',
+    marginLeft: '2%',
+    marginRight: '2%',
+    marginTop: '5%',
   },
   burgerMenuContainer: {
     width: '65%',
@@ -35,6 +45,15 @@ export const myViewStyles = StyleSheet.create({
   middleView: {
     width: '100%',
     backgroundColor: 'white',
+  },
+  middleOfViewCheckmark: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+    position: 'absolute',
+    width: '100%',
+    height: '100%',
+    backgroundColor: 'transparent',
   },
   leftView: {
     width: '30%',
