@@ -128,7 +128,10 @@ const DoDiagnosticComponent = ({
     setButtonText('END LIVE DATA SAVE');
 
     try {
-      const {address, latitude, longitude} = await getLocationDetails(); // TODO UNCOMMENT if wanna real adress
+      const address = 'Poľná 170/13, 082 71 Lipany, Slovakia';
+      const latitude = '49.1574247';
+      const longitude = '20.9629973';
+      //const {address, latitude, longitude} = await getLocationDetails(); // TODO UNCOMMENT if wanna real adress
       setStartAddress(address);
       setStartLatitude(latitude);
       setStartLongitude(longitude);
@@ -142,8 +145,10 @@ const DoDiagnosticComponent = ({
     setButtonText('DO LIVE DIAGNOSTIC');
 
     try {
-      // const address = 'Staré Grunty 53, 842 07,Bratislava, Slovakia';
-      const {address, latitude, longitude} = await getLocationDetails(); // TODO UNCOMMENT if wanna real adress  // TODO UNCOMMENT if wanna real adress
+      const address = 'Staré Grunty 53, 842 07,Bratislava, Slovakia';
+      const latitude = '48.15866176719948';
+      const longitude = '17.064047440537767';
+      //const {address, latitude, longitude} = await getLocationDetails(); // TODO UNCOMMENT if wanna real adress  // TODO UNCOMMENT if wanna real adress
       if (address && typeof address === 'string' && address.trim() !== '') {
         setEndAddress(address);
         setEndLatitude(latitude);
