@@ -32,8 +32,14 @@ const DoDiagnosticComponent = ({
   const [throttlePositionValues, setThrottlePositionValues] = useState([]);
   const [engineLoadValues, setEngineLoadValues] = useState([]);
   const [fuelPressureValues, setFuelPressureValues] = useState([]);
+
   const [startAddress, setStartAddress] = useState('');
+  const [startLatitude, setStartLatitude] = useState('');
+  const [startLongitude, setStartLongitude] = useState('');
+
   const [endAddress, setEndAddress] = useState('');
+  const [endLatitude, setEndLatitude] = useState('');
+  const [endLongitude, setEndLongitude] = useState('');
 
   const getLocationDetails = () => {
     return new Promise((resolve, reject) => {
@@ -50,7 +56,8 @@ const DoDiagnosticComponent = ({
               if (data.results && data.results.length > 0) {
                 // Extract address from the response
                 const address = data.results[0].formatted_address;
-                resolve(address);
+                // Resolve an object containing both address and coordinates
+                resolve({address, latitude, longitude});
               } else {
                 reject('No address found for the provided coordinates.');
               }
@@ -103,14 +110,28 @@ const DoDiagnosticComponent = ({
   //   setButtonText('END LIVE DATA SAVE');
   // };
 
+  // const startDiagnostic = async () => { TOOT JE DOBRE LEN BACHA
+  //   setIsRunning(true);
+  //   setButtonText('END LIVE DATA SAVE');
+  //
+  //   try {
+  //     const address = await getLocationDetails(); // TODO UNCOMMENT if wanna real adress
+  //     //setEndAddress('Staré Grunty 53, 842 07,Bratislava, Slovakia');
+  //     setStartAddress(address);
+  //   } catch (error) {
+  //     console.error('Error getting location details:', error);
+  //   }
+  // };
+
   const startDiagnostic = async () => {
     setIsRunning(true);
     setButtonText('END LIVE DATA SAVE');
 
     try {
-      const address = await getLocationDetails(); // TODO UNCOMMENT if wanna real adress
-      //setEndAddress('Staré Grunty 53, 842 07,Bratislava, Slovakia');
+      const {address, latitude, longitude} = await getLocationDetails(); // TODO UNCOMMENT if wanna real adress
       setStartAddress(address);
+      setStartLatitude(latitude);
+      setStartLongitude(longitude);
     } catch (error) {
       console.error('Error getting location details:', error);
     }
@@ -121,10 +142,12 @@ const DoDiagnosticComponent = ({
     setButtonText('DO LIVE DIAGNOSTIC');
 
     try {
-      const address = 'Staré Grunty 53, 842 07,Bratislava, Slovakia';
-      //const address = await getLocationDetails();  // TODO UNCOMMENT if wanna real adress
+      // const address = 'Staré Grunty 53, 842 07,Bratislava, Slovakia';
+      const {address, latitude, longitude} = await getLocationDetails(); // TODO UNCOMMENT if wanna real adress  // TODO UNCOMMENT if wanna real adress
       if (address && typeof address === 'string' && address.trim() !== '') {
         setEndAddress(address);
+        setEndLatitude(latitude);
+        setEndLongitude(longitude);
       } else {
         console.error('Invalid address received:', address);
         // Set a default or fallback address here if needed
@@ -207,7 +230,11 @@ const DoDiagnosticComponent = ({
           averageEngineLoad: averageEngineLoad,
           averageFuelPressure: averageFuelPressure,
           startAddress: startAddress,
+          startLatitude: startLatitude,
+          startLongitude: startLongitude,
           endAddress: endAddress,
+          endLatitude: endLatitude,
+          endLongitude: endLongitude,
         }),
       });
 

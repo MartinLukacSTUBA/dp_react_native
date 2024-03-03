@@ -7,6 +7,7 @@ const getLocationDetails = () => {
   Geolocation.getCurrentPosition(
     position => {
       const {latitude, longitude} = position.coords;
+      console.log(latitude, longitude);
       // Make API call to fetch address details
       fetch(
         `https://maps.googleapis.com/maps/api/geocode/json?latlng=${latitude},${longitude}&key=AIzaSyBRBhE7q-l_JAAoatwocT0WQuwSOIM9bK8`,
