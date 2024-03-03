@@ -13,6 +13,7 @@ import {myTextStyles} from '../styles/myTextStyles';
 import React, {useEffect, useState} from 'react';
 import {BASE_URL} from '../config';
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import Geolocation from '@react-native-community/geolocation';
 
 const DoDiagnosticComponent = ({
   setVinData,
@@ -31,6 +32,60 @@ const DoDiagnosticComponent = ({
   const [throttlePositionValues, setThrottlePositionValues] = useState([]);
   const [engineLoadValues, setEngineLoadValues] = useState([]);
   const [fuelPressureValues, setFuelPressureValues] = useState([]);
+  const [startAddress, setStartAddress] = useState('');
+  const [endAddress, setEndAddress] = useState('');
+
+  const getLocationDetails = () => {
+    return new Promise((resolve, reject) => {
+      // Get current location coordinates
+      Geolocation.getCurrentPosition(
+        position => {
+          const {latitude, longitude} = position.coords;
+          // Make API call to fetch address details
+          fetch(
+            `https://maps.googleapis.com/maps/api/geocode/json?latlng=${latitude},${longitude}&key=AIzaSyBRBhE7q-l_JAAoatwocT0WQuwSOIM9bK8`,
+          )
+            .then(response => response.json())
+            .then(data => {
+              if (data.results && data.results.length > 0) {
+                // Extract address from the response
+                const address = data.results[0].formatted_address;
+                resolve(address);
+              } else {
+                reject('No address found for the provided coordinates.');
+              }
+            })
+            .catch(error => {
+              reject('Error fetching location details:', error);
+            });
+        },
+        error => {
+          reject('Error getting current location:', error);
+        },
+        {enableHighAccuracy: true, timeout: 15000, maximumAge: 10000},
+      );
+    });
+  };
+
+  const getLocationDetailsAndUpdateStartingAddress = () => {
+    getLocationDetails()
+      .then(address => {
+        setEndAddress(address);
+      })
+      .catch(error => {
+        console.error('Error getting location details:', error);
+      });
+  };
+
+  const getLocationDetailsAndUpdateEndingAddress = () => {
+    getLocationDetails()
+      .then(address => {
+        setStartAddress(address);
+      })
+      .catch(error => {
+        console.error('Error getting location details:', error);
+      });
+  };
 
   useEffect(() => {
     if (isRunning) {
@@ -42,11 +97,16 @@ const DoDiagnosticComponent = ({
 
   const startDiagnostic = () => {
     setIsRunning(true);
+    // getLocationDetailsAndUpdateStartingAddress(); // TODO UNCOMMENT if wanna real adress
+
+    setStartAddress('Poľná 170/13, 082 71 Lipany, Slovakia');
     setButtonText('END LIVE DATA SAVE');
   };
 
   const stopDiagnostic = () => {
     setIsRunning(false);
+    // getLocationDetailsAndUpdateEndingAddress(); //TODO UNCOMMENT if wanna real adress
+    setEndAddress('Staré Grunty 53, 842 07,Bratislava, Slovakia');
     setButtonText('DO LIVE DIAGNOSTIC');
   };
 
@@ -87,6 +147,7 @@ const DoDiagnosticComponent = ({
     averageThrottlePosition,
     averageEngineLoad,
     averageFuelPressure,
+    address,
   ) => {
     const url = `${BASE_URL}/api/v1/car-diagnostic`;
     const accessToken = await AsyncStorage.getItem('AccessToken');
@@ -107,6 +168,8 @@ const DoDiagnosticComponent = ({
           averageThrottlePosition: averageThrottlePosition,
           averageEngineLoad: averageEngineLoad,
           averageFuelPressure: averageFuelPressure,
+          startAddress: startAddress,
+          endAddress: endAddress,
         }),
       });
 
