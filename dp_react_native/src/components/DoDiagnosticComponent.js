@@ -95,20 +95,58 @@ const DoDiagnosticComponent = ({
     }
   }, [isRunning]);
 
-  const startDiagnostic = () => {
+  // const startDiagnostic = () => {
+  //   setIsRunning(true);
+  //   getLocationDetailsAndUpdateStartingAddress(); // TODO UNCOMMENT if wanna real adress
+  //
+  //   // setStartAddress('Poľná 170/13, 082 71 Lipany, Slovakia');
+  //   setButtonText('END LIVE DATA SAVE');
+  // };
+
+  const startDiagnostic = async () => {
     setIsRunning(true);
-    // getLocationDetailsAndUpdateStartingAddress(); // TODO UNCOMMENT if wanna real adress
-
-    setStartAddress('Poľná 170/13, 082 71 Lipany, Slovakia');
     setButtonText('END LIVE DATA SAVE');
+
+    try {
+      const address = await getLocationDetails(); // TODO UNCOMMENT if wanna real adress
+      //setEndAddress('Staré Grunty 53, 842 07,Bratislava, Slovakia');
+      setStartAddress(address);
+    } catch (error) {
+      console.error('Error getting location details:', error);
+    }
   };
 
-  const stopDiagnostic = () => {
+  const stopDiagnostic = async () => {
     setIsRunning(false);
-    // getLocationDetailsAndUpdateEndingAddress(); //TODO UNCOMMENT if wanna real adress
-    setEndAddress('Staré Grunty 53, 842 07,Bratislava, Slovakia');
     setButtonText('DO LIVE DIAGNOSTIC');
+
+    try {
+      const address = 'Staré Grunty 53, 842 07,Bratislava, Slovakia';
+      //const address = await getLocationDetails();  // TODO UNCOMMENT if wanna real adress
+      if (address && typeof address === 'string' && address.trim() !== '') {
+        setEndAddress(address);
+      } else {
+        console.error('Invalid address received:', address);
+        // Set a default or fallback address here if needed
+      }
+    } catch (error) {
+      console.error('Error getting location details:', error);
+    }
   };
+
+  // const stopDiagnostic = async () => {
+  //   setIsRunning(false);
+  //   setButtonText('DO LIVE DIAGNOSTIC');
+  //
+  //   try {
+  //     const address = await getLocationDetails(); // TODO UNCOMMENT if wanna real adress
+  //     //setEndAddress('Staré Grunty 53, 842 07,Bratislava, Slovakia');
+  //
+  //     setEndAddress(address);
+  //   } catch (error) {
+  //     console.error('Error getting location details:', error);
+  //   }
+  // };
 
   const calculateAverage = values => {
     const sum = values.reduce((acc, curr) => acc + curr, 0);
