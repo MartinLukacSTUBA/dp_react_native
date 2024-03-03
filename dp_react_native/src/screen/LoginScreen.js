@@ -12,6 +12,7 @@ import TcpSocket from 'react-native-tcp-socket';
 
 import {BASE_URL, OBD_URL} from '../config';
 import axios from 'axios';
+import LocationButton from '../components/GetCurrentAdressComponent';
 
 // Function to get the WiFi address
 
@@ -579,6 +580,7 @@ const LoginScreen = ({navigation}) => {
         {/*<Button title="ReadButtonVin" onPress={readDataFromOBDVIN} />*/}
         <Button title="ReadButtonSpeed" onPress={readDataFromOBDSpeed} />
         <Button title="ReadButtonError" onPress={readDataFromOBDError} />
+        <LocationButton></LocationButton>
         {/*<Button*/}
         {/*  title="ReadButtonZatazenieMotora"*/}
         {/*  onPress={readDataFromOBDEngineLoad}*/}
