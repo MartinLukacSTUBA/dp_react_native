@@ -19,8 +19,8 @@ const DiagnosticScreen = ({navigation}) => {
   const LoginScreenNavigation = () => {
     navigation.navigate(LoginScreen); // Replace 'Screen2' with the name of the second screen.
   };
-  const MyCarHistoryScreen = () => {
-    navigation.navigate(MyCarHistoryScreen);
+  const DiagnosticHistory = () => {
+    navigation.navigate(DiagnosticHistory);
   };
   const CreateAndAssignCarsScreen = () => {
     navigation.navigate(CreateAndAssignCarsScreen);
@@ -104,10 +104,10 @@ export default DiagnosticScreen;
   /*      style={myButtonStyles.basicButton}*/
 }
 {
-  /*      onPress={MyCarHistoryScreen}>*/
+  /*      onPress={DiagnosticHistory}>*/
 }
 {
-  /*      <Text style={myTextStyles.basicText}>MyCarHistoryScreen</Text>*/
+  /*      <Text style={myTextStyles.basicText}>DiagnosticHistory</Text>*/
 }
 {
   /*    </TouchableOpacity>*/

@@ -1,7 +1,7 @@
 import React from 'react';
 import {createNativeStackNavigator} from '@react-navigation/native-stack';
-import UserDiagnostics from '../screen/MyCarHistoryScreen';
-import MyCarHistoryScreen from '../screen/MyCarHistoryScreen';
+import UserDiagnostics from '../screen/DiagnosticHistory';
+import DiagnosticHistory from '../screen/DiagnosticHistory';
 import LoginScreen from '../screen/LoginScreen';
 import RegisterScreen from '../screen/RegisterScreen';
 import {NavigationContainer} from '@react-navigation/native';
@@ -37,8 +37,8 @@ const Navigation = () => {
           options={{headerShown: false}}
         />
         <Stack.Screen
-          name={'MyCarHistoryScreen'}
-          component={MyCarHistoryScreen}
+          name={'DiagnosticHistory'}
+          component={DiagnosticHistory}
           options={{headerShown: false}}
         />
         <Stack.Screen

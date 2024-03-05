@@ -27,8 +27,8 @@ const CreateAndAssignCarsScreen = ({navigation}) => {
   const DiagnosticScreenNavigation = () => {
     navigation.navigate(DiagnosticScreen); // Replace 'Screen1' with the name of the screen you want to navigate to.
   };
-  const MyCarHistoryScreen = () => {
-    navigation.navigate(MyCarHistoryScreen);
+  const DiagnosticHistory = () => {
+    navigation.navigate(DiagnosticHistory);
   };
 
   const UsersScreen = () => {

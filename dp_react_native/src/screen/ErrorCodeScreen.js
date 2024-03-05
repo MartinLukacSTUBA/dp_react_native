@@ -1,5 +1,5 @@
 import React, {useState} from 'react';
-import {Image, Text, TouchableOpacity, View} from 'react-native';
+import {Image, StyleSheet, Text, TouchableOpacity, View} from 'react-native';
 import {myTextStyles} from '../styles/myTextStyles';
 import {myButtonStyles} from '../styles/myButtonStyles';
 import {myViewStyles} from '../styles/myViewStyles';
@@ -98,7 +98,6 @@ const ErrorCodeScreen = ({navigation}) => {
       </View>
 
       <View style={myViewStyles.middleView}></View>
-
       <View style={myViewStyles.centerContainer}>
         {/* Render the stored error code response */}
         <Text>Error Code Response: </Text>
@@ -123,4 +122,13 @@ const ErrorCodeScreen = ({navigation}) => {
     </View>
   );
 };
+
+const styles = StyleSheet.create({
+  map: {
+    height: 400,
+    width: '100%',
+    marginBottom: 10,
+  },
+});
+
 export default ErrorCodeScreen;

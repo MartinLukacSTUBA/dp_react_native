@@ -1,7 +1,7 @@
-export const BASE_URL = 'https://thin-eyes-speak.loca.lt';
+export const BASE_URL = 'https://clever-garlics-go.loca.lt';
 export const OBD_URL = {
-  host: '4.tcp.eu.ngrok.io',
-  port: 14613,
+  host: '2.tcp.eu.ngrok.io',
+  port: 15303,
 };
 
 export const MY_GRAY = '#818589';

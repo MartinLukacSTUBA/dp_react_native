@@ -8,9 +8,9 @@ import {myViewStyles} from '../styles/myViewStyles';
 import {myTextStyles} from '../styles/myTextStyles';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import {BASE_URL} from '../config';
-import InfoHoverComponentUser from '../components/UserComponent/InfoHoverComponentUser';
 import DeleteUserComponent from '../components/UserComponent/DeleteUserComponent';
 import CreateUserComponent from '../components/UserComponent/CreateUserComponent';
+import InfoHoverComponentUser from '../components/UserComponent/InfoHoverComponentUser';
 
 /**
  * Represents a Car object received from the backend.
@@ -27,8 +27,8 @@ const UsersScreen = ({navigation}) => {
   const DiagnosticScreenNavigation = () => {
     navigation.navigate(DiagnosticScreen); // Replace 'Screen1' with the name of the screen you want to navigate to.
   };
-  const MyCarHistoryScreen = () => {
-    navigation.navigate(MyCarHistoryScreen);
+  const DiagnosticHistory = () => {
+    navigation.navigate(DiagnosticHistory);
   };
 
   const CreateAndAssignCarsScreen = () => {
@@ -190,8 +190,8 @@ export default UsersScreen;
 //
 //   <TouchableOpacity
 //       style={myButtonStyles.basicButton}
-//       onPress={MyCarHistoryScreen}>
-//     <Text style={myTextStyles.basicText}>MyCarHistoryScreen</Text>
+//       onPress={DiagnosticHistory}>
+//     <Text style={myTextStyles.basicText}>DiagnosticHistory</Text>
 //   </TouchableOpacity>
 //
 //   <TouchableOpacity

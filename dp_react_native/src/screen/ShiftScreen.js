@@ -4,7 +4,7 @@ import DateComponent from '../components/DateComponent';
 import NameComponent from '../components/NameComponent';
 import DiagnosticScreen from './DiagnosticScreen';
 import LoginScreen from './LoginScreen';
-import MyCarHistoryScreen from './MyCarHistoryScreen';
+import DiagnosticHistory from './DiagnosticHistory';
 
 const ShiftScreen = ({navigation}) => {
   const LoginScreenNavigation = () => {
@@ -14,7 +14,7 @@ const ShiftScreen = ({navigation}) => {
     navigation.navigate(DiagnosticScreen); // Replace 'Screen1' with the name of the screen you want to navigate to.
   };
   const DiagnosticsDataScreenNavigation = () => {
-    navigation.navigate(MyCarHistoryScreen);
+    navigation.navigate(DiagnosticHistory);
   };
 
   return (
@@ -30,7 +30,7 @@ const ShiftScreen = ({navigation}) => {
             title={'LoginScreenNavigation'}
             onPress={LoginScreenNavigation}
           />
-          <Button title={'MyCarHistoryScreen'} onPress={MyCarHistoryScreen} />
+          <Button title={'DiagnosticHistory'} onPress={DiagnosticHistory} />
         </View>
         <View style={styles.nameContainer}>
           <NameComponent />
