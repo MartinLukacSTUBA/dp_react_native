@@ -118,7 +118,8 @@ const InfoHoverComponentDiagnostic = ({diagnosticHistoryId}) => {
                 {/*    title="End Point"*/}
                 {/*    description="This is the end point"*/}
                 {/*  />*/}
-                {/*</MapView>*/} TODO UNCOMMENT WHEN NEEDED
+                {/*</MapView>TODO UNCOMMENT WHEN NEEDED*/}
+                <View style={styles.map}></View>
                 <View style={styles.tableRow}>
                   <Text style={styles.tableCellLabel}>Average speed:</Text>
                   <Text style={styles.tableCellValue}>
@@ -212,6 +213,7 @@ const styles = StyleSheet.create({
     height: 400,
     width: '100%',
     marginBottom: 10,
+    backgroundColor: 'red',
   },
 });
 

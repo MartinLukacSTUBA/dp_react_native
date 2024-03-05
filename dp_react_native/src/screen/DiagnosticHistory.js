@@ -9,6 +9,7 @@ import {myTextStyles} from '../styles/myTextStyles';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import {BASE_URL} from '../config';
 import InfoHoverComponentDiagnostic from '../components/CarsComponent/InfoHoverComponentDiagnostic';
+import DeleteCarDiagnosticComponent from '../components/CarsComponent/DeleteCarDiagnosticComponent';
 
 const DiagnosticHistory = ({navigation}) => {
   const LoginScreenNavigation = () => {
@@ -83,18 +84,20 @@ const DiagnosticHistory = ({navigation}) => {
                   <Text style={styles.lastname}>
                     {diagnosticHistory.lastname}
                   </Text>
-                  {/*<Text style={styles.carName}>*/}
-                  {/*  {diagnosticHistory.carName}*/}
-                  {/*</Text>*/}
-                  <InfoHoverComponentDiagnostic
-                    diagnosticHistoryId={diagnosticHistory.id}
-                  />
+                  <Text style={styles.carName}>'CarName'</Text>
+                  <View style={styles.carInfoContainer}>
+                    <Text>
+                      <InfoHoverComponentDiagnostic
+                        diagnosticHistoryId={diagnosticHistory.id}
+                      />
+                    </Text>
+                  </View>
+
                   <View style={styles.deleteButton}>
-                    <Text>D</Text>
-                    {/*<DeleteUserComponent*/}
-                    {/*  userId={user.id}*/}
-                    {/*  onDelete={() => getUsers()}*/}
-                    {/*/>*/}
+                    <DeleteCarDiagnosticComponent
+                      carDiagnostic={diagnosticHistory.id}
+                      onDelete={() => getDiagnosticHistory()}
+                    />
                   </View>
                 </View>
               ))}
@@ -110,66 +113,37 @@ const DiagnosticHistory = ({navigation}) => {
     </View>
   );
 };
-
 const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: 'pink',
-  },
   rowContainer: {
     flexDirection: 'row',
-    textAlign: 'center',
+    alignItems: 'center',
     paddingHorizontal: 16,
-    marginBottom: 10,
+    marginBottom: 10, // Add margin bottom for spacing between rows
+    backgroundColor: 'white', // Optional: add background color for better visualization
+    borderRadius: 10, // Optional: add border radius for rounded corners
+    paddingVertical: 10, // Optional: add vertical padding for better spacing
   },
-  lastnameText: {
-    width: '50%',
+  idText: {
+    width: '10%',
+    textAlign: 'center',
+  },
+  lastname: {
+    width: '30%', // Adjust width as needed
     textAlign: 'left',
-    marginLeft: 30,
   },
   carName: {
-    width: '30%',
-    textAlign: 'right',
-  },
-  headerContainer: {
-    // Add styles for your header container
-    flexDirection: 'row', // You can adjust this layout as needed
-    paddingHorizontal: 0, // Add padding as needed
-    marginTop: 2,
-    width: '100%', // Ensure it spans the entire width
-    backgroundColor: 'lightblue', // Background color for the header
-  },
-  dateContainer: {
-    padding: 10,
-    backgroundColor: 'grey', // Background color for the header
-  },
-  nameContainer: {
-    padding: 10,
-    backgroundColor: 'brown',
-    position: 'absolute',
-    right: 10,
+    width: '30%', // Adjust width as needed
+    textAlign: 'left',
   },
   carInfoContainer: {
-    backgroundColor: 'yellow',
-    marginTop: '20%',
+    flex: 1, // Take remaining space
+    alignItems: 'flex-end', // Align to the right
   },
-  measuredContainer: {
-    backgroundColor: '#00ffff',
-    marginTop: '40%',
-    textAlign: 'center',
+  deleteButton: {
+    marginLeft: 10, // Add margin left for spacing between delete button and other content
   },
-  wrapper: {
-    width: '80%',
-  },
-  input: {
-    marginBottom: 12,
-    borderWidth: 1,
-    borderColor: '#bbb',
-    borderRadius: 5,
-    paddingHorizontal: 14,
-  },
-  link: {
-    color: 'blue',
+  scrollView: {
+    height: 500,
   },
 });
 
