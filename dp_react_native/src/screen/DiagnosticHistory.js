@@ -121,7 +121,6 @@ const styles = StyleSheet.create({
     marginBottom: 10, // Add margin bottom for spacing between rows
     backgroundColor: 'white', // Optional: add background color for better visualization
     borderRadius: 10, // Optional: add border radius for rounded corners
-    paddingVertical: 10, // Optional: add vertical padding for better spacing
   },
   idText: {
     width: '10%',
