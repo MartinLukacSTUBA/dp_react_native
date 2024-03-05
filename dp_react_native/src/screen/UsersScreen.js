@@ -11,6 +11,7 @@ import {BASE_URL} from '../config';
 import DeleteUserComponent from '../components/UserComponent/DeleteUserComponent';
 import CreateUserComponent from '../components/UserComponent/CreateUserComponent';
 import InfoHoverComponentUser from '../components/UserComponent/InfoHoverComponentUser';
+import EditComponentUser from '../components/UserComponent/EditComponentUser';
 
 /**
  * Represents a Car object received from the backend.
@@ -118,9 +119,10 @@ const UsersScreen = ({navigation}) => {
                   <Text style={styles.idText}>{user.id}</Text>
                   <Text style={styles.lastnameText}>{user.lastname}</Text>
                   <Text style={styles.drivingLicenseText}>
-                    {user.drivingLicense}
+                    License : {user.drivingLicense}
                   </Text>
                   <InfoHoverComponentUser userId={user.id} />
+                  <EditComponentUser userId={user.id} />
                   <View style={styles.deleteButton}>
                     <DeleteUserComponent
                       userId={user.id}
@@ -153,12 +155,12 @@ const styles = StyleSheet.create({
     textAlign: 'center',
   },
   lastnameText: {
-    width: '50%',
+    width: '20%',
     textAlign: 'left',
     marginLeft: 30,
   },
   drivingLicenseText: {
-    width: '10%',
+    width: '30%',
     textAlign: 'center',
   },
   deleteButton: {

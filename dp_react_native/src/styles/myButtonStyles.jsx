@@ -9,6 +9,15 @@ export const myButtonStyles = StyleSheet.create({
     alignItems: 'center',
     backgroundColor: '#DDDDDD',
   },
+  basicSmallButton: {
+    width: '60%',
+    height: '5%',
+    borderColor: 'black',
+    borderWidth: 2,
+    borderRadius: 10,
+    alignItems: 'center',
+    backgroundColor: '#DDDDDD',
+  },
   bottomButton: {
     position: 'absolute',
     right: '20%',
