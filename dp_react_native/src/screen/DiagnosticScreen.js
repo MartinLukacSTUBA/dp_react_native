@@ -1,5 +1,5 @@
-import React, {useState} from 'react';
-import {Image, View} from 'react-native';
+import React, {useEffect, useState} from 'react';
+import {View} from 'react-native';
 import LoginScreen from './LoginScreen';
 import Speedometer from '../components/speedometer-utils/SpeedometerComponent';
 import TemperatureMeterComponent from '../components/speedometer-utils/TemperatureMeterComponent';
@@ -7,7 +7,16 @@ import RPMMeterComponent from '../components/speedometer-utils/RPMMeterComponent
 import TableThrottleEngineLoadFuelPressure from '../components/TableComponent/TableThrottleEngineLoadFuelPressure';
 import {myViewStyles} from '../styles/myViewStyles';
 import DoDiagnosticComponent from '../components/DoDiagnosticComponent';
+import AsyncStorage from '@react-native-async-storage/async-storage';
+import {BASE_URL} from '../config';
+import * as PropTypes from 'prop-types';
+import CarPickerComponent from '../components/PickerComponent/CarPickerComponent';
 
+function PickerComponent(props) {
+  return null;
+}
+
+PickerComponent.propTypes = {carsData: PropTypes.string};
 const DiagnosticScreen = ({navigation}) => {
   const [vinData, setVinData] = useState('');
   const [speedData, setSpeedData] = useState('');
@@ -16,6 +25,9 @@ const DiagnosticScreen = ({navigation}) => {
   const [throttlePosition, setThrottlePosition] = useState('');
   const [engineLoad, setEngineLoad] = useState('');
   const [fuelPressure, setFuelPressure] = useState('');
+
+  const [selectedCar, setSelectedCar] = useState(null); // State to hold the selected car
+
   const LoginScreenNavigation = () => {
     navigation.navigate(LoginScreen); // Replace 'Screen2' with the name of the second screen.
   };
@@ -26,14 +38,46 @@ const DiagnosticScreen = ({navigation}) => {
     navigation.navigate(CreateAndAssignCarsScreen);
   };
 
+  const [cars, setCars] = useState([]); // Initialize cars as an empty array
+
+  async function getCarsOfLoggedUser() {
+    try {
+      const accessToken = await AsyncStorage.getItem('AccessToken');
+      const url = `${BASE_URL}/api/v1/car/logged-user/all-basic-info`;
+      const response = await fetch(url, {
+        method: 'GET',
+        headers: {
+          Authorization: `Bearer ${accessToken}`,
+          'Content-Type': 'application/json',
+        },
+      });
+      if (!response.ok) {
+        throw new Error(`HTTP Error! Status: ${response.status}`);
+      }
+      const result = await response.json();
+      setCars(result); // Set cars to the fetched data
+    } catch (error) {
+      console.error('Fetch error:', error);
+    }
+  }
+
+  useEffect(() => {
+    // Fetch cars data when the screen gains focus (navigated to)
+    const unsubscribe = navigation.addListener('focus', () => {
+      getCarsOfLoggedUser();
+    });
+    return unsubscribe; // Cleanup function to unsubscribe from the focus event
+  }, [navigation]);
+
+  // Function to handle car selection
+  const handleCarSelection = carId => {
+    setSelectedCar(carId);
+  };
+
   return (
     <View style={myViewStyles.mainContainer}>
       <View style={myViewStyles.headerContainer}>
-        <Image
-          source={require('../images/headerContainer.png')}
-          style={myViewStyles.imageHeader}
-          resizeMode="cover"
-        />
+        <CarPickerComponent carsData={cars} onSelectCar={handleCarSelection} />
       </View>
 
       <View style={myViewStyles.middleView}>
@@ -53,6 +97,7 @@ const DiagnosticScreen = ({navigation}) => {
           engineLoad={engineLoad}
           fuelPressure={fuelPressure}
         />
+        {/*//<Text>{selectedCar}</Text>*/}
       </View>
       <View style={myViewStyles.centerContainer}></View>
       <DoDiagnosticComponent
@@ -71,69 +116,10 @@ const DiagnosticScreen = ({navigation}) => {
           }
         }}
         setFuelPressure={setFuelPressure}
+        setSelectedCar={selectedCar}
       />
       {/*<LocalStorageComponent />*/}
     </View>
   );
 };
 export default DiagnosticScreen;
-
-{
-  /*  <View style={myViewStyles.burgerMenuContainer}>*/
-}
-{
-  /*    <TouchableOpacity*/
-}
-{
-  /*      style={myButtonStyles.basicButton}*/
-}
-{
-  /*      onPress={LoginScreenNavigation}>*/
-}
-{
-  /*      <Text style={myTextStyles.basicText}>LoginScreenNavigation</Text>*/
-}
-{
-  /*    </TouchableOpacity>*/
-}
-
-{
-  /*    <TouchableOpacity*/
-}
-{
-  /*      style={myButtonStyles.basicButton}*/
-}
-{
-  /*      onPress={DiagnosticHistory}>*/
-}
-{
-  /*      <Text style={myTextStyles.basicText}>DiagnosticHistory</Text>*/
-}
-{
-  /*    </TouchableOpacity>*/
-}
-
-{
-  /*    <TouchableOpacity*/
-}
-{
-  /*      style={myButtonStyles.basicButton}*/
-}
-{
-  /*      onPress={CreateAndAssignCarsScreen}>*/
-}
-{
-  /*      <Text style={myTextStyles.basicText}>*/
-}
-{
-  /*        CreateAndAssignCarsScreen*/
-}
-{
-  /*      </Text>*/
-}
-{
-  /*    </TouchableOpacity>*/
-}
-{
-  /*  </View>*/
-}

@@ -72,7 +72,7 @@ const AdminDiagnosticHistory = ({navigation}) => {
       </View>
 
       <View style={myViewStyles.middleView}>
-        <Text style={myTextStyles.bigText}>Diagnostic History </Text>
+        <Text style={myTextStyles.bigText}>Employees Diagnostic History </Text>
         <View style={{height: 50}}></View>
         <View style={{height: 50}}></View>
         <View>

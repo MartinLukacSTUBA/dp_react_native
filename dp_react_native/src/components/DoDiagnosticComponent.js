@@ -23,6 +23,7 @@ const DoDiagnosticComponent = ({
   setThrottlePosition,
   setEngineLoad,
   setFuelPressure,
+  setSelectedCar,
 }) => {
   const [isRunning, setIsRunning] = useState(false);
   const [buttonText, setButtonText] = useState('DO DIAGNOSTIC');
@@ -40,6 +41,8 @@ const DoDiagnosticComponent = ({
   const [endAddress, setEndAddress] = useState('');
   const [endLatitude, setEndLatitude] = useState('');
   const [endLongitude, setEndLongitude] = useState('');
+
+  const [selectedCar, setSelectedCarValues] = useState('');
 
   const getLocationDetails = () => {
     return new Promise((resolve, reject) => {
@@ -240,6 +243,7 @@ const DoDiagnosticComponent = ({
           endAddress: endAddress,
           endLatitude: endLatitude,
           endLongitude: endLongitude,
+          carId: selectedCar,
         }),
       });
 
