@@ -44,6 +44,7 @@
     "react-native-screens": "^3.27.0",
     "react-native-table-component": "^1.2.2",
     "react-native-tcp-socket": "^6.0.6",
+    "react-native-toast-message": "^2.2.0",
     "react-native-vector-icons": "^10.0.3",
     "react-native-wifi-reborn": "^4.11.0",
     "twrnc": "^3.6.8"

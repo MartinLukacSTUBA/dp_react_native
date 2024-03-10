@@ -11,6 +11,8 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 import {BASE_URL} from '../config';
 import DeleteCarComponent from '../components/CarsComponent/DeleteCarComponent';
 import InfoHoverComponentCar from '../components/CarsComponent/InfoHoverComponentCar';
+import EditCarComponent from '../components/CarsComponent/EditCarComponent';
+import AssignCarToMeComponent from '../components/CarsComponent/AssignCarToMeComponent';
 
 /**
  * Represents a Car object received from the backend.
@@ -116,10 +118,12 @@ const CreateAndAssignCarsScreen = ({navigation}) => {
                 <View key={car.id} style={styles.rowContainer}>
                   <Text style={styles.idText}>{car.id}</Text>
                   <Text style={styles.carNameText}>{car.name}</Text>
-                  <Text style={styles.vehiclePlateText}>
-                    {car.vehicleNumberPlate}
+                  <Text style={styles.assignToMeIcon}>
+                    <AssignCarToMeComponent carId={car.id} />
                   </Text>
+
                   <InfoHoverComponentCar carId={car.id} />
+                  <EditCarComponent carId={car.id} />
                   <View style={styles.deleteButton}>
                     <DeleteCarComponent
                       carId={car.id}
@@ -154,8 +158,8 @@ const styles = StyleSheet.create({
     width: '40%', // Adjusted width for the name of the car
     textAlign: 'left',
   },
-  vehiclePlateText: {
-    width: '30%', // Adjusted width for the vehicle number plate
+  assignToMeIcon: {
+    width: '20%', // Adjusted width for the vehicle number plate
     textAlign: 'center',
   },
   otherFieldsText: {

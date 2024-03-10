@@ -1,7 +1,7 @@
-export const BASE_URL = 'https://clever-garlics-go.loca.lt';
+export const BASE_URL = 'https://slick-planets-dance.loca.lt';
 export const OBD_URL = {
-  host: '2.tcp.eu.ngrok.io',
-  port: 15303,
+  host: '7.tcp.eu.ngrok.io',
+  port: 11558,
 };
 
 export const MY_GRAY = '#818589';
