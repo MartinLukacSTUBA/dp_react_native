@@ -1,17 +1,17 @@
 import React, {useEffect, useState} from 'react';
 import {SafeAreaView, ScrollView, StyleSheet, Text, View} from 'react-native';
-import DateComponent from '../components/DateComponent';
-import NameComponent from '../components/NameComponent';
-import LoginScreen from './LoginScreen';
-import DiagnosticScreen from './DiagnosticScreen';
-import {myViewStyles} from '../styles/myViewStyles';
-import {myTextStyles} from '../styles/myTextStyles';
+import DateComponent from '../../components/DateComponent';
+import NameComponent from '../../components/NameComponent';
+import LoginScreen from '../LoginScreen';
+import DiagnosticScreen from '../DiagnosticScreen';
+import {myViewStyles} from '../../styles/myViewStyles';
+import {myTextStyles} from '../../styles/myTextStyles';
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import {BASE_URL} from '../config';
-import InfoHoverComponentDiagnostic from '../components/CarsComponent/InfoHoverComponentDiagnostic';
-import DeleteCarDiagnosticComponent from '../components/CarsComponent/DeleteCarDiagnosticComponent';
+import {BASE_URL} from '../../config';
+import InfoHoverComponentDiagnostic from '../../components/CarsComponent/InfoHoverComponentDiagnostic';
+import DeleteCarDiagnosticComponent from '../../components/CarsComponent/DeleteCarDiagnosticComponent';
 
-const DiagnosticHistory = ({navigation}) => {
+const AdminDiagnosticHistory = ({navigation}) => {
   const LoginScreenNavigation = () => {
     navigation.navigate(LoginScreen); // Replace 'Screen2' with the name of the second screen.
   };
@@ -34,7 +34,7 @@ const DiagnosticHistory = ({navigation}) => {
   const getDiagnosticHistory = async () => {
     const accessToken = await AsyncStorage.getItem('AccessToken');
     console.log(accessToken);
-    const url = `${BASE_URL}/api/v1/car-diagnostic/logged-user`;
+    const url = `${BASE_URL}/api/v1/car-diagnostic`;
     // Construct the equivalent curl command
     const curlCommand = `curl -X GET "${url}" -H "Authorization: Bearer ${accessToken}"`;
     console.log(curlCommand); // Log the curl command to the console
@@ -146,4 +146,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default DiagnosticHistory;
+export default AdminDiagnosticHistory;

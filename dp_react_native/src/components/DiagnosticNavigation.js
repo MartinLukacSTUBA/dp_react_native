@@ -7,6 +7,7 @@ import UsersScreen from '../screen/UsersScreen';
 import ErrorCodeScreen from '../screen/ErrorCodeScreen';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import {BASE_URL} from '../config';
+import AdminDiagnosticHistory from '../screen/Admin/AdminDiagnosticHistory';
 
 const Drawer = createDrawerNavigator();
 
@@ -45,7 +46,7 @@ function DiagnosticNavigation() {
         <>
           <Drawer.Screen component={UsersScreen} name="Admin - Users" />
           <Drawer.Screen
-            component={DiagnosticHistory}
+            component={AdminDiagnosticHistory}
             name="Admin - Diagnostic history"
           />
         </>
