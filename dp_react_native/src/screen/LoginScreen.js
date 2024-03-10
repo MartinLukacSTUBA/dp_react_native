@@ -561,11 +561,12 @@ const LoginScreen = ({navigation}) => {
             .then(() => {
               console.log('Token stored successfully');
               // Now, you can navigate to the next screen or perform other actions.
-              navigation.navigate('DiagnosticScreen');
+              navigation.navigate('DiagnosticScreen'); //TODO DAT DO PICE
             })
             .catch(error => console.error('Error storing token:', error));
         } else {
           console.error('Token not found in the response');
+          navigation.navigate('DiagnosticScreen');
         }
       })
       .catch(error => {
