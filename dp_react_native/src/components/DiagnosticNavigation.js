@@ -42,7 +42,13 @@ function DiagnosticNavigation() {
       <Drawer.Screen component={DiagnosticHistory} name="Diagnostic History" />
       <Drawer.Screen component={CreateAndAssignCarsScreen} name="Cars" />
       {userRole === 'ADMIN' && (
-        <Drawer.Screen component={UsersScreen} name="Admin - Users" />
+        <>
+          <Drawer.Screen component={UsersScreen} name="Admin - Users" />
+          <Drawer.Screen
+            component={DiagnosticHistory}
+            name="Admin - Diagnostic history"
+          />
+        </>
       )}
     </Drawer.Navigator>
   );

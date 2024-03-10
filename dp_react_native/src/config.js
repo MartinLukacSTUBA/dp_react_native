@@ -1,7 +1,7 @@
 export const BASE_URL = 'https://slick-planets-dance.loca.lt';
 export const OBD_URL = {
-  host: '7.tcp.eu.ngrok.io',
-  port: 11558,
+  host: '2.tcp.eu.ngrok.io',
+  port: 15362,
 };
 
 export const MY_GRAY = '#818589';
