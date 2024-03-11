@@ -156,7 +156,9 @@ const CreateAndAssignCarsScreen = ({navigation}) => {
                   </Text>
 
                   <InfoHoverComponentCar carId={car.id} />
-                  <EditCarComponent carId={car.id} onEdit={() => getCars()} />
+                  {userRole === 'ADMIN' && (
+                    <EditCarComponent carId={car.id} onEdit={() => getCars()} />
+                  )}
                   <View style={styles.deleteButton}>
                     <DeleteCarComponent
                       carId={car.id}

@@ -84,7 +84,9 @@ const AdminDiagnosticHistory = ({navigation}) => {
                   <Text style={styles.lastname}>
                     {diagnosticHistory.lastname}
                   </Text>
-                  <Text style={styles.carName}>'CarName'</Text>
+                  <Text style={styles.carName}>
+                    {diagnosticHistory.carName}
+                  </Text>
                   <View style={styles.carInfoContainer}>
                     <Text>
                       <InfoHoverComponentDiagnostic
