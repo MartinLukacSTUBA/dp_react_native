@@ -14,7 +14,7 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 import {BASE_URL} from '../../config';
 import {myButtonStyles} from '../../styles/myButtonStyles';
 
-const EditCarComponent = ({carId}) => {
+const EditCarComponent = ({carId, onEdit}) => {
   const [responseData, setResponseData] = useState(null);
   const [isModalVisible, setIsModalVisible] = useState(false);
 
@@ -76,9 +76,7 @@ const EditCarComponent = ({carId}) => {
       }
       setIsModalVisible(false); // Close the modal
 
-      // Reload the data after save
-      const fetchData = await fetchCarInfoDetails(carId); // Assuming fetchCarInfoDetails is defined elsewhere
-      setResponseData(fetchData); // Update the response data with the updated information
+      onEdit();
     } catch (error) {
       console.error('Handle error:', error);
     }

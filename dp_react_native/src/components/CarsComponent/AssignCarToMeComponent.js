@@ -9,7 +9,7 @@ import {
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import {BASE_URL} from '../../config';
 
-const AssignCarToMeComponent = ({carId}) => {
+const AssignCarToMeComponent = ({carId, onAssign}) => {
   const handleClick = async () => {
     await assignToMe(carId);
   };
@@ -30,6 +30,7 @@ const AssignCarToMeComponent = ({carId}) => {
       if (!response.ok) {
         throw new Error(`HTTP Error! Status: ${response.status}`);
       }
+      onAssign(); // Call the onDelete callback after successful deletion
       console.log('settted');
     } catch (error) {
       console.error('Fetch error:', error);
