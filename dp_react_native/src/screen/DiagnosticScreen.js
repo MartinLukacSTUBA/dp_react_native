@@ -86,9 +86,9 @@ const DiagnosticScreen = ({navigation}) => {
         <TemperatureMeterComponent
           value={parseInt(engineTemperatureData, 10)}
         />
-        <View style={{height: 50}}></View>
+        <View style={{height: 48}}></View>
         <RPMMeterComponent value={parseInt(RPMData, 10)} />
-        <View style={{height: 50}}></View>
+        <View style={{height: 48}}></View>
       </View>
 
       <View style={myViewStyles.centerContainer}>

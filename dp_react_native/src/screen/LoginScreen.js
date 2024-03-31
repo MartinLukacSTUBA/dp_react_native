@@ -678,9 +678,9 @@ const LoginScreen = ({navigation}) => {
         {/*<Button title="Get" onPress={getHelloFromBE} />*/}
         {/*<Button title="ReadButtonVin" onPress={readDataFromOBDVIN} />*/}
 
-        <Button title="ReadButtonSpeed" onPress={readDataFromOBDSpeed} />
-        <Button title="ReadButtonError" onPress={readDataFromOBDError} />
-        <Button title="ReadButtonRPH" onPress={readDataFromOBDRPH} />
+        {/*<Button title="ReadButtonSpeed" onPress={readDataFromOBDSpeed} />*/}
+        {/*<Button title="ReadButtonError" onPress={readDataFromOBDError} />*/}
+        {/*<Button title="ReadButtonRPH" onPress={readDataFromOBDRPH} />*/}
 
         {/*<LocationButton></LocationButton>*/}
         {/*<Button*/}

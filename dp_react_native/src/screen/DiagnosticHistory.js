@@ -1,11 +1,8 @@
 import React, {useEffect, useState} from 'react';
 import {SafeAreaView, ScrollView, StyleSheet, Text, View} from 'react-native';
-import DateComponent from '../components/DateComponent';
-import NameComponent from '../components/NameComponent';
 import LoginScreen from './LoginScreen';
 import DiagnosticScreen from './DiagnosticScreen';
 import {myViewStyles} from '../styles/myViewStyles';
-import {myTextStyles} from '../styles/myTextStyles';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import {BASE_URL} from '../config';
 import InfoHoverComponentDiagnostic from '../components/CarsComponent/InfoHoverComponentDiagnostic';
@@ -23,11 +20,28 @@ const DiagnosticHistory = ({navigation}) => {
   };
 
   const [diagnosticHistory, setDiagnosticHistoryData] = useState([]); // State to store fetched cars data
-
+  const [userRole, setUserRole] = useState('');
   useEffect(() => {
     return navigation.addListener('focus', () => {
       // Fetch cars data when the screen gains focus (navigated to)
       getDiagnosticHistory();
+      const fetchUserRole = async () => {
+        try {
+          const accessToken = await AsyncStorage.getItem('AccessToken');
+          const response = await fetch(`${BASE_URL}/api/v1/user/role/logged`, {
+            headers: {
+              Authorization: `Bearer ${accessToken}`,
+            },
+          });
+          if (response.ok) {
+            const role = await response.json();
+            console.log(role);
+            setUserRole(role);
+          }
+        } catch (error) {
+          console.error('Error fetching user role:', error);
+        }
+      };
     });
   }, [navigation]); // Add navigation as a dependency
 
@@ -64,16 +78,16 @@ const DiagnosticHistory = ({navigation}) => {
 
   return (
     <View style={myViewStyles.mainContainer}>
-      <View style={myViewStyles.headerContainer}>
-        <View style={myViewStyles.nameContainer}>
-          <NameComponent />
-          <DateComponent />
-        </View>
-      </View>
+      {/*<View style={myViewStyles.headerContainer}>*/}
+      {/*<View style={myViewStyles.nameContainer}>*/}
+      {/*  <NameComponent />*/}
+      {/*  <DateComponent />*/}
+      {/*</View>*/}
+      {/*</View>*/}
 
       <View style={myViewStyles.middleView}>
-        <Text style={myTextStyles.bigText}>Diagnostic History </Text>
-        <View style={{height: 50}}></View>
+        {/*<Text style={myTextStyles.bigText}>Diagnostic History </Text>*/}
+        {/*<View style={{height: 50}}></View>*/}
         <View style={{height: 50}}></View>
         <View>
           <SafeAreaView>
@@ -96,10 +110,12 @@ const DiagnosticHistory = ({navigation}) => {
                   </View>
 
                   <View style={styles.deleteButton}>
-                    <DeleteCarDiagnosticComponent
-                      carDiagnostic={diagnosticHistory.id}
-                      onDelete={() => getDiagnosticHistory()}
-                    />
+                    {userRole === 'ADMIN' && (
+                      <DeleteCarDiagnosticComponent
+                        carDiagnostic={diagnosticHistory.id}
+                        onDelete={() => getDiagnosticHistory()}
+                      />
+                    )}
                   </View>
                 </View>
               ))}
@@ -129,6 +145,7 @@ const styles = StyleSheet.create({
     textAlign: 'center',
   },
   lastname: {
+    paddingLeft: '5%',
     width: '30%', // Adjust width as needed
     textAlign: 'left',
   },

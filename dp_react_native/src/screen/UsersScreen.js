@@ -1,7 +1,5 @@
 import React, {useEffect, useState} from 'react';
 import {Image, SafeAreaView, ScrollView, StyleSheet, Text, TouchableOpacity, View,} from 'react-native';
-import DateComponent from '../components/DateComponent';
-import NameComponent from '../components/NameComponent';
 import LoginScreen from './LoginScreen';
 import DiagnosticScreen from './DiagnosticScreen';
 import {myViewStyles} from '../styles/myViewStyles';
@@ -92,10 +90,10 @@ const UsersScreen = ({navigation}) => {
           />
         </View>
 
-        <View style={myViewStyles.nameContainer}>
-          <NameComponent />
-          <DateComponent />
-        </View>
+        {/*<View style={myViewStyles.nameContainer}>*/}
+        {/*  <NameComponent />*/}
+        {/*  <DateComponent />*/}
+        {/*</View>*/}
       </View>
 
       <View style={myViewStyles.middleView}>

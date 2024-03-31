@@ -20,7 +20,7 @@ const TableThrottleEngineLoadFuelPressure = ({
         <Rows
           data={tableData}
           textStyle={myTextStyles.basicTextInCenter}
-          style={{height: 40, width: 300, backgroundColor: '#ffffff'}} // Adjust width as needed
+          style={{height: 30, width: 300, backgroundColor: '#ffffff'}} // Adjust width as needed
         />
       </Table>
     </View>

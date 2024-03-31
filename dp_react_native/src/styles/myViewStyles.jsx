@@ -20,7 +20,7 @@ export const myViewStyles = StyleSheet.create({
   },
   centerContainer: {
     justifyContent: 'center',
-    paddingTop: '5%',
+    paddingTop: '0%',
     marginLeft: '10%',
     marginRight: '10%',
     marginTop: '5%',
