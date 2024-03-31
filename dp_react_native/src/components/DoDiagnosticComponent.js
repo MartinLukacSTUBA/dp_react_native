@@ -129,6 +129,7 @@ const DoDiagnosticComponent = ({
   const startDiagnostic = async () => {
     setIsRunning(true);
     setButtonText('END LIVE DATA SAVE');
+    setSelectedCarValues(setSelectedCar);
 
     try {
       const address = 'Poľná 170/13, 082 71 Lipany, Slovakia';
@@ -223,6 +224,8 @@ const DoDiagnosticComponent = ({
     console.log(accessToken);
 
     try {
+      console.log('SELECTED CAR');
+      console.log(selectedCar);
       const response = await fetch(url, {
         method: 'POST',
         headers: {
