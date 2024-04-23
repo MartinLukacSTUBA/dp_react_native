@@ -10,6 +10,7 @@ import {
 } from 'react-native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import {BASE_URL} from '../../config';
+import MapView, {Marker} from 'react-native-maps';
 
 const InfoHoverComponentDiagnostic = ({diagnosticHistoryId}) => {
   const [responseData, setResponseData] = useState(null);
@@ -94,32 +95,33 @@ const InfoHoverComponentDiagnostic = ({diagnosticHistoryId}) => {
             {responseData && (
               <View style={styles.responseContainer}>
                 <Text style={styles.responseText}>Car Diagnostic:</Text>
-                {/*<MapView*/}
-                {/*  style={styles.map}*/}
-                {/*  initialRegion={{*/}
-                {/*    latitude: parseFloat(responseData.startLatitude),*/}
-                {/*    longitude: parseFloat(responseData.startLongitude),*/}
-                {/*    latitudeDelta: 0.0922,*/}
-                {/*    longitudeDelta: 0.0421,*/}
-                {/*  }}>*/}
-                {/*  <Marker*/}
-                {/*    coordinate={{*/}
-                {/*      latitude: parseFloat(responseData.startLatitude),*/}
-                {/*      longitude: parseFloat(responseData.startLongitude),*/}
-                {/*    }}*/}
-                {/*    title="Start Point"*/}
-                {/*    description="This is the start point"*/}
-                {/*  />*/}
-                {/*  <Marker*/}
-                {/*    coordinate={{*/}
-                {/*      latitude: parseFloat(responseData.endLatitude),*/}
-                {/*      longitude: parseFloat(responseData.endLongitude),*/}
-                {/*    }}*/}
-                {/*    title="End Point"*/}
-                {/*    description="This is the end point"*/}
-                {/*  />*/}
-                {/*</MapView>TODO UNCOMMENT WHEN NEEDED*/}
-                <View style={styles.map}></View>
+                <MapView
+                  style={styles.map}
+                  initialRegion={{
+                    latitude: parseFloat(responseData.startLatitude),
+                    longitude: parseFloat(responseData.startLongitude),
+                    latitudeDelta: 0.0922,
+                    longitudeDelta: 0.0421,
+                  }}>
+                  <Marker
+                    coordinate={{
+                      latitude: parseFloat(responseData.startLatitude),
+                      longitude: parseFloat(responseData.startLongitude),
+                    }}
+                    title="Start Point"
+                    description="This is the start point"
+                  />
+                  <Marker
+                    coordinate={{
+                      latitude: parseFloat(responseData.endLatitude),
+                      longitude: parseFloat(responseData.endLongitude),
+                    }}
+                    title="End Point"
+                    description="This is the end point"
+                  />
+                </MapView>
+                {/*TODO UNCOMMENT WHEN NEEDED*/}
+                {/*<View style={styles.map}></View>*/}
                 <View style={styles.tableRow}>
                   <Text style={styles.tableCellLabel}>Average speed:</Text>
                   <Text style={styles.tableCellValue}>

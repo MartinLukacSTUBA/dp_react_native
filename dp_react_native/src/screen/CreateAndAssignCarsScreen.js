@@ -1,7 +1,5 @@
 import React, {useEffect, useState} from 'react';
 import {Image, SafeAreaView, ScrollView, StyleSheet, Text, TouchableOpacity, View,} from 'react-native';
-import DateComponent from '../components/DateComponent';
-import NameComponent from '../components/NameComponent';
 import LoginScreen from './LoginScreen';
 import DiagnosticScreen from './DiagnosticScreen';
 import {myViewStyles} from '../styles/myViewStyles';
@@ -116,10 +114,10 @@ const CreateAndAssignCarsScreen = ({navigation}) => {
             resizeMode="cover"
           />
         </View>
-        <View style={myViewStyles.nameContainer}>
-          <NameComponent />
-          <DateComponent />
-        </View>
+        {/*<View style={myViewStyles.nameContainer}>*/}
+        {/*  <NameComponent />*/}
+        {/*  <DateComponent />*/}
+        {/*</View>*/}
       </View>
 
       <View style={myViewStyles.middleView}>
@@ -160,10 +158,12 @@ const CreateAndAssignCarsScreen = ({navigation}) => {
                     <EditCarComponent carId={car.id} onEdit={() => getCars()} />
                   )}
                   <View style={styles.deleteButton}>
-                    <DeleteCarComponent
-                      carId={car.id}
-                      onDelete={() => getCars()}
-                    />
+                    {userRole === 'ADMIN' && (
+                      <DeleteCarComponent
+                        carId={car.id}
+                        onDelete={() => getCars()}
+                      />
+                    )}
                   </View>
                 </View>
               ))}

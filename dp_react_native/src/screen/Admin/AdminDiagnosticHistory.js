@@ -1,15 +1,13 @@
 import React, {useEffect, useState} from 'react';
 import {SafeAreaView, ScrollView, StyleSheet, Text, View} from 'react-native';
-import DateComponent from '../../components/DateComponent';
-import NameComponent from '../../components/NameComponent';
 import LoginScreen from '../LoginScreen';
 import DiagnosticScreen from '../DiagnosticScreen';
 import {myViewStyles} from '../../styles/myViewStyles';
-import {myTextStyles} from '../../styles/myTextStyles';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import {BASE_URL} from '../../config';
 import InfoHoverComponentDiagnostic from '../../components/CarsComponent/InfoHoverComponentDiagnostic';
 import DeleteCarDiagnosticComponent from '../../components/CarsComponent/DeleteCarDiagnosticComponent';
+import {myTextStyles} from '../../styles/myTextStyles';
 
 const AdminDiagnosticHistory = ({navigation}) => {
   const LoginScreenNavigation = () => {
@@ -65,16 +63,16 @@ const AdminDiagnosticHistory = ({navigation}) => {
   return (
     <View style={myViewStyles.mainContainer}>
       <View style={myViewStyles.headerContainer}>
-        <View style={myViewStyles.nameContainer}>
-          <NameComponent />
-          <DateComponent />
-        </View>
+        <Text style={myTextStyles.bigText}>Employees Diagnostic History </Text>
+        {/*<View style={myViewStyles.nameContainer}>*/}
+        {/*  <NameComponent />*/}
+        {/*  <DateComponent />*/}
+        {/*</View>*/}
       </View>
 
       <View style={myViewStyles.middleView}>
-        <Text style={myTextStyles.bigText}>Employees Diagnostic History </Text>
-        <View style={{height: 50}}></View>
-        <View style={{height: 50}}></View>
+        {/*<View style={{height: 50}}></View>*/}
+        {/*<View style={{height: 50}}></View>*/}
         <View>
           <SafeAreaView>
             <ScrollView style={styles.scrollView}>

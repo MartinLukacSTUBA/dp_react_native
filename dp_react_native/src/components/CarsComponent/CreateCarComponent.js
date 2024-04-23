@@ -150,11 +150,6 @@ const CreateCarComponent = ({}) => {
           )
         }>
         <Text style={myTextStyles.basicText}>Save</Text>
-        <Text>
-          asd
-          {name}
-          {type}
-        </Text>
       </TouchableOpacity>
     </View>
   );

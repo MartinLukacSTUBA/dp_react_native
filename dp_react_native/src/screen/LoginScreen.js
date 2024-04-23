@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import {
   Button,
   StyleSheet,
@@ -12,7 +12,7 @@ import TcpSocket from 'react-native-tcp-socket';
 
 import {BASE_URL, OBD_URL} from '../config';
 import axios from 'axios';
-import LocationButton from '../components/GetCurrentAdressComponent';
+import * as NetInfo from '@react-native-community/netinfo';
 
 // Function to get the WiFi address
 
@@ -125,7 +125,81 @@ function parseAndPrintTemperature(obdResponse) {
   }
 }
 
-function readDataFromOBDSpeed() {
+const readDataFromOBDRPH = () => {
+  return new Promise((resolve, reject) => {
+    console.log('Attempting to connect to the OBD2 adapter via WebSocket...');
+
+    // Create a WebSocket connection to the OBD2 adapter
+    const socket = new WebSocket(`ws://${OBD_URL.host}:${OBD_URL.port}`);
+
+    socket.onopen = () => {
+      console.log('Connected to the OBD2 adapter via WebSocket');
+
+      // Send OBD-II command for revolutions per hour (mode 01, PID 0x0C)
+      socket.send('010C\r');
+    };
+
+    let responseData = '';
+
+    socket.onmessage = event => {
+      console.log('Received data:', event.data);
+      responseData += event.data;
+    };
+
+    socket.onerror = error => {
+      console.error('Connection error:', error);
+      reject(error);
+    };
+
+    socket.onclose = () => {
+      console.log('Connection closed');
+      resolve(responseData.trim()); // Resolve the promise with the received data (trimmed)
+      socket.close(); // Close the connection
+    };
+
+    // Preventing unhandled promise rejection with isTrusted: false
+    socket.addEventListener('error', event => {
+      console.error('WebSocket error:', event.message);
+      reject(new Error('WebSocket error'));
+    });
+  });
+};
+
+const readDataFromOBDSpeed = () => {
+  return new Promise((resolve, reject) => {
+    console.log('Attempting to connect to the OBD2 adapter via WebSocket...');
+
+    // Create a WebSocket connection to the OBD2 adapter
+    const socket = new WebSocket(`ws://${OBD_URL.host}:${OBD_URL.port}`);
+
+    socket.onopen = () => {
+      console.log('Connected to the OBD2 adapter via WebSocket');
+
+      // Send OBD-II command for vehicle speed (mode 01, PID 0x0D)
+      socket.send('010D\r');
+    };
+
+    let responseData = '';
+
+    socket.onmessage = event => {
+      console.log('Received data:', event.data);
+      responseData += event.data;
+    };
+
+    socket.onerror = error => {
+      console.error('Connection error:', error);
+      reject(error);
+    };
+
+    socket.onclose = () => {
+      console.log('Connection closed');
+      resolve(responseData.trim()); // Resolve the promise with the received data (trimmed)
+      socket.close(); // Close the connection
+    };
+  });
+};
+
+function readDataFromOBDSpeedOLD() {
   return new Promise((resolve, reject) => {
     console.log('Attempting to connect to the emulator...');
 
@@ -143,11 +217,11 @@ function readDataFromOBDSpeed() {
       },
     );
 
+    let responseData = '';
+
     client.on('data', data => {
       console.log('Received data:', data.toString());
-      parseAndPrintSpeed(data.toString());
-      resolve(data.toString());
-      client.destroy(); // Close the connection
+      responseData += data.toString();
     });
 
     client.on('error', error => {
@@ -157,6 +231,8 @@ function readDataFromOBDSpeed() {
 
     client.on('close', () => {
       console.log('Connection closed');
+      resolve(responseData); // Resolve the promise with the received data
+      client.destroy(); // Close the connection
     });
   });
 }
@@ -529,6 +605,24 @@ const getPublicIPAddress = async () => {
   }
 };
 
+const getWifiIpAddress = () => {
+  const [wifiIpAddress, setWifiIpAddress] = useState('');
+
+  useEffect(() => {
+    const unsubscribe = NetInfo.addEventListener(state => {
+      if (state.isConnected && state.type === 'wifi') {
+        setWifiIpAddress(state.details.ipAddress || '');
+      } else {
+        setWifiIpAddress('');
+      }
+    });
+
+    return () => unsubscribe();
+  }, []);
+
+  return wifiIpAddress;
+};
+
 const getWifiAddress = async () => {
   try {
     // Get the public IP address
@@ -545,6 +639,9 @@ getWifiAddress();
 //NEEEDED IN REAL DEV
 
 const LoginScreen = ({navigation}) => {
+  const wifiIpAddress = getWifiIpAddress();
+  console.log('wifina');
+  console.log(wifiIpAddress);
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [tokenForLogin, setTokenForLogin] = useState('');
@@ -574,14 +671,18 @@ const LoginScreen = ({navigation}) => {
         navigation.navigate('DiagnosticScreen');
       });
   };
+
   return (
     <View style={styles.container}>
       <View style={styles.wrapper}>
         {/*<Button title="Get" onPress={getHelloFromBE} />*/}
         {/*<Button title="ReadButtonVin" onPress={readDataFromOBDVIN} />*/}
-        <Button title="ReadButtonSpeed" onPress={readDataFromOBDSpeed} />
-        <Button title="ReadButtonError" onPress={readDataFromOBDError} />
-        <LocationButton></LocationButton>
+
+        {/*<Button title="ReadButtonSpeed" onPress={readDataFromOBDSpeed} />*/}
+        {/*<Button title="ReadButtonError" onPress={readDataFromOBDError} />*/}
+        {/*<Button title="ReadButtonRPH" onPress={readDataFromOBDRPH} />*/}
+
+        {/*<LocationButton></LocationButton>*/}
         {/*<Button*/}
         {/*  title="ReadButtonZatazenieMotora"*/}
         {/*  onPress={readDataFromOBDEngineLoad}*/}

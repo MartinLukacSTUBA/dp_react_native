@@ -1,8 +1,13 @@
-export const BASE_URL = 'https://ninety-rice-lose.loca.lt';
+export const BASE_URL = 'https://silent-badgers-sniff.loca.lt';
 export const OBD_URL = {
   host: '4.tcp.eu.ngrok.io',
-  port: 15110,
+  port: 10288,
 };
+
+// export const OBD_URL = {
+//   host: '192.168.16.100', // IP address of the OBD2 adapter
+//   port: '35000', // Port for WebSocket communication
+// };
 
 export const MY_GRAY = '#818589';
 export const MY_GUNMETAL_GRAY = '#818589';
