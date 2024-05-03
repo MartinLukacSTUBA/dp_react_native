@@ -1,17 +1,17 @@
-import React, {useState, useEffect} from 'react';
+import React, {useEffect, useState} from 'react';
 import {
-  Text,
   Alert,
-  View,
   FlatList,
-  Platform,
-  StatusBar,
-  SafeAreaView,
-  NativeModules,
-  useColorScheme,
-  TouchableOpacity,
   NativeEventEmitter,
+  NativeModules,
   PermissionsAndroid,
+  Platform,
+  SafeAreaView,
+  StatusBar,
+  Text,
+  TouchableOpacity,
+  useColorScheme,
+  View,
 } from 'react-native';
 import BleManager from 'react-native-ble-manager';
 import {Colors} from 'react-native/Libraries/NewAppScreen';
@@ -20,7 +20,7 @@ import {styles} from '../styles/styles';
 
 const BleManagerModule = NativeModules.BleManager;
 const BleManagerEmitter = new NativeEventEmitter(BleManagerModule);
-const BluetoothScreen = () => {
+const BluethootScreenDeprecated = () => {
   const peripherals = new Map();
   const [isScanning, setIsScanning] = useState(false);
   const [connectedDevices, setConnectedDevices] = useState([]);
@@ -205,4 +205,4 @@ const BluetoothScreen = () => {
     </SafeAreaView>
   );
 };
-export default BluetoothScreen;
+export default BluethootScreenDeprecated;

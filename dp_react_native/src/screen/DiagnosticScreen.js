@@ -26,10 +26,10 @@ const DiagnosticScreen = ({navigation}) => {
   const [engineLoad, setEngineLoad] = useState('');
   const [fuelPressure, setFuelPressure] = useState('');
 
-  const [selectedCar, setSelectedCar] = useState(null); // State to hold the selected car
+  const [selectedCar, setSelectedCar] = useState(null);
 
   const LoginScreenNavigation = () => {
-    navigation.navigate(LoginScreen); // Replace 'Screen2' with the name of the second screen.
+    navigation.navigate(LoginScreen);
   };
   const DiagnosticHistory = () => {
     navigation.navigate(DiagnosticHistory);
@@ -38,7 +38,7 @@ const DiagnosticScreen = ({navigation}) => {
     navigation.navigate(CreateAndAssignCarsScreen);
   };
 
-  const [cars, setCars] = useState([]); // Initialize cars as an empty array
+  const [cars, setCars] = useState([]);
 
   async function getCarsOfLoggedUser() {
     try {
@@ -55,21 +55,19 @@ const DiagnosticScreen = ({navigation}) => {
         throw new Error(`HTTP Error! Status: ${response.status}`);
       }
       const result = await response.json();
-      setCars(result); // Set cars to the fetched data
+      setCars(result);
     } catch (error) {
       console.error('Fetch error:', error);
     }
   }
 
   useEffect(() => {
-    // Fetch cars data when the screen gains focus (navigated to)
     const unsubscribe = navigation.addListener('focus', () => {
       getCarsOfLoggedUser();
     });
-    return unsubscribe; // Cleanup function to unsubscribe from the focus event
+    return unsubscribe;
   }, [navigation]);
 
-  // Function to handle car selection
   const handleCarSelection = carId => {
     setSelectedCar(carId);
   };
@@ -109,7 +107,7 @@ const DiagnosticScreen = ({navigation}) => {
           if (value !== null && !isNaN(value)) {
             setThrottlePosition(value);
           }
-        }} // throttle position nejak cudne ide
+        }}
         setEngineLoad={value => {
           if (value !== null && !isNaN(value)) {
             setEngineLoad(value);
@@ -118,7 +116,6 @@ const DiagnosticScreen = ({navigation}) => {
         setFuelPressure={setFuelPressure}
         setSelectedCar={selectedCar}
       />
-      {/*<LocalStorageComponent />*/}
     </View>
   );
 };

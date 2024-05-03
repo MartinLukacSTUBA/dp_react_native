@@ -10,20 +10,19 @@ import DeleteCarDiagnosticComponent from '../components/CarsComponent/DeleteCarD
 
 const DiagnosticHistory = ({navigation}) => {
   const LoginScreenNavigation = () => {
-    navigation.navigate(LoginScreen); // Replace 'Screen2' with the name of the second screen.
+    navigation.navigate(LoginScreen);
   };
   const DiagnosticScreenNavigation = () => {
-    navigation.navigate(DiagnosticScreen); // Replace 'Screen1' with the name of the screen you want to navigate to.
+    navigation.navigate(DiagnosticScreen);
   };
   const CreateAndAssignCarsScreen = () => {
     navigation.navigate(CreateAndAssignCarsScreen);
   };
 
-  const [diagnosticHistory, setDiagnosticHistoryData] = useState([]); // State to store fetched cars data
+  const [diagnosticHistory, setDiagnosticHistoryData] = useState([]);
   const [userRole, setUserRole] = useState('');
   useEffect(() => {
     return navigation.addListener('focus', () => {
-      // Fetch cars data when the screen gains focus (navigated to)
       getDiagnosticHistory();
       const fetchUserRole = async () => {
         try {
@@ -43,15 +42,14 @@ const DiagnosticHistory = ({navigation}) => {
         }
       };
     });
-  }, [navigation]); // Add navigation as a dependency
+  }, [navigation]);
 
   const getDiagnosticHistory = async () => {
     const accessToken = await AsyncStorage.getItem('AccessToken');
     console.log(accessToken);
     const url = `${BASE_URL}/api/v1/car-diagnostic/logged-user`;
-    // Construct the equivalent curl command
     const curlCommand = `curl -X GET "${url}" -H "Authorization: Bearer ${accessToken}"`;
-    console.log(curlCommand); // Log the curl command to the console
+    console.log(curlCommand);
     console.log();
     fetch(url, {
       method: 'GET',
@@ -67,9 +65,8 @@ const DiagnosticHistory = ({navigation}) => {
         return res.json(); // Parse the response as JSON
       })
       .then(data => {
-        console.log('Data received:', data); // Log the data for debugging
-        setDiagnosticHistoryData(data); // Update state with fetched cars data
-        // Check if firstname and lastname properties exist
+        console.log('Data received:', data);
+        setDiagnosticHistoryData(data);
       })
       .catch(error => {
         console.error('Fetch error:', error);
@@ -78,16 +75,7 @@ const DiagnosticHistory = ({navigation}) => {
 
   return (
     <View style={myViewStyles.mainContainer}>
-      {/*<View style={myViewStyles.headerContainer}>*/}
-      {/*<View style={myViewStyles.nameContainer}>*/}
-      {/*  <NameComponent />*/}
-      {/*  <DateComponent />*/}
-      {/*</View>*/}
-      {/*</View>*/}
-
       <View style={myViewStyles.middleView}>
-        {/*<Text style={myTextStyles.bigText}>Diagnostic History </Text>*/}
-        {/*<View style={{height: 50}}></View>*/}
         <View style={{height: 50}}></View>
         <View>
           <SafeAreaView>
@@ -136,9 +124,9 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     alignItems: 'center',
     paddingHorizontal: 16,
-    marginBottom: 10, // Add margin bottom for spacing between rows
-    backgroundColor: 'white', // Optional: add background color for better visualization
-    borderRadius: 10, // Optional: add border radius for rounded corners
+    marginBottom: 10,
+    backgroundColor: 'white',
+    borderRadius: 10,
   },
   idText: {
     width: '10%',
@@ -146,19 +134,19 @@ const styles = StyleSheet.create({
   },
   lastname: {
     paddingLeft: '5%',
-    width: '30%', // Adjust width as needed
+    width: '30%',
     textAlign: 'left',
   },
   carName: {
-    width: '30%', // Adjust width as needed
+    width: '30%',
     textAlign: 'left',
   },
   carInfoContainer: {
-    flex: 1, // Take remaining space
-    alignItems: 'flex-end', // Align to the right
+    flex: 1,
+    alignItems: 'flex-end',
   },
   deleteButton: {
-    marginLeft: 10, // Add margin left for spacing between delete button and other content
+    marginLeft: 10,
   },
   scrollView: {
     height: 500,

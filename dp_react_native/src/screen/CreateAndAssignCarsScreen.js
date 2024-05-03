@@ -23,10 +23,10 @@ import AssignCarToMeComponent from '../components/CarsComponent/AssignCarToMeCom
 
 const CreateAndAssignCarsScreen = ({navigation}) => {
   const LoginScreenNavigation = () => {
-    navigation.navigate(LoginScreen); // Replace 'Screen2' with the name of the second screen.
+    navigation.navigate(LoginScreen);
   };
   const DiagnosticScreenNavigation = () => {
-    navigation.navigate(DiagnosticScreen); // Replace 'Screen1' with the name of the screen you want to navigate to.
+    navigation.navigate(DiagnosticScreen);
   };
   const DiagnosticHistory = () => {
     navigation.navigate(DiagnosticHistory);
@@ -37,18 +37,17 @@ const CreateAndAssignCarsScreen = ({navigation}) => {
   };
 
   const [showCreateCar, setShowCreateCar] = useState(false);
-  const [carsData, setCarsData] = useState([]); // State to store fetched cars data
+  const [carsData, setCarsData] = useState([]);
 
   const handleToggleCreateCar = () => {
-    setShowCreateCar(prevState => !prevState); // Toggle the state value
+    setShowCreateCar(prevState => !prevState);
   };
 
   useEffect(() => {
     return navigation.addListener('focus', () => {
-      // Fetch cars data when the screen gains focus (navigated to)
       getCars();
     });
-  }, [navigation]); // Add navigation as a dependency
+  }, [navigation]);
 
   const [userRole, setUserRole] = useState('');
 
@@ -92,12 +91,11 @@ const CreateAndAssignCarsScreen = ({navigation}) => {
         if (!res.ok) {
           throw new Error(`HTTP Error! Status: ${res.status}`);
         }
-        return res.json(); // Parse the response as JSON
+        return res.json();
       })
       .then(data => {
-        console.log('Data received:', data); // Log the data for debugging
-        setCarsData(data); // Update state with fetched cars data
-        // Check if firstname and lastname properties exist
+        console.log('Data received:', data);
+        setCarsData(data);
       })
       .catch(error => {
         console.error('Fetch error:', error);
@@ -114,10 +112,6 @@ const CreateAndAssignCarsScreen = ({navigation}) => {
             resizeMode="cover"
           />
         </View>
-        {/*<View style={myViewStyles.nameContainer}>*/}
-        {/*  <NameComponent />*/}
-        {/*  <DateComponent />*/}
-        {/*</View>*/}
       </View>
 
       <View style={myViewStyles.middleView}>
@@ -197,15 +191,15 @@ const styles = StyleSheet.create({
     textAlign: 'center',
   },
   carNameText: {
-    width: '40%', // Adjusted width for the name of the car
+    width: '40%',
     textAlign: 'left',
   },
   assignToMeIcon: {
-    width: '20%', // Adjusted width for the vehicle number plate
+    width: '20%',
     textAlign: 'center',
   },
   otherFieldsText: {
-    flex: 1, // Take remaining space
+    flex: 1,
     textAlign: 'left',
   },
   scrollView: {
