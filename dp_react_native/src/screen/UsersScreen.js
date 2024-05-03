@@ -89,11 +89,6 @@ const UsersScreen = ({navigation}) => {
             resizeMode="cover"
           />
         </View>
-
-        {/*<View style={myViewStyles.nameContainer}>*/}
-        {/*  <NameComponent />*/}
-        {/*  <DateComponent />*/}
-        {/*</View>*/}
       </View>
 
       <View style={myViewStyles.middleView}>
@@ -171,34 +166,3 @@ const styles = StyleSheet.create({
 });
 
 export default UsersScreen;
-
-
-// <View style={myViewStyles.burgerMenuContainer}>
-//   <TouchableOpacity
-//       style={myButtonStyles.basicButton}
-//       onPress={LoginScreenNavigation}>
-//     <Text style={myTextStyles.basicText}>LoginScreenNavigation</Text>
-//   </TouchableOpacity>
-//
-//   <TouchableOpacity
-//       style={myButtonStyles.basicButton}
-//       onPress={DiagnosticScreenNavigation}>
-//     <Text style={myTextStyles.basicText}>
-//       DiagnosticScreenNavigation
-//     </Text>
-//   </TouchableOpacity>
-//
-//   <TouchableOpacity
-//       style={myButtonStyles.basicButton}
-//       onPress={DiagnosticHistory}>
-//     <Text style={myTextStyles.basicText}>DiagnosticHistory</Text>
-//   </TouchableOpacity>
-//
-//   <TouchableOpacity
-//       style={myButtonStyles.basicButton}
-//       onPress={CreateAndAssignCarsScreen}>
-//     <Text style={myTextStyles.basicText}>
-//       CreateAndAssignCarsScreen
-//     </Text>
-//   </TouchableOpacity>
-// </View>

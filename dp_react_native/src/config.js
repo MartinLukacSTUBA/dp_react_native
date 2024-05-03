@@ -1,7 +1,7 @@
-export const BASE_URL = 'https://silent-badgers-sniff.loca.lt';
+export const BASE_URL = 'https://sour-plants-mate.loca.lt';
 export const OBD_URL = {
-  host: '4.tcp.eu.ngrok.io',
-  port: 10288,
+  host: '6.tcp.eu.ngrok.io',
+  port: 12383,
 };
 
 // export const OBD_URL = {

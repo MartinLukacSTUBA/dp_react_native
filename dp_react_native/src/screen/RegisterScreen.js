@@ -12,9 +12,9 @@ import {BASE_URL} from '../config';
 const getTokenFromRegister = (firstname, lastname, email, password) => {
   if (!firstname && !lastname && !email && !password) {
     const errorMessage = 'Fill all data!';
-    console.error(errorMessage); // Log an error to the console
-    alert(errorMessage); // Display an alert with the error message
-    return Promise.reject(errorMessage); // Reject the promise with the error message
+    console.error(errorMessage);
+    alert(errorMessage);
+    return Promise.reject(errorMessage);
   } else {
     const url = `${BASE_URL}/api/v1/auth/register`;
     return fetch(url, {
@@ -47,14 +47,9 @@ const RegisterScreen = ({navigation}) => {
       .then(data => {
         if (data && data.token) {
           const token = data.token; // Extract the token from the response
-          // Now, you can use the 'token' variable as needed.
-          console.log(token); // This will log the JWT token.
+          console.log(token);
           setTokenForLogin(token);
-          navigation.navigate('ShiftScreen');
-
-          // You can also save it to your component's state if needed.
-          // For example, you can add 'const [token, setToken] = useState(null);' at the beginning of your component.
-          // Then, you can set the token using 'setToken(token);'.
+          navigation.navigate('DiagnosticScreen');
         } else {
           console.error('Token not found in the response');
         }

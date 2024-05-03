@@ -11,7 +11,6 @@ function readDataFromOBDError(setShowCheckmark) {
   return new Promise((resolve, reject) => {
     console.log('Attempting to connect to the emulator...');
 
-    // Create a TCP connection to the emulator
     const client = TcpSocket.createConnection(
       {
         host: OBD_URL.host,
@@ -19,8 +18,6 @@ function readDataFromOBDError(setShowCheckmark) {
       },
       () => {
         console.log('Connected to the emulator');
-
-        // Send OBD-II command for error codes retrieval
         client.write('0101\r');
       },
     );
