@@ -1,7 +1,7 @@
-export const BASE_URL = 'https://sour-plants-mate.loca.lt';
+export const BASE_URL = 'https://eight-rivers-sell.loca.lt';
 export const OBD_URL = {
-  host: '6.tcp.eu.ngrok.io',
-  port: 12383,
+  host: '7.tcp.eu.ngrok.io',
+  port: 14277,
 };
 
 // export const OBD_URL = {
