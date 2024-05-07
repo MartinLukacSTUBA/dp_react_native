@@ -85,7 +85,7 @@ Krok po kroku
 
 0. úspešné spustenie servera
 
-(krok v 1 prípade testovania / vývoja prostredníctvom
+(krok 1 v prípade testovania / vývoja prostredníctvom
 simulátora [Emulator OBD2 327](https://github.com/Ircama/ELM327-emulator))
 
 1. pre spustenie ELM327 emulátora,v priečinku kde
@@ -93,13 +93,17 @@ simulátora [Emulator OBD2 327](https://github.com/Ircama/ELM327-emulator))
    *python -m elm -s car -n 35005** ---> simuluje konkektor OBD2
 2. otvoriť aplikáciu Ngrok a napísať príkaz run **ngrok tcp 35005** ---> to nám zabezpečí vytvorenie simulácie
    komunikácie TCP
-3. v priečinku dp, je potrebné pre spustenie aplikácie napísať *npm start*
+3. v priečinku dp_react_native, je potrebné pre spustenie aplikácie napísať *npm start*
 4. následne pre spustenie aplikácie v zariadeni stlačiť **a**
 5. ak server beží na localhoste, vyexportovať jeho port na verejnú adresu **lt --port 8080** --> nasadenie servera
    verejne
 6. nastaviť URL servera do **config.js**
-7. ak používame emulátor, nastaviť URL emulátora do **config.js** / ak používame reálny OBD2 konektor, je potrebné
-   nastaviť jeho port v **config.js**
+7. ak používame emulátor, nastaviť URL
+   emulátora ([Export  emulátora - NgRok](https://ngrok.com/) + [GitHub Repository - Emulator OBD2 327](https://github.com/Ircama/ELM327-emulator) )
+   do **config.js** / ak používame reálny OBD2 konektor, je potrebné
+   nastaviť jeho port v **config.js** a následne využiť funkciu **getWifiIpAddress** z LoginScreen.js ktorá nám zistí IP
+   adresu konektora na ktorý sme napojený, následne po nastavní IP adresy v **config.js** pre komunikáciu TCP/IP je
+   možná komunikácia so zariadením OBD2
 
 ___
 
