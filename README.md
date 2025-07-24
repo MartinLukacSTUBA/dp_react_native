@@ -1,156 +1,6 @@
-# Systém správy firemných vozidiel
-
-**Tento projekt je diplomovým projektom inžinierskeho štúdia na FEI STU.**
-
-Projekt sa skladá z dvoch častí
-
-Frontend - React-Native: [GitHub Repository](https://github.com/MartinLukacSTUBA/dp_react_native)
-
-Backend - Java Spring: [GitHub Repository](https://github.com/MartinLukacSTUBA/dp_spring_backend)
-
-**Ide o Open-Source softvér, ktorý firmám umožňuje prevádzkovať vlastný firemný softvér pre Správu firemných vozidiel.**
-_______________________________
-Cieľom diplomovej práce bolo vyvinúť aplikáciu na monitorovanie a správu vozidiel. Aplikácia
-by mala byť použiteľná pre mnoho firiem, ktoré majú firemnú flotilu vozidiel a
-chceli by jednotlivé vozidlá monitorovať. V teoretickej časti diplomovej práce sme si opísali
-protokol On board diagnostic 2, rôzne možnosti vývoja frontendovej časti aplikácie
-a taktiež aj môžnosti vývoja serverovej časti aplikácie. Popísali sme si ako v súčastnej
-dobe komunikujú aplikácie naprieč internetom, a predstavili sme si jednotlivé typy databáz.
-V praktickej časti sme sa venovali vývoju aplikácie na frontendovej a serverovej
-časti, taktiež sme vytvorili databázu aplikácie. V aplikácii je možné prihlásiť sa pomocou
-jedinečného účtu zabezpečeného pomocou JWT tokenu. Používatelia aplikácie s rolou
-Admin, dokážu vytvárať a meniť používateľské účty v aplikácii alebo vytvárať a meniť
-vozidlá vo firemnej flotile, taktiež majú možnosť prezriet si všetky historické dáta jednotlivých
-jázd. Používatelia aplikácie s rolou User, si vedia priradiť už existujúce vozidlá a
-zaznamenávať parametre jednotlivých jázd, taktiež si vedia pozrieť históriu svojich jázd
-s podrobnými parametrami. Všetky tieto údaje sú uložené v databáze, a používateľ si
-ich môže kedykoľvek pozrieť. Pre vyhnutie sa problémom s neplatnými dokumentmi, ako
-je Stav technickej kontroly, sme implementovali v aplikácii kontrolu stavu vozidiel. Ak
-vozidlu čoskoro končí platnosť dokumentov, majiteľovi vozidla je zaslaný email o čoskorom
-expirovaní platnosti dokumentov. Navrhnutá aplikácia je jednoducho nasaditeľná a
-nakonfigurovateľná pre rôzne typy konektorov On Board Diagnostic 2. Implementovaním
-v JavaScript knižnici Reac-Native je táto aplikácia kompatibilná pre operačné systémy
-Android a iOS.
-
-#### Kľúčové slová: OBD2, frontend, react-native, backend, framework spring, database
-
-____________________________________
-Využívané technológie pri vývoji serverovej časti:
-
-- **JavaScript - React-Native**
-- **Android Studio**
-- **[GitHub Repository - Emulator OBD2 327](https://github.com/Ircama/ELM327-emulator)**
-- **[Export  emulátora - NgRok](https://ngrok.com/)**
-- **[Export  serverovej časti - SSL](https://theboroer.github.io/localtunnel-www/)**
-- **[Server - Java Spring](https://github.com/MartinLukacSTUBA/dp_spring_backend)**
-
-Vývojové prostredie servera  : **Webstorm 2023**
-_____________________________________
-Pre úspešné spustenie a nasadenie našej aplikácie je potrebné mať zapnutú serverovú časť nášho systému.
-Serverovú časť nášho systému nájdeme na [Backend - Java Spring](https://github.com/MartinLukacSTUBA/dp_spring_backend).
-Po úspešnom spustení Serveru, pre produkčné účely aplikácie, je potrebné tento server vyexportovať na verejnú doménu.
-Pre vývojové účely sme pre tento export aplikácie
-používali [Export  serverovej časti - SSL](https://theboroer.github.io/localtunnel-www/).
-
-Po úspešnom spustení a vyexportovaní aplikácie môžeme prejsť ku konfigurácii našej mobilnej aplikácie.
-
-- **Mať napojené mobilné zariadenie s operačným systémom Android na počítač.**
-- **Mať nainštalovaný Android Studio s ľubovoľným emulátorom.**
-
-Prostredníctvom Android Studia sme schopní vygenerovať aplikáciu zo zdrojového kódu pre operačný systém Android.
-
-(Poznámka: Ak chceme generovať aplikáciu pre operačný systém iOS, musíme použiť zariadenie s nainštalovaným softvérom
-Xcode.
-Treba si všimnúť, že softvér Xcode podporuje len operačné systémy macOS, takže na Windows alebo Linux operačných
-systémoch nie je možné vygenerovať túto aplikáciu
-pre operačný systém iOS.)
-
-Pri spúštaní projektu je potrebné splniť :
-Ak máme správnu URL adresu našej serverovej časti aplikácie, **je potrebné túto URL nastaviť ako koncový bod mobilnej
-aplikácie.**
-Tento koncový bod mobilnej aplikácie sa nastavuje v súbore **config.js konkrétne v premennej BASE_URL**.
-Po úspešnom nastavení tohto koncového bodu je naša aplikácia schopná pripojiť sa na server a komunikovať s ním.
-
-V tomto **config.js** taktiež existuje **OBD_URL**. Do tejto konštanty nastavíme **port** na ktorom naše OBD2 zariadenie
-komunikuje.
-**Host** tejto konštanty je nastavovaný automaticky po pripojení sa mobilnej aplikácii na wifi adaptér OBD2.
-___
-Pri vývoji aplikácii sme využívali
-taktiež [GitHub Repository - Emulator OBD2 327](https://github.com/Ircama/ELM327-emulator). Vďaka tomuto emulátoru sme
-boli schopný
-simulovať reálne čítanie dát z automobilu. Tento emulátor sme vyexportovali prostredníctvom
-technológie [Export  emulátora - NgRok](https://ngrok.com/).
-___
-Krok po kroku
-
-0. úspešné spustenie servera
-
-(krok 1 v prípade testovania / vývoja prostredníctvom
-simulátora [Emulator OBD2 327](https://github.com/Ircama/ELM327-emulator))
-
-1. pre spustenie ELM327 emulátora,v priečinku kde
-   je [GitHub Repository - Emulator OBD2 327](https://github.com/Ircama/ELM327-emulator) je potrebné spustiť príkaz  *
-   *python -m elm -s car -n 35005** ---> simuluje konkektor OBD2
-2. otvoriť aplikáciu Ngrok a napísať príkaz run **ngrok tcp 35005** ---> to nám zabezpečí vytvorenie simulácie
-   komunikácie TCP
-3. v priečinku dp_react_native, je potrebné pre spustenie aplikácie napísať *npm start*
-4. následne pre spustenie aplikácie v zariadeni stlačiť **a**
-5. ak server beží na localhoste, vyexportovať jeho port na verejnú adresu **lt --port 8080** --> nasadenie servera
-   verejne
-6. nastaviť URL servera do **config.js**
-7. ak používame emulátor, nastaviť URL
-   emulátora ([Export  emulátora - NgRok](https://ngrok.com/) + [GitHub Repository - Emulator OBD2 327](https://github.com/Ircama/ELM327-emulator) )
-   do **config.js** / ak používame reálny OBD2 konektor, je potrebné
-   nastaviť jeho port v **config.js** a následne využiť funkciu **getWifiIpAddress** z LoginScreen.js ktorá nám zistí IP
-   adresu konektora na ktorý sme napojený, následne po nastavní IP adresy v **config.js** pre komunikáciu TCP/IP je
-   možná komunikácia so zariadením OBD2
-
-___
-
-# Návod k implementácií vlastných funkcií OBD2
-
-```javascript
-function readDataFromOBDVIN() {
-    return new Promise((resolve, reject) => {
-        console.log('Attempting to connect to the emulator...');
-        const client = TcpSocket.createConnection(
-            {
-                host: OBD_URL.host,
-                port: OBD_URL.port,
-            },
-            () => {
-                console.log('Connected to the emulator');
-                client.write('0902\r');
-            },
-        );
-
-        client.on('data', data => {
-            console.log('Received data:', data.toString());
-            resolve(data.toString());
-            client.destroy();
-        });
-
-        client.on('error', error => {
-            console.error('Connection error:', error);
-            reject(error);
-        });
-
-        client.on('close', () => {
-            console.log('Connection closed');
-        });
-    });
-}
-   ```
-
-Ako môžeme vidieť, implementácia tejto komunikácie prebieha prostredníctvom komunikácie **TCP**. Adresu a Host pre túto
-komunikáciu
-naša aplikácia získava z konštánt. Pre jednotlivé OBD2 príkazy a získavanie jednotlivých OBD2 dát používame OBD2 príkazy
-v  **client.write('0902\r');**.
-Pre vlastnú implemnetáciu OBD2 príkazov je potrebné si naštudovať OBD2 knižnicu.
-___
 
 # Company Vehicle Management System - EN
-
+ OBD2, JS, API
 **This project is a diploma project for engineering studies at FEI STU.**
 
 The project consists of two parts:
@@ -302,4 +152,154 @@ our application obtains from constants. We use OBD2 commands for individual OBD2
 data
 in **client.write('0902\r');**.
 For your own implementation of OBD2 commands, you need to study the OBD2 library.
+___
+# Systém správy firemných vozidiel
+
+**Tento projekt je diplomovým projektom inžinierskeho štúdia na FEI STU.**
+
+Projekt sa skladá z dvoch častí
+
+Frontend - React-Native: [GitHub Repository](https://github.com/MartinLukacSTUBA/dp_react_native)
+
+Backend - Java Spring: [GitHub Repository](https://github.com/MartinLukacSTUBA/dp_spring_backend)
+
+**Ide o Open-Source softvér, ktorý firmám umožňuje prevádzkovať vlastný firemný softvér pre Správu firemných vozidiel.**
+_______________________________
+Cieľom diplomovej práce bolo vyvinúť aplikáciu na monitorovanie a správu vozidiel. Aplikácia
+by mala byť použiteľná pre mnoho firiem, ktoré majú firemnú flotilu vozidiel a
+chceli by jednotlivé vozidlá monitorovať. V teoretickej časti diplomovej práce sme si opísali
+protokol On board diagnostic 2, rôzne možnosti vývoja frontendovej časti aplikácie
+a taktiež aj môžnosti vývoja serverovej časti aplikácie. Popísali sme si ako v súčastnej
+dobe komunikujú aplikácie naprieč internetom, a predstavili sme si jednotlivé typy databáz.
+V praktickej časti sme sa venovali vývoju aplikácie na frontendovej a serverovej
+časti, taktiež sme vytvorili databázu aplikácie. V aplikácii je možné prihlásiť sa pomocou
+jedinečného účtu zabezpečeného pomocou JWT tokenu. Používatelia aplikácie s rolou
+Admin, dokážu vytvárať a meniť používateľské účty v aplikácii alebo vytvárať a meniť
+vozidlá vo firemnej flotile, taktiež majú možnosť prezriet si všetky historické dáta jednotlivých
+jázd. Používatelia aplikácie s rolou User, si vedia priradiť už existujúce vozidlá a
+zaznamenávať parametre jednotlivých jázd, taktiež si vedia pozrieť históriu svojich jázd
+s podrobnými parametrami. Všetky tieto údaje sú uložené v databáze, a používateľ si
+ich môže kedykoľvek pozrieť. Pre vyhnutie sa problémom s neplatnými dokumentmi, ako
+je Stav technickej kontroly, sme implementovali v aplikácii kontrolu stavu vozidiel. Ak
+vozidlu čoskoro končí platnosť dokumentov, majiteľovi vozidla je zaslaný email o čoskorom
+expirovaní platnosti dokumentov. Navrhnutá aplikácia je jednoducho nasaditeľná a
+nakonfigurovateľná pre rôzne typy konektorov On Board Diagnostic 2. Implementovaním
+v JavaScript knižnici Reac-Native je táto aplikácia kompatibilná pre operačné systémy
+Android a iOS.
+
+#### Kľúčové slová: OBD2, frontend, react-native, backend, framework spring, database
+
+____________________________________
+Využívané technológie pri vývoji serverovej časti:
+
+- **JavaScript - React-Native**
+- **Android Studio**
+- **[GitHub Repository - Emulator OBD2 327](https://github.com/Ircama/ELM327-emulator)**
+- **[Export  emulátora - NgRok](https://ngrok.com/)**
+- **[Export  serverovej časti - SSL](https://theboroer.github.io/localtunnel-www/)**
+- **[Server - Java Spring](https://github.com/MartinLukacSTUBA/dp_spring_backend)**
+
+Vývojové prostredie servera  : **Webstorm 2023**
+_____________________________________
+Pre úspešné spustenie a nasadenie našej aplikácie je potrebné mať zapnutú serverovú časť nášho systému.
+Serverovú časť nášho systému nájdeme na [Backend - Java Spring](https://github.com/MartinLukacSTUBA/dp_spring_backend).
+Po úspešnom spustení Serveru, pre produkčné účely aplikácie, je potrebné tento server vyexportovať na verejnú doménu.
+Pre vývojové účely sme pre tento export aplikácie
+používali [Export  serverovej časti - SSL](https://theboroer.github.io/localtunnel-www/).
+
+Po úspešnom spustení a vyexportovaní aplikácie môžeme prejsť ku konfigurácii našej mobilnej aplikácie.
+
+- **Mať napojené mobilné zariadenie s operačným systémom Android na počítač.**
+- **Mať nainštalovaný Android Studio s ľubovoľným emulátorom.**
+
+Prostredníctvom Android Studia sme schopní vygenerovať aplikáciu zo zdrojového kódu pre operačný systém Android.
+
+(Poznámka: Ak chceme generovať aplikáciu pre operačný systém iOS, musíme použiť zariadenie s nainštalovaným softvérom
+Xcode.
+Treba si všimnúť, že softvér Xcode podporuje len operačné systémy macOS, takže na Windows alebo Linux operačných
+systémoch nie je možné vygenerovať túto aplikáciu
+pre operačný systém iOS.)
+
+Pri spúštaní projektu je potrebné splniť :
+Ak máme správnu URL adresu našej serverovej časti aplikácie, **je potrebné túto URL nastaviť ako koncový bod mobilnej
+aplikácie.**
+Tento koncový bod mobilnej aplikácie sa nastavuje v súbore **config.js konkrétne v premennej BASE_URL**.
+Po úspešnom nastavení tohto koncového bodu je naša aplikácia schopná pripojiť sa na server a komunikovať s ním.
+
+V tomto **config.js** taktiež existuje **OBD_URL**. Do tejto konštanty nastavíme **port** na ktorom naše OBD2 zariadenie
+komunikuje.
+**Host** tejto konštanty je nastavovaný automaticky po pripojení sa mobilnej aplikácii na wifi adaptér OBD2.
+___
+Pri vývoji aplikácii sme využívali
+taktiež [GitHub Repository - Emulator OBD2 327](https://github.com/Ircama/ELM327-emulator). Vďaka tomuto emulátoru sme
+boli schopný
+simulovať reálne čítanie dát z automobilu. Tento emulátor sme vyexportovali prostredníctvom
+technológie [Export  emulátora - NgRok](https://ngrok.com/).
+___
+Krok po kroku
+
+0. úspešné spustenie servera
+
+(krok 1 v prípade testovania / vývoja prostredníctvom
+simulátora [Emulator OBD2 327](https://github.com/Ircama/ELM327-emulator))
+
+1. pre spustenie ELM327 emulátora,v priečinku kde
+   je [GitHub Repository - Emulator OBD2 327](https://github.com/Ircama/ELM327-emulator) je potrebné spustiť príkaz  *
+   *python -m elm -s car -n 35005** ---> simuluje konkektor OBD2
+2. otvoriť aplikáciu Ngrok a napísať príkaz run **ngrok tcp 35005** ---> to nám zabezpečí vytvorenie simulácie
+   komunikácie TCP
+3. v priečinku dp_react_native, je potrebné pre spustenie aplikácie napísať *npm start*
+4. následne pre spustenie aplikácie v zariadeni stlačiť **a**
+5. ak server beží na localhoste, vyexportovať jeho port na verejnú adresu **lt --port 8080** --> nasadenie servera
+   verejne
+6. nastaviť URL servera do **config.js**
+7. ak používame emulátor, nastaviť URL
+   emulátora ([Export  emulátora - NgRok](https://ngrok.com/) + [GitHub Repository - Emulator OBD2 327](https://github.com/Ircama/ELM327-emulator) )
+   do **config.js** / ak používame reálny OBD2 konektor, je potrebné
+   nastaviť jeho port v **config.js** a následne využiť funkciu **getWifiIpAddress** z LoginScreen.js ktorá nám zistí IP
+   adresu konektora na ktorý sme napojený, následne po nastavní IP adresy v **config.js** pre komunikáciu TCP/IP je
+   možná komunikácia so zariadením OBD2
+
+___
+
+# Návod k implementácií vlastných funkcií OBD2
+
+```javascript
+function readDataFromOBDVIN() {
+    return new Promise((resolve, reject) => {
+        console.log('Attempting to connect to the emulator...');
+        const client = TcpSocket.createConnection(
+            {
+                host: OBD_URL.host,
+                port: OBD_URL.port,
+            },
+            () => {
+                console.log('Connected to the emulator');
+                client.write('0902\r');
+            },
+        );
+
+        client.on('data', data => {
+            console.log('Received data:', data.toString());
+            resolve(data.toString());
+            client.destroy();
+        });
+
+        client.on('error', error => {
+            console.error('Connection error:', error);
+            reject(error);
+        });
+
+        client.on('close', () => {
+            console.log('Connection closed');
+        });
+    });
+}
+   ```
+
+Ako môžeme vidieť, implementácia tejto komunikácie prebieha prostredníctvom komunikácie **TCP**. Adresu a Host pre túto
+komunikáciu
+naša aplikácia získava z konštánt. Pre jednotlivé OBD2 príkazy a získavanie jednotlivých OBD2 dát používame OBD2 príkazy
+v  **client.write('0902\r');**.
+Pre vlastnú implemnetáciu OBD2 príkazov je potrebné si naštudovať OBD2 knižnicu.
 ___
